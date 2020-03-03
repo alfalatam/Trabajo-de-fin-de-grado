@@ -1,0 +1,43 @@
+<html>
+  <body>
+
+    <!-- Barra de navegación -->
+    {% include "superior/barra.html" %}
+
+    <h1 style="color:#777212">
+      Primera plantilla de Django
+    </h1>
+
+    <!-- Hola -->
+    {% if nombre_persona == "Pedro" %}
+    <p>El curso lo imparte el profesor principal</p>
+
+    {% else %}
+    <p>El curso lo imparte el profesor suplente</p>
+
+
+    {% endif %}    
+    <p>El nombre del profesor es : {{nombre_persona.upper}} {{apellidos_persona.upper}}</p>
+    <p>
+      Est&aacutemos viendo esto a d&iacutea y hora :
+      {{momento_actual.day}}/{{momento_actual.month}}/{{momento_actual.year}}
+    </p>
+    <p><b>Temas del curso:</b></p>
+    <p>
+      <ul>
+      {% if temas %}
+  
+          {% for elTema in temas %} 
+              
+              <li>{{elTema}} </li>
+          {% endfor %}
+         
+          {% else %}
+            <p>No hay elementos que mostrar</p>
+
+      {% endif %}
+
+      </ul>
+    </p>
+  </body>
+</html>

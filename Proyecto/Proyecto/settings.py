@@ -57,7 +57,7 @@ ROOT_URLCONF = 'Proyecto.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ["D:/Alfonso/TFG/Proyecto/Proyecto/Templates"],
+        'DIRS': ["D:/Alfonso/TFG/Trabajo-de-fin-de-grado/Proyecto/Proyecto/Templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -121,5 +121,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+# this is the static files folder name which you created in django project root folder. This is different from above STATIC_URL.
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'Proyecto/static'),
+]
+
+MEDIA_URL = 'Proyecto/images/'
 
 CRISPY_TEMPLATE_PACK = "bootstrap4"

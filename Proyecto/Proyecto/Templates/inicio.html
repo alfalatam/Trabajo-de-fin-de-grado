@@ -1,11 +1,29 @@
-{% extends "base.html" %}" %}
+{% extends "base.html" %}
+{% load static %}
 
 <html>
+
+<head>
+
+  {% block mycss %}
+  <!-- También puedo poner directamente aquí el css -->
+  <!-- <style> Your entire css </style>  -->
+  <link rel="stylesheet" type="text/css" href="{%  static 'css/inicio.css' %}">
+
+  {% endblock %}
+
+
+
+
+</head>
 
 <body>
   {% block content %}
 
-  <h3>Hola</h3>
+
+  <p>Hola</p>
+  <h3>Verde</h3>
+
   {% endblock %}
 </body>
 

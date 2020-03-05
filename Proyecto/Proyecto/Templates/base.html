@@ -1,30 +1,38 @@
+{% load static %}
 <html>
-  <head>
-    <title>
-      {% block title %} {% endblock %}
-    </title>
-  </head>
 
-  <body>
-    <h1
-      style="background-color: darkolivegreen; color:white; text-align: center;"
-    >
-      Pildoras Informáticas
-    </h1>
+<head>
+  {% block mycss %}
 
-    <!-- Barra de navegación -->
-    {% include "superior/barra.html" %}
+  {% endblock mycss %}
 
-    <h3 style="text-align: right;">Cursos de programación y ofimática</h3>
+  <title>
+    {% block title %} {% endblock %}
+  </title>
 
-    {% block content %}
-    <!-- Aqui dentro es lo que va a cambiar depende de la página -->
-    {% endblock %}
+</head>
 
-    <footer
-      style="background-color: darkolivegreen; color:white; text-align: right;"
-    >
-      Cursos gratuitos. Gracias por su visita
-    </footer>
-  </body>
+<body style="margin-top: 5em">
+
+
+  <!-- Barra de navegación -->
+  {% include "superior/navbar.html" %}
+
+
+
+  {% block content %}
+  <!-- Aqui dentro es lo que va a cambiar depende de la página -->
+  {% endblock %}
+
+  <!-- <footer style="background-color: darkolivegreen; color:white; text-align: right;">
+    Cursos gratuitos. Gracias por su visita
+  </footer> -->
+
+  <footer id="sticky-footer" class="py-4 bg-dark text-white-50">
+    <div class="container text-center">
+      <small>Copyright &copy; Your Website</small>
+    </div>
+  </footer>
+</body>
+
 </html>

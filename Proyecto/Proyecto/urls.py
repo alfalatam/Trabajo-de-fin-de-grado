@@ -18,6 +18,7 @@ from django.urls import path
 from Proyecto.views import inicio
 from register import views as v
 from register.views import home
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns = [
     path('admin/', admin.site.urls),

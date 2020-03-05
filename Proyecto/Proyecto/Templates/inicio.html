@@ -1,47 +1,30 @@
+{% extends "base.html" %}
 {% load static %}
 
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8" />
-    <title></title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"
-      charset="utf-8"
-    ></script>
-  </head>
-  <body>
-    <form action="inicio.html" action="" method="POST" class="login-form">
-      {% csrf_token %}
-      <!-- <form class="box" action="" method="POST"> -->
+<html>
 
-      <h1>Login</h1>
+<head>
 
-      <div class="txtb">
-        <input type="text" />
-        <span data-placeholder="Username"></span>
-      </div>
+  {% block mycss %}
+  <!-- También puedo poner directamente aquí el css -->
+  <!-- <style> Your entire css </style>  -->
+  <link rel="stylesheet" type="text/css" href="{%  static 'css/inicio.css' %}">
 
-      <div class="txtb">
-        <input type="email" />
-        <span data-placeholder="Email"></span>
-      </div>
+  {% endblock %}
 
-      <input type="submit" class="logbtn" value="Login" />
-      <!-- <input type="submit" value="Registrame" /> -->
 
-      <div class="bottom-text">Don't have account? <a href="#">Sign up</a></div>
-    </form>
 
-    <script type="text/javascript">
-      $(".txtb input").on("focus", function() {
-        $(this).addClass("focus");
-      });
 
-      $(".txtb input").on("blur", function() {
-        if ($(this).val() == "") $(this).removeClass("focus");
-      });
-    </script>
-  </body>
+</head>
+
+<body>
+  {% block content %}
+
+
+  <p>Hola</p>
+  <h3>Verde</h3>
+
+  {% endblock %}
+</body>
+
 </html>

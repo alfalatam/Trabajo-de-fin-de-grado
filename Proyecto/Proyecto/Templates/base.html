@@ -2,6 +2,7 @@
 <html>
 
 <head>
+  <link rel="stylesheet" type="text/css" href="{%  static 'css/base.css' %}">
   {% block mycss %}
 
   {% endblock mycss %}
@@ -12,7 +13,7 @@
 
 </head>
 
-<body style="margin-top: 5em">
+<body>
 
 
   <!-- Barra de navegación -->
@@ -28,11 +29,12 @@
     Cursos gratuitos. Gracias por su visita
   </footer> -->
 
-  <footer id="sticky-footer" class="py-4 bg-dark text-white-50">
-    <div class="container text-center">
-      <small>Copyright &copy; Your Website</small>
-    </div>
-  </footer>
+
+  {% include "inferior/footer.html" %}
 </body>
+
+
+
+
 
 </html>

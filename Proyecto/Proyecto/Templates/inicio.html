@@ -5,24 +5,125 @@
 
 <head>
 
+
   {% block mycss %}
+  <style>
+
+  </style>
   <!-- También puedo poner directamente aquí el css -->
   <!-- <style> Your entire css </style>  -->
   <link rel="stylesheet" type="text/css" href="{%  static 'css/inicio.css' %}">
 
   {% endblock %}
-
-
-
-
 </head>
 
 <body>
   {% block content %}
 
+  <!-- style="margin-left: 5em" -->
+  <!-- <div class="card flex-row flex-wrap">
+    <div class="card-header border-0">
+      <img src="{% static 'images/E-tick Mobile.png' %}" alt="Logo" class="img-fluid" alt="Responsive image"
+        style='width:70%'>
+    </div>
+    <div class="card-block px-2">
+      <h4 class="card-title">Title</h4>
+      <p class="card-text">Description</p>
+      <a href="#" class="btn btn-primary">BUTTON</a>
+    </div>
+    <div class="w-100"></div>
+    <div class="card-footer w-100 text-muted">
+      FOOTER
+    </div>
+  </div> -->
 
-  <p>Hola</p>
-  <h3>Verde</h3>
+
+
+  <!-- -------------------------------------------------------------------------------- -->
+  <div class="C-margin-container" id="margin-container">
+
+    <div class="row align-items-center mb-5 pb-5">
+      <div class="col-lg-7 img-years mb-5 mb-lg-0">
+        <img src="{% static 'images/inicio/E-tick Mobile.png' %}" alt="Image" class="img-fluid">
+      </div>
+      <div class="col-lg-4 ml-auto">
+        <span class="sub-title">Learn To Know</span>
+        <h3 class="mb-4">About Us</h3>
+        <p class="mb-4">Lorem ipsum dolor sit amet, consectet</p>
+        <ul class="list-unstyled ul-check text-left success mb-5">
+          <li>Asperiores modi sed</li>
+          <li>Enim cum voluptas</li>
+          <li>Commodi aliquid aspernatur</li>
+          <li>Cupiditate fuga ipsum commodi</li>
+        </ul>
+        <p><a href="#" class="btn btn-primary btn-lg rounded-0">Read More About Us</a></p>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- -------------------------------------------------------------------------------- -->
+
+  <div class="site-section  border-bottom">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4 col-md-6 mb-5 mb-lg-0">
+          <div class="media custom-media">
+            <div class="mr-3 icon" style=" max-width: 100px;">
+              <img src="{% static 'images/inicio/recycle.png' %}" alt="Image" class="img-fluid">
+
+              </span></div>
+            <div class="media-body">
+              <h5 class="mt-0">Innovative Structure</h5>
+              Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin..
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-5 mb-lg-0">
+          <div class="media custom-media">
+            <div class="mr-3 icon" style=" max-width: 100px;">
+              <img src="{% static 'images/inicio/check2.png' %}" alt="Image" class="img-fluid">
+
+
+              </span></div>
+            <div class="media-body">
+              <h5 class="mt-0">Arhictectural</h5>
+              Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin..
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-5 mb-lg-0">
+          <div class="media custom-media">
+            <div class="mr-3 icon" style=" max-width: 100px;">
+
+              <img src="{% static 'images/inicio/remember.png' %}" alt="Image" class="img-fluid">
+
+            </div>
+            <div class="media-body">
+              <h5 class="mt-0">Interior Design</h5>
+              Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin..
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+  <!-- -------------------------------------------------------------------------------- -->
+
+  <div class="row justify-content-center" style="margin-top: 50px;">
+    <div class="col-md-7 text-center">
+      <span class="sub-title">Get In Touch</span>
+      <h2 class="font-weight-bold text-black">Contact Us</h2>
+      <p class="mb-5">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi, explicabo, quasi. Magni
+        deserunt sunt labore.</p>
+    </div>
+  </div>
+
 
   {% endblock %}
 </body>

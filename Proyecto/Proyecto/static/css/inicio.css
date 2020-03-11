@@ -1,19 +1,5 @@
-h3 {
-  color: blue;
-}
-
-#p01 {
-  color: blue;
-}
-
-p {
-  font-family: "Times New Roman", Times, serif;
-  font-size: 50;
-}
-
-body {
-  background-color: coral;
-}
-.body {
-  background-color: coral;
+#margin-container {
+  margin-top: 3.5em;
+  margin-left: 3em;
+  margin-right: 3em;
 }

@@ -5,3 +5,4 @@ Proyecto/Proyecto/__pycache__/urls.cpython-38.pyc
 Proyecto/register/__pycache__/forms.cpython-38.pyc
 Proyecto/register/__pycache__/models.cpython-38.pyc
 Proyecto/register/__pycache__/views.cpython-38.pyc
+*.pyc

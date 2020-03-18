@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .forms import RegisterForm
 
+
 # Create your views here.
 
 
@@ -21,3 +22,7 @@ def register(response):
 def home(request):
 
     return render(request, "home.html")
+
+
+def recibos(response):
+    return render(response, "recibos.html", {})

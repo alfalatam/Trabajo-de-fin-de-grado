@@ -5,12 +5,5 @@ Proyecto/Proyecto/__pycache__/urls.cpython-38.pyc
 Proyecto/register/__pycache__/forms.cpython-38.pyc
 Proyecto/register/__pycache__/models.cpython-38.pyc
 Proyecto/register/__pycache__/views.cpython-38.pyc
-Proyecto/Proyecto/__pycache__/settings.cpython-38.pyc
-Proyecto/Proyecto/__pycache__/urls.cpython-38.pyc
-Proyecto/Proyecto/__pycache__/views.cpython-38.pyc
-Proyecto/register/__pycache__/admin.cpython-38.pyc
-Proyecto/register/__pycache__/forms.cpython-38.pyc
-Proyecto/register/__pycache__/models.cpython-38.pyc
-Proyecto/register/__pycache__/views.cpython-38.pyc
-Proyecto/registro/migrations/__pycache__/0002_profile.cpython-38.pyc
+
 *.pyc

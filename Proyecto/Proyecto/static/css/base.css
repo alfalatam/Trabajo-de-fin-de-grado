@@ -6,4 +6,5 @@
 html,
 body {
   margin-top: 3.5em;
+  position: relative;
 }

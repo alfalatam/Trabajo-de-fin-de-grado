@@ -19,12 +19,16 @@ from Proyecto.views import inicio
 from register import views as v
 from register.views import home
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.urls import path, include
+from tickets import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('inicio/', inicio),
     path('register/', v.register, name="register"),
     path('home/', home, name="home"),
+    path('', include("django.contrib.auth.urls")),
+    path('recibos/', v.recibos, name="recibos")
 
 
 ]

@@ -40,7 +40,7 @@ class Ticket(models.Model):
 @receiver(post_save, sender=User)
 def create_ticket(sender, instance, created, **kwargs):
     if created:
-        Ticket.objects.created(user=insance)
+        Ticket.objects.created(user=instance)
 
 
 @receiver(post_save, sender=User)

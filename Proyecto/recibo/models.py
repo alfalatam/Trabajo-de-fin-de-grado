@@ -8,7 +8,7 @@ from django.dispatch import receiver
 # Create your models here.
 
 
-class Ticket(models.Model):
+class Tickets(models.Model):
     # Relaciones
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, null=False, blank=False)

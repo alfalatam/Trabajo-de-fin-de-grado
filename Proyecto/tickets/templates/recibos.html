@@ -5,12 +5,12 @@ View
 {% endblock %}
 
 {% block content %}
-    {% for td in user.todolist.all %}
-    
-
-        <p><a href="/{{td.id}}">{{td.name}}</a></p>
+{% for td in user.todolist.all %}
 
 
+<p><a href="/{{td.id}}">{{td.name}}</a></p>
 
-    {% endfor %}
+
+
+{% endfor %}
 {% endblock %}

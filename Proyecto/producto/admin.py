@@ -9,6 +9,7 @@ from .models import Producto
 
 class ProductoAdmin(admin.ModelAdmin):
 
+    # Listado y buscador
     search_fields = ("name", "quantity", "price")
     list_display = ('name',)
 

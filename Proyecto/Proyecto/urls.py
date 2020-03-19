@@ -20,7 +20,7 @@ from register import views as v
 from register.views import home
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.urls import path, include
-from tickets import views
+from recibo import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),

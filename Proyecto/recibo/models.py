@@ -8,7 +8,7 @@ from django.dispatch import receiver
 # Create your models here.
 
 
-class Tickets(models.Model):
+class Ticket(models.Model):
     # Relaciones
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, null=False, blank=False)
@@ -35,6 +35,9 @@ class Tickets(models.Model):
         choices=paymentMethod.choices,
         default=paymentMethod.EFECTIVO,
     )
+
+    def __str__(self):
+        return self.title
 
 
 # @receiver(post_save, sender=User)

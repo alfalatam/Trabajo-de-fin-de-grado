@@ -37,9 +37,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'registro',
     'register',
     'crispy_forms',
+    'recibo',
+    'producto',
+    'pdf',
+
+
 ]
 
 MIDDLEWARE = [
@@ -78,8 +82,17 @@ WSGI_APPLICATION = 'Proyecto.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        # 'ENGINE': 'django.db.backends.sqlite3',
+        # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'tfg',
+        'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+        },
+        'USER': 'root',
+        'PASSWORD': '',
+        'HOST ': 'localhost',
+        'PORT': ''
     }
 }
 
@@ -131,3 +144,7 @@ STATICFILES_DIRS = [
 MEDIA_URL = 'Proyecto/images/'
 
 CRISPY_TEMPLATE_PACK = "bootstrap4"
+
+LOGIN_REDIRECT_URL = "/inicio"
+
+LOGOUT_REDIRECT_URL = "/login"

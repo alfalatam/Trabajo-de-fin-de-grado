@@ -9,7 +9,10 @@ def register(response):
         form = RegisterForm(response.POST)
         if(form.is_valid()):
             form.save()
-        return redirect("/home")
+            return redirect("/inicio")
+        else:
+            return render(response, "register/register.html", {'form': form})
+
     else:
         form = RegisterForm()
     return render(response, "register/register.html", {"form": form})
@@ -18,3 +21,7 @@ def register(response):
 def home(request):
 
     return render(request, "home.html")
+
+
+def recibos(response):
+    return render(response, "recibos.html", {})

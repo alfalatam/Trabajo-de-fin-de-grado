@@ -23,8 +23,8 @@
     <!-- Aquí llamamos a la barra , en este caso una barra negra -->
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
         <!-- Aquí llamamos al logo -->
-        <img src="{% static 'images/logo-verde-navbar.png' %}" alt="Logo" class="img-responsive" alt="Responsive image"
-            style="margin-right: 3em">
+        <img src="{% static 'images/navbar/logo-verde-navbar.png' %}" alt="Logo" class="img-responsive"
+            alt="Responsive image" style="margin-right: 3em">
 
 
 
@@ -38,13 +38,22 @@
             <ul class="navbar-nav mr-auto">
 
                 <li class="nav-item active">
-                    <a class="nav-link" href="#" style="margin-right: 1.5em">inicio <span
+                    <a class="nav-link" href="/inicio" style="margin-right: 1.5em">inicio <span
                             class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item active">
                     <a class="nav-link" href="#" style="margin-right: 1.5em">Quiénes somos <span
                             class="sr-only">(current)</span></a>
                 </li>
+                <!-- Este buscador solo se verá si esta autenticado el usuario -->
+                {% if user.is_authenticated %}
+                <li class="nav-item active">
+                    <a class="nav-link" href="/misRecibos" style="margin-right: 1.5em">Mis recibos <span
+                            class="sr-only">(current)</span></a>
+                </li>
+
+
+                {% endif %}
 
 
             </ul>
@@ -57,8 +66,8 @@
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>
             {% else %}
-            <a href="#" style="margin-right: 1.5em">Iniciar sesión </a>
-            <a href="#">Registrate</a>
+            <a href="/login" style="margin-right: 1.5em">Iniciar sesión </a>
+            <a href="/register">Registrate</a>
 
 
             {% endif %}

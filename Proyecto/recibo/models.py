@@ -11,7 +11,7 @@ from django.dispatch import receiver
 class Ticket(models.Model):
     # Relaciones
     user = models.ForeignKey(
-        User, on_delete=models.CASCADE, null=False, blank=False)
+        User, on_delete=models.CASCADE, related_name="ticketList", null=False, blank=False)
 
     # Atributos
     title = models.CharField(max_length=30)
@@ -21,7 +21,7 @@ class Ticket(models.Model):
     price = models.DecimalField(
         decimal_places=2, max_digits=10, default='00.00')
     # date = models.CharField()
-    # identifier = models.CharField()
+    companyIdentifier = models.CharField(max_length=11, default='000-000-000')
     # barcode = models.DateField()
     # paymentMethod = models.CharField()
 

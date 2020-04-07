@@ -21,6 +21,7 @@ from register.views import home
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.urls import path, include
 from recibo import views
+from pdf import views as viewsPdf
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,7 +29,11 @@ urlpatterns = [
     path('register/', v.register, name="register"),
     path('home/', home, name="home"),
     path('', include("django.contrib.auth.urls")),
-    path('recibos/', v.recibos, name="recibos")
+    path('recibos/', v.recibos, name="recibos"),
+    # path('render/pdf/', viewsPdf.gen_pdf, name='pdf'),
+    # path('pdf/', viewsPdf.pdfGenerator, name="pdf"),
+    path("misRecibos/", views.misRecibos, name="misRecib"),  # <-- added
+
 
 
 ]

@@ -6,11 +6,13 @@
 
 
 <div class="container" style="margin-top: 50px;">
+<<<<<<< HEAD
     {% if user.is_authenticated %}
     <p style="text-align: center;">Ya estas logueado en el sistema, un usuario logueado no puede volver a registrarse.
     </p>
+=======
+>>>>>>> ticket
 
-    {% else %}
     <form method="POST" class="form-group">
         {% csrf_token %}
         {{form | crispy }}
@@ -18,8 +20,6 @@
 
 
     </form>
-
-    {%  endif %}
 </div>
 
 

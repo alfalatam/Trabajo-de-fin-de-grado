@@ -1,0 +1,27 @@
+#imgRecibo {
+  /* max-width: 250px; */
+  margin: auto;
+  border: 1px solid black;
+  display: block;
+
+  float: left;
+  width: 300px;
+  height: 150px;
+  background-size: cover;
+  align-items: left;
+}
+figure {
+  display: block;
+  text-align: center;
+  margin-bottom: 25px;
+  margin-inline-start: 10px;
+}
+
+#filas {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 4px;
+  margin-top: 1.5em;
+  margin-left: 3em;
+  margin-right: 3em;
+}

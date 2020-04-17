@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+View
+{% endblock %}
+
+{% block content %}
+
+
+<html>
+
+<head>
+
+    {% block mycss %}
+    <link rel="stylesheet" type="text/css" href="{%  static 'css/misRecibos.css' %}">
+
+    {% endblock mycss %}
+
+    <script>
+        function imgError(image) {
+            image.onerror = "";
+            image.src = "{% static 'images/companyLogo/base.png'%}";
+            return true;
+        }
+    </script>
+
+</head>
+
+<body>
+
+
+    <div id="filas">
+
+        {% for td in user.ticketList.all %}
+        <figure>
+            <img id="imgRecibo" class="rounded-sm" src="{% static 'images/companyLogo/'%}{{ td.companyIdentifier }}.png"
+                alt="" onerror="imgError(this);" />
+            <!-- <span class="caption">{{td.title}}</span> -->
+            <figcaption class="caption" id="captionImage">{{td.title}}</figcaption>
+
+        </figure>
+
+        {% endfor %}
+
+
+    </div>
+
+
+</body>
+
+
+
+</html>
+
+
+
+
+
+{% endblock %}

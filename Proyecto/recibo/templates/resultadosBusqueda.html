@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+View
+{% endblock %}
+
+{% block content %}
+
+
+<html>
+
+<head>
+
+    {% block mycss %}
+    <link rel="stylesheet" type="text/css" href="{%  static 'css/misRecibos.css' %}">
+
+    {% endblock mycss %}
+
+    <script>
+        function imgError(image) {
+            image.onerror = "";
+            image.src = "{% static 'images/companyLogo/base.png'%}";
+            return true;
+        }
+    </script>
+
+</head>
+
+<body>
+
+    {% if recibos|length > 1 and  recibos|length < 30 %}
+    <p>Se han encontrado <b>{{recibos|length}} </b> recibos para la búsqueda:
+        <strong>{{query}}</strong></p>
+
+    {% elif recibos|length > 30 %}
+    <p>El valor introducido es demasiado largo</p>
+
+    {% else %}
+
+    <p>Se han encontrado <b>{{recibos|length}} </b> recibo para la búsqueda:
+        <strong>{{query}}</strong></p>
+
+    {% endif %}
+
+
+
+    <div id="filas">
+
+        {% for recibo in recibos %}
+
+        {% if  recibo in user.ticketList.all %}
+
+        <figure>
+            <img id="imgRecibo" class="rounded-sm"
+                src="{% static 'images/companyLogo/'%}{{ recibo.companyIdentifier }}.png" alt=""
+                onerror="imgError(this);" />
+            <!-- <span class="caption">{{td.title}}</span> -->
+            <figcaption class="caption" id="captionImage">{{recibo.title}}</figcaption>
+
+        </figure>
+
+        {% endif %}
+
+        {% endfor %}
+
+
+    </div>
+
+
+
+</body>
+
+
+
+</html>
+
+
+
+
+
+{% endblock %}

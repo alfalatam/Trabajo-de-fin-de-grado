@@ -32,14 +32,19 @@ View
 
     <div id="filas">
 
-        {% for td in user.ticketList.all %}
-        <figure>
-            <img id="imgRecibo" class="rounded-sm" src="{% static 'images/companyLogo/'%}{{ td.companyIdentifier }}.png"
-                alt="" onerror="imgError(this);" />
-            <!-- <span class="caption">{{td.title}}</span> -->
-            <figcaption class="caption" id="captionImage">{{td.title}}</figcaption>
+        {% for recibo in user.ticketList.all %}
+        <a href="{% url 'generate-pdf' %}?recibo={{ recibo.id }}" target="_blank">
+            <figure>
+                <img id="imgRecibo" class="rounded-sm"
+                    src="{% static 'images/companyLogo/'%}{{ recibo.companyIdentifier }}.png" alt=""
+                    onerror="imgError(this);" />
+                <!-- <span class="caption">{{td.title}}</span> -->
+        </a>
+        <figcaption class="caption" id="captionImage">{{recibo.title}}</figcaption>
 
         </figure>
+
+
 
         {% endfor %}
 

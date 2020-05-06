@@ -35,6 +35,10 @@ urlpatterns = [
     path("misRecibos/", views.misRecibos, name="misRecib"),  # <-- added
     path("resultadosBusqueda/", views.busqueda_recibos, name="recibosBusq"),
     path("buscar/", views.buscar),
+    path('generate-pdf', viewsPdf.generate_pdf, name='generate-pdf'),
+
+
+
 
 
 

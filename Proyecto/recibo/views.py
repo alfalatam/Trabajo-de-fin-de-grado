@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.shortcuts import render
 from django.http import HttpResponse
 from .models import Ticket
+from producto.models import Producto
 # Create your views here.
 
 
@@ -82,3 +83,12 @@ def buscar(request):
         print(request)
         mensaje = "No se ha encontrado ningún recibo con los criterios de búsqueda dados"
     return HttpResponse(mensaje)
+
+
+def importeTotal(recibo):
+    importe = 0
+    productosRecibo = Producto.objects.filter(ticket=recibo)
+    for p in productosRecibo:
+        importe += p.quantity*p.price
+
+    return importe

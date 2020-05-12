@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+
+</head>
+
+
+<body>
+
+    <p>Estás buscando: <strong>{{query}}</strong></p>
+
+    <!-- Si viene información -->
+    {% if articulos %}
+
+    <p>Se han encontrado {{articulos|length}} recibos.</p>
+
+    <ul>
+
+        {% for articulo in articulos %}
+        <li>
+            {{articulo.title}}
+            {{articulo.price}}
+
+
+        </li>
+
+        {% endfor %}
+
+    </ul>
+
+    {% else %}
+
+    <p>No se ha encontrado ningún ticket con esas características</p>
+
+    {% endif %}
+
+</body>
+
+</html>

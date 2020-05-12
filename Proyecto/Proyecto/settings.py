@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'pdf',
 
 
+
 ]
 
 MIDDLEWARE = [
@@ -141,7 +142,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'Proyecto/static'),
 ]
 # Para archivos e imágenes
-MEDIA_URL = 'Proyecto/images/'
+MEDIA_URL = 'Proyecto/static/images/'
 
 CRISPY_TEMPLATE_PACK = "bootstrap4"
 

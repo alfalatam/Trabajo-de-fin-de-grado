@@ -10,19 +10,23 @@ class RegisterForm(UserCreationForm):
 
     username = forms.CharField()
     email = forms.EmailField()
-    # name = forms.CharField(max_length=20)
+    first_name = forms.CharField(max_length=30)
+    last_name = forms.CharField(max_length=30)
+
     # middleName = forms.CharField(required=False, max_length=20)
     # lastName = forms.CharField(max_length=20)
 
     class Meta:
         model = User
-        fields = ["username",
+        fields = ["username", "first_name", "last_name",
                   #  "name", "middleName", "lastName",
                   "email", "password1", "password2"]
 
     def clean(self):
         email = self.cleaned_data.get('email')
         username = self.cleaned_data.get('username')
+        first_name = self.cleaned_data.get('first_name')
+        last_name = self.cleaned_data.get('last_name')
 
         if User.objects.filter(email=email).exists():
             raise ValidationError(

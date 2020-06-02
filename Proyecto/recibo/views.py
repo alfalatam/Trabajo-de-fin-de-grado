@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from .models import Ticket
 from producto.models import Producto
+from datetime import date
 # Create your views here.
 
 
@@ -92,3 +93,17 @@ def importeTotal(recibo):
         importe += p.quantity*p.price
 
     return importe
+
+
+# def identificadorUnico():
+#     cadena
+#     rng1 = random.sample(range(0, 9), 2)
+#     rng2 = rng_generator()
+#     cadena += recibo.user.usernames[:2]+recibo.company[:2] + \
+#         rng1 + "-"+datetime.today().strftime('%d%m%Y')+"-"+rng2
+
+#     return cadena
+
+
+# def rng_generator(size=6, chars=string.ascii_uppercase + string.digits):
+#     return ''.join(random.choice(chars) for _ in range(size))

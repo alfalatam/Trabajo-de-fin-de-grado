@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    {% block mycss %}
+    <link rel="stylesheet" type="text/css" href="{%  static 'css/profile.css' %}">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+
+    {% endblock mycss %}
+</head>
+
+
+
+
+<body>
+
+
+
+
+    <span class="border border-success" id="borders-exports">
+        <div class="w3-container w3-border w3-round-xlarge" id=exportarDatos>
+
+            <b> Extrae todos tus archivos del sistema en un archivo ZIP</b><br><br>
+            <button type="button" class="btn btn-primary">Exportar datos</button>
+
+        </div>
+    </span>
+
+    <!-- <span class="border border-success" id="borders-exports">
+        <div class="w3-container w3-border w3-round-xlarge" id=exportarDatos>
+
+            <form method="POST" class="form-group">
+                {% csrf_token %}
+                {{form | crispy }}
+                <button type="submit" class="btn btn-danger" name="delete">Delete</button>
+
+
+            </form>
+
+        </div>
+    </span> -->
+
+    <form action="/delete/" method="POST">
+        {% csrf_token %}
+        {{form | crispy }}
+        <button type="submit" class="btn btn-danger" value="delete " name="delete"
+            id="confirmClickActionElementId">Delete</button>
+
+    </form>
+
+
+
+
+
+    <script>
+
+        document.getElementById("confirmClickActionElementId").addEventListener("click", function (e) { //e => event
+            if (!confirm("¿Está completamente seguro, no habrá marcha atrás?")) {
+                e.preventDefault(); // ! => don't want to do this
+            } else {
+                //want to do this! => maybe do something about it?
+
+
+            }
+        });
+
+    </script>
+</body>
+
+
+</html>
+
+
+{% endblock  %}

@@ -15,13 +15,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from Proyecto.views import inicio
+from Proyecto.views import inicio, profile
 from register import views as v
 from register.views import home
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.urls import path, include
 from recibo import views
 from pdf import views as viewsPdf
+from usuarios import views as viewsUsers
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -36,6 +38,11 @@ urlpatterns = [
     path("resultadosBusqueda/", views.busqueda_recibos, name="recibosBusq"),
     path("buscar/", views.buscar),
     path('generate-pdf', viewsPdf.generate_pdf, name='generate-pdf'),
+    path('profile/', profile),
+
+
+    # beta
+    path('delete/', viewsUsers.delete_user, name='delete'),
 
 
 

@@ -213,7 +213,8 @@ def generate_pdf(request, *args, **kwargs):
         canvas.setFont('Times-Bold', 11)
         canvas.drawString(75, 725, 'Cliente: ')
         canvas.setFont("Calibri", 11)
-        canvas.drawString(115, 725, recibo.user.username)
+        canvas.drawString(
+            115, 725, recibo.user.first_name + " " + recibo.user.last_name)
 
     # Titulo del recibo
         canvas.setFont("Times-Bold", 11)
@@ -228,12 +229,19 @@ def generate_pdf(request, *args, **kwargs):
         canvas.setFont("Calibri", 11)
         canvas.drawString(123, 600, recibo.empresa)
 
+    # Dirección
+
+        canvas.setFont("Times-Bold", 11)
+        canvas.drawString(75, 575, 'Dirección:')
+        canvas.setFont("Calibri", 11)
+        canvas.drawString(125, 575, recibo.address)
+
     # Importe
         ipt = importeTotal(recibo)
         canvas.setFont("Times-Bold", 11)
-        canvas.drawString(75, 575, 'Importe total:')
+        canvas.drawString(75, 550, 'Importe total:')
         canvas.setFont("Calibri", 11)
-        canvas.drawString(144, 575, str(ipt)+' €')
+        canvas.drawString(144, 550, str(ipt)+' €')
 
     # Método de pago
         metodoDePago = ''
@@ -246,16 +254,16 @@ def generate_pdf(request, *args, **kwargs):
             metodoDePago = 'Efectivo'
 
         canvas.setFont("Times-Bold", 11)
-        canvas.drawString(75, 550, 'Método de pago: ')
+        canvas.drawString(75, 525, 'Método de pago: ')
         canvas.setFont("Calibri", 11)
-        canvas.drawString(156, 550, metodoDePago)
+        canvas.drawString(156, 525, metodoDePago)
 
     # Identificador único
 
         canvas.setFont("Times-Bold", 11)
-        canvas.drawString(75, 525, 'Identificador(ID): ')
+        canvas.drawString(75, 500, 'Identificador(ID): ')
         canvas.setFont("Calibri", 11)
-        canvas.drawString(162, 525, recibo.identifier)
+        canvas.drawString(162, 500, recibo.identifier)
 
     #         p.restoreState()
 
@@ -314,7 +322,7 @@ def generate_pdf(request, *args, **kwargs):
                            ]))
 
     # hAlign = TA_LEFT
-    t2 = Table([empty],  spaceAfter=265)
+    t2 = Table([empty],  spaceAfter=300)
     # cmds = t.se.getCommands()
     # print(cmds)
     clientes.append(t2)

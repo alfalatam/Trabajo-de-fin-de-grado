@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'recibo',
     'producto',
     'pdf',
+    'usuarios',
 
 
 

@@ -16,7 +16,15 @@ class Producto(models.Model):
                                    validators=[MaxValueValidator(999), MinValueValidator(1)])
     price = models.DecimalField(
         decimal_places=2, max_digits=10, default='00.00')
-    # warranty = models.CharField()
+
+    def actualizaPrecioTicket(self):
+        priceToAdd = self.price
+        self.ticket.price += priceToAdd
+
+        t = self.ticket
+        t.price += priceToAdd
+
+        # warranty = models.CharField()
 
     def __str__(self):
         return self.name

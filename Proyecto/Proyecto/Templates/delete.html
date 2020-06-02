@@ -1,0 +1,30 @@
+{% load static %}
+
+<html>
+
+<head>
+
+
+    {% block mycss %}
+    <style>
+
+    </style>
+    <!-- También puedo poner directamente aquí el css -->
+    <!-- <style> Your entire css </style>  -->
+    <link rel="stylesheet" type="text/css" href="{%  static 'css/inicio.css' %}">
+
+    {% endblock %}
+</head>
+
+<body>
+    {% block content %}
+
+    <h2 style="text-align: center;">Su cuenta ha sido borrada satisfactoriamente, puede hacer click <a
+            href="/inicio">aquí</a> para volver a la
+        página de
+        inicio</h2>
+    {% endblock %}
+
+</body>
+
+</html>

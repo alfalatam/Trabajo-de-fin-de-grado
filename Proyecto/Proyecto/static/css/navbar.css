@@ -1,0 +1,30 @@
+#dropdown-navbar {
+  margin-left: 1em;
+}
+
+#drop-menu {
+  margin-right: 1em;
+  background-color: green;
+  margin-left: 3em;
+}
+
+#btn-group {
+  background-color: green;
+}
+
+#icon-user {
+  margin-left: 1em;
+  max-width: 40px;
+  max-height: 40px;
+}
+
+#button-drop {
+  border-radius: 100%;
+  max-width: 90%;
+  background-color: green;
+  margin-left: 1em;
+}
+
+.dropdown-toggle::after {
+  display: none;
+}

@@ -1,0 +1,27 @@
+#datosRecibo {
+  margin-top: 14em;
+  margin-left: 15em;
+}
+
+#imgRec {
+  /* max-width: 250px; */
+  margin: auto;
+  margin-top: 3em;
+  display: block;
+  float: left;
+  width: 350px;
+  height: 150px;
+
+  margin-left: 40%;
+  margin-right: 50%;
+}
+
+#pdfLink {
+  text-align: right;
+
+  border: 1px solid black;
+  margin-left: 82em;
+}
+
+#cajaPDF {
+}

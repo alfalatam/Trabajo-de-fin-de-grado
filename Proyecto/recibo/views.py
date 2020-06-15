@@ -5,6 +5,38 @@ from .models import Ticket
 from producto.models import Producto
 from datetime import date
 # Create your views here.
+# Decorators
+from django.contrib.auth.decorators import login_required
+import traceback
+from django.shortcuts import redirect
+
+
+# def recibo(response):
+
+#     ticket = Ticket.objects.get(id=3)
+
+#     return render(response, "recibo.html", {"recibo": ticket})
+@login_required
+def recibo(request):
+
+    try:
+        idRecibo = ""
+        fullURL = request.get_full_path()
+        print('eL ID QUE LE ESTOY PASANDO ES: ', idRecibo)
+        idRecib = fullURL.split("=")
+        idRecibo = idRecib[1]
+
+        print('la id  es : ', idRecibo)
+        ticket = Ticket.objects.get(id=idRecibo)
+
+        return render(request, "recibo.html", {"recibo": ticket})
+
+    except Exception as e:
+        print('Has pasado por la exception, buena suerte')
+        trace_back = traceback.format_exc()
+        message = str(e) + " " + str(trace_back)
+        print(message)
+        return render(request, 'error.html')
 
 
 def misRecibos(response):

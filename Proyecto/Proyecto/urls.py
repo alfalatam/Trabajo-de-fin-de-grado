@@ -35,6 +35,7 @@ urlpatterns = [
     # path('render/pdf/', viewsPdf.gen_pdf, name='pdf'),
     # path('pdf/', viewsPdf.pdfGenerator, name="pdf"),
     path("misRecibos/", views.misRecibos, name="misRecib"),  # <-- added
+    path("recibo", views.recibo, name="recibo"),
     path("resultadosBusqueda/", views.busqueda_recibos, name="recibosBusq"),
     path("buscar/", views.buscar),
     path('generate-pdf', viewsPdf.generate_pdf, name='generate-pdf'),

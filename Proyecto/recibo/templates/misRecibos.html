@@ -29,11 +29,10 @@ View
 
 <body>
 
-
     <div id="filas">
 
         {% for recibo in user.ticketList.all %}
-        <a href="{% url 'generate-pdf' %}?recibo={{ recibo.id }}" target="_blank">
+        <a href="{% url 'recibo' %}?={{ recibo.id }}" target="_blank" name=non value={{recibo.id}}>
             <figure>
                 <img id="imgRecibo" class="rounded-sm"
                     src="{% static 'images/companyLogo/'%}{{ recibo.companyIdentifier }}.png" alt=""
@@ -49,7 +48,27 @@ View
         {% endfor %}
 
 
-    </div>
+        <!-- </div> -->
+        <!-- <div id="filas">
+
+        {% for recibo in user.ticketList.all %}
+        <a href="{% url 'generate-pdf' %}?recibo={{ recibo.id }}" target="_blank">
+            <figure>
+                <img id="imgRecibo" class="rounded-sm"
+                    src="{% static 'images/companyLogo/'%}{{ recibo.companyIdentifier }}.png" alt=""
+                    onerror="imgError(this);" />
+                 <span class="caption">{{td.title}}</span> -->
+        <!-- </a>
+    <figcaption class="caption" id="captionImage">{{recibo.title}}</figcaption>
+
+    </figure> -->
+
+
+
+        <!-- {% endfor %} -->
+
+
+        <!-- </div>  -->
 
 
 </body>

@@ -45,6 +45,21 @@ class Ticket(models.Model):
         return self.title
 
 
+# TODO MIRAR BIEN ESTO
+class ScannedTicket(models.Model):
+        # Relaciones
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="scannedTicketList", null=True, blank=False)
+
+    title = models.CharField(
+        max_length=35, default=datetime.today().strftime('%d/%m/%Y'))
+
+    photo = models.ImageField(upload_to='user_scannedTickets')
+
+    def __str__(self):
+        return self.title
+
+
 # @receiver(post_save, sender=User)
 # def create_ticket(sender, instance, created, **kwargs):
 #     if created:

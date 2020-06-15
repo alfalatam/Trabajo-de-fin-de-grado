@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+View
+{% endblock %}
+
+{% block content %}
+
+
+<html>
+
+<head>
+
+    {% block mycss %}
+    <link rel="stylesheet" type="text/css" href="{%  static 'css/recibo.css' %}">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+
+    {% endblock mycss %}
+
+    <script>
+        function imgError(image) {
+            image.onerror = "";
+            image.src = "{% static 'images/companyLogo/base.png'%}";
+            return true;
+        }
+    </script>
+
+</head>
+
+<body>
+
+    <div>
+        <img id="imgRec" class="rounded-sm" src="{% static 'images/companyLogo/'%}{{ recibo.companyIdentifier }}.png"
+            alt="" onerror="imgError(this);" />
+    </div>
+
+    <br>
+    <br>
+
+
+
+
+    <div id=datosRecibo>
+
+
+        <b> Titulo del recibo:</b>{{ recibo.title }}
+        <br>
+        <b>Empresa: </b>{{recibo.empresa}}
+        <br>
+        <b>Direción: </b>{{recibo.address}}
+        <br>
+        <b>Identificador: </b>{{recibo.identifier}}
+        <br>
+        <b>Precio total: </b>{{recibo.price}}
+        <br>
+        <b>Método de pago: </b>{{recibo.payment}}
+
+    </div>
+
+
+
+
+
+    <div id=cajaPDF>
+        <div id=pdfLink>
+            <a href="{% url 'generate-pdf' %}?recibo={{ recibo.id }}" target="_blank">
+                <figure>
+                    <img id="imgRecibo" class="rounded-sm" src="{% static 'images/'%}pdf.png" alt=""
+                        style="max-width: 300;" />
+
+                    <span class="caption">{{td.title}}</span>
+            </a> </div>
+    </div>
+
+
+
+
+
+
+
+</body>
+
+
+
+</html>
+
+
+
+
+
+{% endblock %}

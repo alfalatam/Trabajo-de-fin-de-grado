@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Notificationes
+{% endblock %}
+
+{% block content %}
+
+
+<html>
+
+<head>
+
+    {% block mycss %}
+    <link rel="stylesheet" type="text/css" href="{%  static 'css/misRecibos.css' %}">
+
+    {% endblock mycss %}
+
+
+</head>
+
+<body>
+
+        <p>Notificaciones no leídas</p>
+        {% for notification in unreaded %}
+
+            {{notification.verb}}
+            <br>
+
+        {% endfor %}
+
+        <p>Notificaciones leídas</p>
+
+        {% for notification in readed %}
+
+            {{notification.verb}}
+            <br>
+
+        {% endfor %} 
+
+
+
+</body>
+
+
+
+</html>
+
+
+
+
+
+{% endblock %}

@@ -25,7 +25,10 @@ class Ticket(models.Model):
 
     price = models.DecimalField(
         decimal_places=2, max_digits=10, default='00.00')
-    # date = models.CharField()
+
+    momentOfCreation = models.DateTimeField(
+        auto_now_add=datetime.now)
+
     companyIdentifier = models.CharField(max_length=11, default='0')
     # barcode = models.DateField()
     # paymentMethod = models.CharField()

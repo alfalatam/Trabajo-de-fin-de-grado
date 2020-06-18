@@ -23,6 +23,7 @@ from django.urls import path, include
 from recibo import views
 from pdf import views as viewsPdf
 from usuarios import views as viewsUsers
+from producto import views as viewsProduct
 
 
 urlpatterns = [
@@ -35,6 +36,7 @@ urlpatterns = [
     # path('render/pdf/', viewsPdf.gen_pdf, name='pdf'),
     # path('pdf/', viewsPdf.pdfGenerator, name="pdf"),
     path("misRecibos/", views.misRecibos, name="misRecib"),  # <-- added
+    path("Notificationes/", viewsProduct.misNotificaciones, name="misNotificaciones"),  # <-- added
     path("recibo", views.recibo, name="recibo"),
     path("resultadosBusqueda/", views.busqueda_recibos, name="recibosBusq"),
     path("buscar/", views.buscar),

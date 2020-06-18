@@ -1,6 +1,8 @@
 from django.db import models
 from recibo.models import Ticket
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.db.models import DateField
+from datetime import datetime
 
 # Create your models here.
 
@@ -16,6 +18,10 @@ class Producto(models.Model):
                                    validators=[MaxValueValidator(999), MinValueValidator(1)])
     price = models.DecimalField(
         decimal_places=2, max_digits=10, default='00.00')
+
+    warranty = models.IntegerField(default=0, blank=True)
+
+    momentOfCreation = models.DateTimeField(auto_now_add=datetime.now)
 
     def actualizaPrecioTicket(self):
         priceToAdd = self.price

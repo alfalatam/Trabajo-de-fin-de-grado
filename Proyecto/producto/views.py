@@ -9,8 +9,8 @@ import traceback
 from django.shortcuts import redirect
 from datetime import datetime
 
-from celery.schedules import crontab
-from celery.task import periodic_task
+# from celery.schedules import crontab
+# from celery.task import periodic_task
 
 
 # from myapp.models import MyModel
@@ -20,10 +20,11 @@ def generateNotification(request, user):
     try:
         # Here the code
         # notify.send(instance, verb='was saved')
-        user = request.user
+        user2 = user
         description = 'Este es un aviso del sistema recordándole que la garantía del producto está por expirar'
-        notify.send(user, recipient=user, verb='Aviso de garantía',
+        notify.send(user2, recipient=user2, verb='Aviso de garantía',
                     description=description)
+        print('notificacion mandada')
 
     except Exception as e:
         trace_back = traceback.format_exc()
@@ -32,7 +33,8 @@ def generateNotification(request, user):
         return render(request, 'error.html')
 
 
-@periodic_task(run_every=crontab(hour=7, minute=30, day_of_week="mon"))
+# @periodic_task(run_every=crontab(hour=7, minute=30, day_of_week="mon"))
+# TODO CHECK
 def checkWarranty():
 
     products = Producto.objects.all()
@@ -47,18 +49,19 @@ def checkWarranty():
 
             if(limitDate - daysFromToday >= 10):
 
-                generateNotification(request, user=user)
+                generateNotification(user=user, producto=p)
+                print('checkwarranty mandada')
 
 
 def misNotificaciones(request):
 
     try:
-
         user = request.user
         notifications = user.notifications
 
         unreaded = user.notifications.unread()
         readed = user.notifications.read()
+        generateNotification(request, user)
         return render(request, "notificaciones.html", {"unreaded": unreaded, "readed": readed})
 
     except Exception as e:

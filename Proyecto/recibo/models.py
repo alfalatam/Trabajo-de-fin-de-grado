@@ -57,6 +57,8 @@ class ScannedTicket(models.Model):
     title = models.CharField(
         max_length=35, default=datetime.today().strftime('%d/%m/%Y'))
 
+    empresa = models.CharField(max_length=20, default='Nombre de la empresa')
+
     photo = models.ImageField(upload_to='user_scannedTickets')
 
     def __str__(self):

@@ -30,18 +30,21 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('inicio/', inicio),
     path('register/', v.register, name="register"),
+    path('registerStore/', v.registerStore, name="registerStore"),
     path('home/', home, name="home"),
     path('', include("django.contrib.auth.urls")),
     path('recibos/', v.recibos, name="recibos"),
     # path('render/pdf/', viewsPdf.gen_pdf, name='pdf'),
     # path('pdf/', viewsPdf.pdfGenerator, name="pdf"),
     path("misRecibos/", views.misRecibos, name="misRecib"),  # <-- added
-    path("Notificationes/", viewsProduct.misNotificaciones, name="misNotificaciones"),  # <-- added
+    path("Notificationes/", viewsProduct.misNotificaciones,
+         name="misNotificaciones"),  # <-- added
     path("recibo", views.recibo, name="recibo"),
     path("resultadosBusqueda/", views.busqueda_recibos, name="recibosBusq"),
     path("buscar/", views.buscar),
     path('generate-pdf', viewsPdf.generate_pdf, name='generate-pdf'),
     path('profile/', profile),
+    path('importScanned/', views.scannedTiket),
 
 
     # beta

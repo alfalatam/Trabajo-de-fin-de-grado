@@ -9,7 +9,7 @@ from datetime import date
 from django.contrib.auth.decorators import login_required
 import traceback
 from django.shortcuts import redirect
-
+from .forms import ScannedTicketForm
 
 # def recibo(response):
 
@@ -139,3 +139,19 @@ def importeTotal(recibo):
 
 # def rng_generator(size=6, chars=string.ascii_uppercase + string.digits):
 #     return ''.join(random.choice(chars) for _ in range(size))
+
+
+def scannedTiket(request):
+
+    form = ScannedTicketForm(request.POST or None)
+
+    if(form.is_valid()):
+        form.save()
+        form = ScannedTicketForm
+
+    context = {
+        'form': form
+
+    }
+
+    return render(request, "importScanned.html", context)

@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+
 from django.core.exceptions import ValidationError
 from phonenumber_field.formfields import PhoneNumberField
 
@@ -53,3 +54,37 @@ class RegisterForm(UserCreationForm):
     #         raise ValidationError(
     #             "Vaya, parece que ha habido algún problema con la contraseña,por favor vuelva a introducirla")
     #     return self.cleaned_data
+
+
+class RegisterStoreForm(UserCreationForm):
+
+    username = forms.CharField()
+    email = forms.EmailField()
+    store_name = forms.CharField(max_length=150)
+    company_name = forms.CharField(max_length=150)
+    address = forms.CharField(max_length=150)
+    logo = forms.ImageField()
+
+    class Meta:
+        model = User
+        fields = ["username", "store_name", "company_name",
+                  "email", "address", "logo", "password1", "password2"]
+
+    def clean(self):
+        email = self.cleaned_data.get('email')
+        store_name = self.cleaned_data.get('store_name')
+        company_name = self.cleaned_data.get('company_name')
+        username = self.cleaned_data.get('username')
+        address = self.cleaned_data.get('address')
+
+        if User.objects.filter(email=email).exists():
+            raise ValidationError(
+                "Ese correo ya está registrado en el sistema")
+        if User.objects.filter(username=username).exists():
+            raise ValidationError(
+                "Ese nombre de usuario ya existe")
+        if (User.objects.filter(company_name=company_name).exists() and User.objects.filter(store_name=store_name).exists()):
+            raise ValidationError(
+                "El nombre de la compañia y el nombre de la tienda ya han sido registrados.")
+
+        return self.cleaned_data

@@ -1,12 +1,12 @@
 from django.contrib import admin
-from register.forms import RegisterForm
+# from register.forms import RegisterCustomerForm
 
 from .models import Ticket, ScannedTicket
 
 
 # admin.site.register(Producto)
 
-
+# TODO
 class TicketAdmin(admin.ModelAdmin):
 
     search_fields = ("user__username", "title", "empresa", "identifier")

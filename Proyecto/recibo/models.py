@@ -1,7 +1,7 @@
 from django.db import models
 from datetime import datetime
 from annoying.fields import AutoOneToOneField
-from django.contrib.auth.models import User
+from register.models import User, Customer
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.db.models import DateField

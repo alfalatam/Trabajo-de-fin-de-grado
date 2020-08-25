@@ -1,61 +1,58 @@
 from django.db import models
-
-# Create your models here.
-
-
-# class Store(models.Model):
-#     # Relaciones
-
-#     # name of this store
-#     name = models.CharField(max_length=50)
-
-#     # company which owns the store (if have it)
-#     company = models.CharField(max_length=50)
-
-#     # To take the logo of the image
-#     picture = models.ImageField()
-
-#     # Adress of the store
-#     address = models.CharField(max_length=50)
-
-#     def __str__(self):
-#         return "%s" % (self.name)
-
-# from django.contrib.auth.models import AbstractUser
-# from django.db import models
-
-
-# class User(AbstractUser):
-#     is_customer = models.BooleanField(default=False)
-#     is_store = models.BooleanField(default=False)
-
-from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import AbstractUser, AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import PermissionsMixin
+from usuarios.models import UserManager
 
 
-# class Store(AbstractBaseUser, PermissionsMixin):
+# ==================== Standard User =============================
 
-#     email = models.EmailField(unique=True)
+class User(AbstractBaseUser, PermissionsMixin):
 
-#     name = models.CharField(max_length=50)
+    email = models.EmailField(unique=True)
 
-#     # company which owns the store (if have it)
-#     company = models.CharField(max_length=50)
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
 
-#     # To take the logo of the image
-#     picture = models.ImageField()
+    last_login = models.DateTimeField(auto_now_add=True)
+    created = models.DateTimeField(auto_now_add=True)
 
-#     # Adress of the store
-#     address = models.CharField(max_length=50)
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = []
 
-#     objects = BaseUserManager()
+    objects = UserManager()
 
-#     USERNAME_FIELD = 'email'
-#     REQUIRED_FIELDS = []
+    class Meta:
+        verbose_name = ('user')
+        verbose_name_plural = ('users')
+    # is_store = models.BooleanField(default=False)
+    # is_customer = models.BooleanField(default=False)
+    # email = models.EmailField()
 
-#     class Meta:
-#         verbose_name = ('user')
-#         verbose_name_plural = ('users')
+    # ==================== Customer ===============================
 
-#     def __str__(self):
-#         return "%s" % (self.name)
+
+class Customer(models.Model):
+
+    user = models.OneToOneField(
+        User, on_delete=models.CASCADE, primary_key=True)
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+
+
+# ==================== Store ================================
+
+class Store(models.Model):
+
+    user = models.OneToOneField(
+        User, on_delete=models.CASCADE, primary_key=True)
+
+    store_name = models.CharField(max_length=100)
+
+    # company which owns the store (if have it)
+    company_name = models.CharField(max_length=150)
+
+    # To take the logo of the image
+    logo = models.ImageField(blank=True, null=True)
+
+    # Adress of the store
+    address = models.CharField(max_length=150)

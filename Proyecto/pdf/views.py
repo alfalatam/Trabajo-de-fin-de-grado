@@ -210,11 +210,11 @@ def generate_pdf(request, *args, **kwargs):
 
     # Nombre
 
-        canvas.setFont('Times-Bold', 11)
-        canvas.drawString(75, 725, 'Cliente: ')
-        canvas.setFont("Calibri", 11)
-        canvas.drawString(
-            115, 725, recibo.user.first_name + " " + recibo.user.last_name)
+        # canvas.setFont('Times-Bold', 11)
+        # canvas.drawString(75, 725, 'Cliente: ')
+        # canvas.setFont("Calibri", 11)
+        # canvas.drawString(
+        #     115, 725, recibo.user.first_name + " " + recibo.user.last_name)
 
     # Titulo del recibo
         canvas.setFont("Times-Bold", 11)

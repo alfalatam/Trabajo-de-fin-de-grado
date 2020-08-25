@@ -157,3 +157,5 @@ Proyecto/producto/migrations/0001_initial.py
 Proyecto/producto/__pycache__/models.cpython-38.pyc
 Proyecto/producto/__pycache__/admin.cpython-38.pyc
 Proyecto/pdf/__pycache__/views.cpython-38.pyc
+*.pyc
+*.pyc

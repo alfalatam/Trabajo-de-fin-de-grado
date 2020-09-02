@@ -23,6 +23,11 @@ def home(request):
     return render(request, "home.html")
 
 
+def selectRegister(request):
+
+    return render(request, "register/selectRegister.html")
+
+
 def recibos(response):
     return render(response, "recibos.html", {})
 

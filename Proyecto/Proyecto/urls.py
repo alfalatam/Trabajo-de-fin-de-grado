@@ -29,6 +29,7 @@ from producto import views as viewsProduct
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('inicio/', inicio),
+    path('selectRegister/', v.selectRegister, name="register"),
     path('register/', v.register, name="register"),
     path('registerStore/', v.registerStore, name="registerStore"),
     path('home/', home, name="home"),

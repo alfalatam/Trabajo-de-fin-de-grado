@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+scanned tickets
+{% endblock %}
+
+{% block content %}
+
+<body>
+
+    <form method="POST"> {% csrf_token %}
+
+        {{form | crispy }}
+        <input type="submit" value="Save">
+
+    </form>
+
+</body>
+
+{% endblock %}

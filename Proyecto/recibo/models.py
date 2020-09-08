@@ -1,7 +1,7 @@
 from django.db import models
 from datetime import datetime
 from annoying.fields import AutoOneToOneField
-from django.contrib.auth.models import User
+from register.models import User, Customer
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.db.models import DateField
@@ -56,6 +56,8 @@ class ScannedTicket(models.Model):
 
     title = models.CharField(
         max_length=35, default=datetime.today().strftime('%d/%m/%Y'))
+
+    empresa = models.CharField(max_length=20, default='Nombre de la empresa')
 
     photo = models.ImageField(upload_to='user_scannedTickets')
 

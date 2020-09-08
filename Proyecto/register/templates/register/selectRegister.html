@@ -1,0 +1,53 @@
+{% extends "base.html" %}" %}
+
+{% block title %} Create an Account {%endblock %}
+
+{% block content %}
+
+{% load crispy_forms_tags %}
+
+{% load static %}
+
+<div class="container" style="margin-top: 50px;">
+
+    {% if user.is_authenticated %}
+    <p style="text-align: center;">Ya estas logueado en el sistema, un usuario logueado no puede volver a registrarse.
+    </p>
+
+    {% endif %}
+
+    <div class="row" style="text-align: center; margin-left: 10%; margin-right: auto;">
+
+        <a href=" /register" style="margin-right: 5em;">
+
+            <img src=" {% static 'images/createUser.png' %}" alt="Logo" class="img-responsive" alt="Responsive image"
+                style="max-width: 400; " class="alignleft">
+            <p>Registrarse como cliente</p>
+
+        </a>
+
+
+
+        <a href="/registerStore">
+
+            <img src="{% static 'images/createStore.png' %}" alt="Logo" class="img-responsive" alt="Responsive image"
+                style="max-width: 400;" class="alignright">
+            <p>Registrarse como tienda</p>
+
+        </a>
+
+    </div>
+    <!-- <form method="POST" class="form-group">
+        {% csrf_token %}
+        {{form | crispy }}
+        <button type="submit" class="btn btn-success">Register</button>
+
+
+    </form> -->
+
+
+</div>
+
+
+
+{% endblock %}

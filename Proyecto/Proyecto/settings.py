@@ -88,7 +88,7 @@ DATABASES = {
         # 'ENGINE': 'django.db.backends.sqlite3',
         # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'tfg3',
+        'NAME': 'tfg11',
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
         },
@@ -138,6 +138,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+AUTH_USER_MODEL = 'register.User'
 
 # this is the static files folder name which you created in django project root folder. This is different from above STATIC_URL.
 STATICFILES_DIRS = [

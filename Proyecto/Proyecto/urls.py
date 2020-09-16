@@ -29,7 +29,7 @@ from producto import views as viewsProduct
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('inicio/', inicio),
-    path('selectRegister/', v.selectRegister, name="register"),
+    path('selectRegister/', v.selectRegister, name="selectRegister"),
     path('register/', v.register, name="register"),
     path('registerStore/', v.registerStore, name="registerStore"),
     path('home/', home, name="home"),
@@ -38,7 +38,9 @@ urlpatterns = [
     # path('render/pdf/', viewsPdf.gen_pdf, name='pdf'),
     # path('pdf/', viewsPdf.pdfGenerator, name="pdf"),
     path("misRecibos/", views.misRecibos, name="misRecib"),  # <-- added
-    path("Notificationes/", viewsProduct.misNotificaciones,
+    # path("Notificationes/", viewsProduct.misNotificaciones,
+    #      name="misNotificaciones"),  # <-- added
+    path("Notificationes/", views.productsToNotify,
          name="misNotificaciones"),  # <-- added
     path("recibo", views.recibo, name="recibo"),
     path("resultadosBusqueda/", views.busqueda_recibos, name="recibosBusq"),

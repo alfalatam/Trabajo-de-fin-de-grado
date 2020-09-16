@@ -1,14 +1,17 @@
+from django.core.mail import send_mail
+from Proyecto import settings
 from django.shortcuts import render
 # from django.shortcuts import render
 from django.http import HttpResponse
 from .models import Ticket
 from producto.models import Producto
-from datetime import date
+from datetime import date, timedelta, datetime, timezone
 # Create your views here.
 # Decorators
 from django.contrib.auth.decorators import login_required
 import traceback
 from django.shortcuts import redirect
+import producto
 from .forms import ScannedTicketForm
 
 # def recibo(response):
@@ -155,3 +158,63 @@ def scannedTiket(request):
     }
 
     return render(request, "importScanned.html", context)
+
+
+def sendMail(request, dict):
+
+    subject = "Notificación de garantía"
+    msg = "Uno de sus productos está cerca de perder su garantía, le recomendamos que tenga esto en cuenta"
+    # msg.attach_file('/images/weather_map.png')
+    # customer = 'alfonsoalarcontamayo27@gmail.com'
+    to = []
+    print(dict)
+    for i in dict.items():
+        # to = i.key()
+        to.append(i[0])
+        dataList = i[1]
+        productName = dataList[0]
+        ticketTitle = dataList[1]
+
+        print('--------------------------------------------')
+        print(type(dataList))
+        print('--------------------------------------------')
+
+        subject = "Aviso de garantía sobre:  %s" % (productName)
+        msg = "Uno de sus productos está cerca de perder su garantía, le recomendamos que tenga esto en cuenta,más concretamente sobre el recibo %s" % (
+            ticketTitle)
+
+        res = send_mail(
+            subject, msg, settings.EMAIL_HOST_USER, to)
+        to.clear()
+
+    if(res == 1):
+        msg = "Mail Sent"
+    else:
+        msg = "Mail could not sent"
+    return HttpResponse(msg)
+
+
+def productsToNotify(request):
+
+    productos = Producto.objects.all()
+    dictToSendMails = {}
+    mensaje = 'Error'
+    # try:
+
+    for p in productos:
+        fechaLimite = p.momentOfCreation + timedelta(days=p.warranty)
+        delta = fechaLimite - (datetime.now(timezone.utc))
+        if (delta.days < 30):
+            dictToSendMails[p.ticket.user.email] = [p.name, p.ticket.title]
+            # dictToSendMails.add(p.ticket.user.email,
+            #                     p.name, p.ticket.title)
+
+            mensaje = "Mensajes enviados"
+    sendMail(request=request, dict=dictToSendMails)
+    return HttpResponse(mensaje)
+
+    # except Exception as e:
+    #     trace_back = traceback.format_exc()
+    #     message = str(e) + " " + str(trace_back)
+    #     print('peto')
+    #     return render(request, 'error.html')

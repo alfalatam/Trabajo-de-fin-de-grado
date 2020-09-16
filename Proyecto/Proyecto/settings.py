@@ -88,7 +88,7 @@ DATABASES = {
         # 'ENGINE': 'django.db.backends.sqlite3',
         # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'tfg11',
+        'NAME': 'tfg12',
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
         },
@@ -152,3 +152,12 @@ CRISPY_TEMPLATE_PACK = "bootstrap4"
 LOGIN_REDIRECT_URL = "/inicio"
 
 LOGOUT_REDIRECT_URL = "/login"
+
+
+# To send mails
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'electronicticketofficial@gmail.com'
+EMAIL_HOST_PASSWORD = 'Alfonso212'

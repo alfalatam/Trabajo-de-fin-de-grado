@@ -21,7 +21,7 @@ class RegisterCustomerForm(UserCreationForm):
         fields = UserCreationForm.Meta.fields + ('first_name', 'last_name')
 
     @transaction.atomic
-    def data_save(self):
+    def save(self):
         user = super().save(commit=False)
         user.save()
         customer = Customer.objects.create(user=user)
@@ -35,9 +35,7 @@ class RegisterCustomerForm(UserCreationForm):
 
 
 class RegisterStoreForm(UserCreationForm):
-
     email = forms.EmailField(required=True)
-
     store_name = forms.CharField(required=True)
     company_name = forms.CharField(required=True)
     logo = forms.ImageField(required=False)
@@ -51,20 +49,20 @@ class RegisterStoreForm(UserCreationForm):
             ('store_name', 'company_name', 'logo', 'address')
 
     @transaction.atomic
-    def data_save(self):
+    def save(self):
+        print('====================================================0')
         user = super().save(commit=False)
         user.save()
+        # Store creation
         store = Store.objects.create(user=user)
-
         store.store_name = self.cleaned_data.get('store_name')
         store.company_name = self.cleaned_data.get('company_name')
         store.logo = self.cleaned_data.get('logo')
         store.address = self.cleaned_data.get('address')
-
         store.email = self.cleaned_data.get('email')
         store.save()
 
-        return store
+        return user
 # ==============================================================
 # class RegisterForm(UserCreationForm):
 

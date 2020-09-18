@@ -35,7 +35,7 @@ def recibos(response):
 def registerStore(response):
     if(response.method == "POST"):
         form = RegisterStoreForm(response.POST)
-        if(form.is_valid()):
+        if (form.is_valid()):
             form.save()
             return redirect("/inicio")
         else:

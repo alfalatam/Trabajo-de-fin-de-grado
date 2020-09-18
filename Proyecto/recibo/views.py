@@ -174,11 +174,6 @@ def sendMail(request, dict):
         dataList = i[1]
         productName = dataList[0]
         ticketTitle = dataList[1]
-
-        print('--------------------------------------------')
-        print(type(dataList))
-        print('--------------------------------------------')
-
         subject = "Aviso de garantía sobre:  %s" % (productName)
         msg = "Uno de sus productos está cerca de perder su garantía, le recomendamos que tenga esto en cuenta,más concretamente sobre el recibo %s" % (
             ticketTitle)

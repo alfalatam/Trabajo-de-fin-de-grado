@@ -123,5 +123,11 @@ Proyecto/Proyecto/__pycache__/settings.cpython-38.pyc
 __pycache__/
 *.py[cod]
 *.pyc
-**/migrations/*
+
+# Ignore Django Migrations in Development if you are working on team
+
+# Only for Development only
+# **/migrations/**
+# !**/migrations
+# !**/migrations/__init__.py
 

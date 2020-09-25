@@ -162,6 +162,7 @@ def scannedTiket(request):
 
 def sendMail(request, dict):
 
+    res = 0
     subject = "Notificación de garantía"
     msg = "Uno de sus productos está cerca de perder su garantía, le recomendamos que tenga esto en cuenta"
     # msg.attach_file('/images/weather_map.png')
@@ -185,7 +186,7 @@ def sendMail(request, dict):
     if(res == 1):
         msg = "Mail Sent"
     else:
-        msg = "Mail could not sent"
+        msg = "Mail could not sent or no mails to send"
     return HttpResponse(msg)
 
 
@@ -193,9 +194,8 @@ def productsToNotify(request):
 
     productos = Producto.objects.all()
     dictToSendMails = {}
-    mensaje = 'Error'
+    mensaje = 'No hay productos para mandar'
     # try:
-
     for p in productos:
         fechaLimite = p.momentOfCreation + timedelta(days=p.warranty)
         delta = fechaLimite - (datetime.now(timezone.utc))

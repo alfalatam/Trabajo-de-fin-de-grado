@@ -23,6 +23,7 @@ class RegisterCustomerForm(UserCreationForm):
     @transaction.atomic
     def save(self):
         user = super().save(commit=False)
+        user.is_customer = True
         user.save()
         customer = Customer.objects.create(user=user)
 
@@ -52,6 +53,7 @@ class RegisterStoreForm(UserCreationForm):
     def save(self):
         print('====================================================0')
         user = super().save(commit=False)
+        user.is_store = True
         user.save()
         # Store creation
         store = Store.objects.create(user=user)

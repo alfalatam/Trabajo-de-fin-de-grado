@@ -21,10 +21,13 @@ from register.views import home
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.urls import path, include
 from recibo import views
+from producto import views as productoViews
 from pdf import views as viewsPdf
 from usuarios import views as viewsUsers
 from producto import views as viewsProduct
+from django.conf.urls import url
 
+app_name = 'proyecto'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -48,6 +51,23 @@ urlpatterns = [
     path('generate-pdf', viewsPdf.generate_pdf, name='generate-pdf'),
     path('profile/', profile),
     path('importScanned/', views.scannedTiket),
+    path("misProductos/", productoViews.misProductos,
+         name="misProductos"),  # <-- added
+    path('create/', viewsProduct.ProductoCreateView.as_view(),
+         name='producto-create'),
+    path('updateProducto/<int:id>/', viewsProduct.ProductoUpdateView.as_view(),
+         name='producto-update'),
+    #     path('deleteProducto/<int:id>/', viewsProduct.ProductoDeleteView.as_view(),
+    #          name='producto-delete'),
+    url(r'^deleteProducto/(?P<pk>\d+)$',
+        viewsProduct.delete_producto, name="delete-producto"),
+    # path('display/<int:pk>/', viewsProduct.ProductoDetailView.as_view(),
+    #      name='producto-detail'),
+    path('displayProducto/<int:pk>/',
+         viewsProduct.ProductoDetailView.as_view(), name='detail'),
+
+
+
 
 
     # beta

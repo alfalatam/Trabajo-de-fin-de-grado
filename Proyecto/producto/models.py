@@ -1,16 +1,22 @@
 from django.db import models
 from recibo.models import Ticket
+from register.models import Store
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db.models import DateField
 from datetime import datetime
+from django.urls import reverse
+from django.shortcuts import redirect
 
 # Create your models here.
 
 
 class Producto(models.Model):
     # Relaciones
-    ticket = models.ForeignKey(
-        Ticket, on_delete=models.CASCADE, null=False, blank=False)
+    # ticket = models.ForeignKey(
+    #     Ticket, on_delete=models.CASCADE, null=False, blank=False)
+    # Relacion con user(Store)
+    store = models.ForeignKey(
+        Store, on_delete=models.DO_NOTHING, null=False, blank=False)
 
     # Atributos
     name = models.CharField(max_length=30)
@@ -31,6 +37,10 @@ class Producto(models.Model):
         t.price += priceToAdd
 
         # warranty = models.CharField()
+    def save(self, **kwargs):
+        super(Producto, self).save(**kwargs)
+        store = Store.objects.get(pk=self.store.user.id)
+        store.save()
 
     def __str__(self):
         return self.name

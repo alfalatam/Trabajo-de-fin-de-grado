@@ -131,3 +131,10 @@ __pycache__/
 # !**/migrations
 # !**/migrations/__init__.py
 
+Proyecto/producto/migrations/0001_initial.py
+Proyecto/producto/migrations/0002_producto_ticket.py
+Proyecto/recibo/migrations/0001_initial.py
+Proyecto/recibo/migrations/0002_auto_20200908_1754.py
+Proyecto/register/migrations/0001_initial.py
+Proyecto/recibo/migrations/0001_initial.py
+Proyecto/producto/migrations/0001_initial.py

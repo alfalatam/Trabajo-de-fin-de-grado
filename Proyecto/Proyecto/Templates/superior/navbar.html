@@ -51,16 +51,22 @@
                 <!-- Este buscador solo se verá si esta autenticado el usuario -->
                 {% if user.is_authenticated %}
                 <li class="nav-item active">
-                    <a class="nav-link" href="/misRecibos" style="margin-right: 1.5em">Mis recibos <span
+                    <a class="nav-link" href="/misRecibos" style="margin-right: 1.5em">Recibos <span
                             class="sr-only">(current)</span></a>
                 </li>
-
+                <!-- TODO creo que sobra -->
+                {% if user.is_customer == True %}
                 <li class="nav-item active">
                     <a class="nav-link" href="/Notificationes" style="margin-right: 1.5em">Notificaciones <span
                             class="sr-only">(current)</span></a>
                 </li>
-
-
+                {% endif %}
+                {% if user.is_store == True %}
+                <li class="nav-item active">
+                    <a class="nav-link" href="/misProductos" style="margin-right: 1.5em">Productos <span
+                            class="sr-only">(current)</span></a>
+                </li>
+                {% endif %}
                 {% endif %}
 
 

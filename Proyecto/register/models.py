@@ -24,8 +24,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     class Meta:
         verbose_name = ('user')
         verbose_name_plural = ('users')
-    # is_store = models.BooleanField(default=False)
-    # is_customer = models.BooleanField(default=False)
+    is_store = models.BooleanField(default=False)
+    is_customer = models.BooleanField(default=False)
     # email = models.EmailField()
 
     # ==================== Customer ===============================

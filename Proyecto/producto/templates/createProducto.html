@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Notificationes
+{% endblock %}
+
+{% block content %}
+
+
+<body>
+
+    <form action='.' method='POST'>{% csrf_token %}
+        {{ form.as_p }}
+        <input type='submit' value='Guardar' />
+    </form>
+    <a href="/misProductos/"><button type="button" class="btn btn-secondary">Return</button></a>
+
+    {% if producto %}
+    <a class="delete" href="{% url 'delete-producto' producto.pk %}" class="btn btn-danger btn-sm" role="button"
+        aria-pressed="true"><button type="button" href="{% url 'delete-producto' producto.pk %}"
+            class="btn btn-danger">Borrar</button>
+    </a>
+
+    {% endif %}
+
+
+</body>
+
+
+{% endblock %}

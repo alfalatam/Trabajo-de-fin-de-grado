@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Notificationes
+{% endblock %}
+
+{% block content %}
+
+<div>
+    <div class="card border-dark mb-3" style="margin-left: 30%; margin-right: 30%; margin-top: 5%;">
+        <div class="card-header">Producto</div>
+        <div class="card-body text-dark">
+            <h5 class="card-title">{{producto.name}}</h5>
+            <p class="card-text">{{producto.price}}€</p>
+            <p class="card-text">{{producto.warranty}}</p>
+        </div>
+    </div>
+
+    <a href="/updateProducto/{{producto.id}}"><button type="button" class="btn btn-primary">Editar</button>
+    </a>
+    <a class="delete" href="{% url 'delete-producto' producto.pk%}" class="btn btn-danger btn-sm" role="button"
+        aria-pressed="true"><button type="button" href="{% url 'delete-producto' producto.pk %}"
+            class="btn btn-danger">Borrar</button>
+    </a>
+
+    <a href="/misProductos/">
+        <button type="button" class="btn btn-secondary">Volver a mis productos</button>
+    </a>
+
+    <!-- <button type="button" href="{% url 'delete-producto' producto.pk %}" class="btn btn-danger">Danger</button> -->
+
+</div>
+
+{% endblock %}

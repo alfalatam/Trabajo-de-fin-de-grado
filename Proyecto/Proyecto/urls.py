@@ -66,7 +66,14 @@ urlpatterns = [
     path('displayProducto/<int:pk>/',
          viewsProduct.ProductoDetailView.as_view(), name='detail'),
 
+    path("exportData/", productoViews.export_data,
+         name="export-data"),  # <-- added
 
+    path("importData/", productoViews.simple_upload,
+         name="import-data"),  # <-- added
+
+    path('createRecibo/', views.ReciboCreateView.as_view(),
+         name='create-recibo'),
 
 
 

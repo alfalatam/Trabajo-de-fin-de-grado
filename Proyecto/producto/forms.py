@@ -12,5 +12,5 @@ class ProductoModelForm(forms.ModelForm):
             # 'momentOfCreation',
         ]
 
-        def __init__(self, *args, **kwargs):
-            self.fields['store'].initial = 1
+        # def __init__(self, *args, **kwargs):
+        #     self.fields['store'].initial =

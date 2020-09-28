@@ -12,7 +12,11 @@ from django.contrib.auth.decorators import login_required
 import traceback
 from django.shortcuts import redirect
 import producto
-from .forms import ScannedTicketForm
+from .forms import ScannedTicketForm, TicketForm
+from register.models import User, Store
+from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
+from django.http import HttpResponseRedirect
+
 
 # def recibo(response):
 
@@ -123,9 +127,9 @@ def buscar(request):
 
 def importeTotal(recibo):
     importe = 0
-    productosRecibo = Producto.objects.filter(ticket=recibo)
-    for p in productosRecibo:
-        importe += p.quantity*p.price
+    # productosRecibo = Producto.objects.filter(ticket=recibo)
+    # for p in productosRecibo:
+    #     importe += p.quantity*p.price
 
     return importe
 
@@ -213,3 +217,36 @@ def productsToNotify(request):
     #     message = str(e) + " " + str(trace_back)
     #     print('peto')
     #     return render(request, 'error.html')
+
+
+def createRecibo(request):
+
+    form = TicketForm(request.POST or None)
+
+    if(form.is_valid()):
+        form.save()
+        form = TicketForm
+
+    context = {
+        'form': form
+
+    }
+
+    return render(request, "createRecibo.html", context)
+
+
+class ReciboCreateView(CreateView):
+    template_name = "createRecibo.html"
+    form_class = TicketForm
+    # queryset = Producto.objects.all()
+
+    def form_valid(self, form):
+        obj = form.save(commit=False)
+        obj.user = User.objects.get(id=self.request.user.id)
+        store = Store.objects.get(user_id=self.request.user.id)
+        obj.address = store.address
+        obj.company_name = store.company_name
+        # obj.companyIdentifier = store.companyIdentifier
+        obj.save()
+
+        return HttpResponseRedirect('/misProductos/')

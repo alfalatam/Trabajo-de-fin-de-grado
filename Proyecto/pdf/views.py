@@ -140,7 +140,9 @@ def generate_pdf(request, *args, **kwargs):
         reciboID = request.GET.get('recibo')
         recibos = Ticket.objects.filter(user=request.user)
         recibo = recibos.get(pk=reciboID)
-        productosRecibo = Producto.objects.filter(ticket=recibo)
+        # TODO
+        # productosRecibo = Producto.objects.filter(ticket=recibo)
+        productosRecibo = Producto.objects.all()
 
         response = HttpResponse(content_type='application/pdf')
         # pdf_name = "clientes.pdf"  # llamado clientes

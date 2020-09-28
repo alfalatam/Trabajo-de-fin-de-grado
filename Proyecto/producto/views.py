@@ -1,3 +1,7 @@
+from django.http import HttpResponse
+from .models import Producto
+from .resources import ProductoResource
+from tablib import Dataset
 from django.shortcuts import render
 from .models import Producto
 from recibo.models import Ticket
@@ -10,6 +14,8 @@ from django.shortcuts import redirect
 from datetime import datetime
 from register.models import Store
 from .forms import ProductoModelForm
+from tablib import Dataset
+
 
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
 from django.shortcuts import render, get_object_or_404
@@ -157,3 +163,124 @@ def delete_producto(request, pk):
     }
 
     return render(request, template, context)
+
+
+# Export data form import-export
+def export_data(request):
+    if request.method == 'POST':
+        # Get selected option from form
+        file_format = request.POST['file-format']
+        producto_resource = ProductoResource()
+
+        user = request.user
+        store = Store.objects.get(user=user.id)
+
+        queryset = Producto.objects.filter(store=store)
+        dataset = ProductoResource().export(queryset)
+
+        # dataset = producto_resource.export()
+        if file_format == 'CSV':
+            response = HttpResponse(dataset.csv, content_type='text/csv')
+            response['Content-Disposition'] = 'attachment; filename="exported_data.csv"'
+            return response
+        elif file_format == 'JSON':
+            response = HttpResponse(
+                dataset.json, content_type='application/json')
+            response['Content-Disposition'] = 'attachment; filename="exported_data.json"'
+            return response
+        elif file_format == 'XLS (Excel)':
+            response = HttpResponse(
+                dataset.xls, content_type='application/vnd.ms-excel')
+            response['Content-Disposition'] = 'attachment; filename="exported_data.xls"'
+            return response
+
+    return render(request, 'exportData.html')
+
+
+# Import data form import-export
+def import_data(request):
+    if request.method == 'POST':
+        file_format = request.POST['file-format']
+        producto_resource = ProductoResource()
+        dataset = Dataset()
+        new_productos = request.FILES['importData']
+
+        if file_format == 'CSV':
+            imported_data = dataset.load(
+                new_productos.read().decode('utf-8'), format='csv')
+            result = producto_resource.import_data(dataset, dry_run=True)
+        # elif file_format == 'XLS (Excel)':
+        #     imported_data = dataset.load(
+        #         new_productos.read().decode('utf-8'), format='xls')
+        #     result = producto_resource.import_data(dataset, dry_run=True)
+        elif file_format == 'JSON':
+            imported_data = dataset.load(
+                new_productos.read().decode('utf-8'), format='json')
+            # Testing data import
+            result = producto_resource.import_data(imported_data, dry_run=True)
+
+        if not result.has_errors():
+            # Import now
+            new_productos.import_data(imported_data, dry_run=False)
+
+    return render(request, 'importData.html')
+
+
+# def simple_upload(request):
+#     if request.method == 'POST':
+#         producto_resource = ProductoResource()
+#         dataset = Dataset()
+#         new_productos = request.FILES['myfile']
+#         imported_data = dataset.load(new_productos.read())
+#         result = producto_resource.import_data(
+#             dataset, dry_run=True)  # Test the data import
+
+#         if not result.has_errors():
+#             producto_resource.import_data(
+#                 dataset, dry_run=False)  # Actually import now
+
+#     return render(request, 'importData.html')
+
+
+def simple_upload(request):
+    if request.method == 'POST':
+        producto_resource = ProductoResource()
+        dataset = Dataset()
+        new_productos = request.FILES['myfile']
+        user = request.user
+        store = Store.objects.get(user=user)
+        id_store = store.user.id
+
+        imported_data = dataset.load(new_productos.read(), format='xls')
+        # print(imported_data)
+        for data in imported_data:
+            print(data[1])
+            value = Producto(
+                data[0],
+                # Este valor (1) es el id de la store, la store no puede modificarlo
+                data[1],
+                data[2],
+                data[3],
+                data[4],
+                data[5],
+                data[6]
+
+
+            )
+            data[1] == id_store
+            print('==================================')
+            # print('El 0 es ->', data[0])
+            print('El 1 es ->', data[1])
+            # print('El 2 es ->', data[2])
+            # print('El 3 es ->', data[3])
+            # print('El 4 es ->', data[4])
+            # print('El 5 es ->', data[5])
+            # print('El 6 es ->', data[6])
+            value.save()
+
+        # result = person_resource.import_data(dataset, dry_run=True)  # Test the data import
+
+        # if not result.has_errors():
+        #    person_resource.import_data(dataset, dry_run=False)  # Actually import now
+
+    return render(request, 'importData.html')

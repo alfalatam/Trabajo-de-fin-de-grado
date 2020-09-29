@@ -40,48 +40,62 @@ View
 
     <br>
     <br>
+    <!-- 
+    <div id="block_container">
+        <span id=datosRecibo>
+            <p><b> Titulo del recibo:</b> {{ recibo.title }}</p>
+            <br>
+            <b>Empresa: </b>{{recibo.empresa}}
+            <br>
+            <b>Direción: </b>{{recibo.address}}
+            <br>
+            <b>Identificador: </b>{{recibo.identifier}}
+            <br>
+            <b>Precio total: </b>{{recibo.price}}
+            <br>
+            <b>Método de pago: </b>{{recibo.payment}}
+
+        </span>
 
 
-
-
-    <div id=datosRecibo>
-
-
-        <b> Titulo del recibo:</b>{{ recibo.title }}
-        <br>
-        <b>Empresa: </b>{{recibo.empresa}}
-        <br>
-        <b>Direción: </b>{{recibo.address}}
-        <br>
-        <b>Identificador: </b>{{recibo.identifier}}
-        <br>
-        <b>Precio total: </b>{{recibo.price}}
-        <br>
-        <b>Método de pago: </b>{{recibo.payment}}
-
-    </div>
-
-
-
-
-
-    <div id=cajaPDF>
-        <div id=pdfLink>
+        <span id=cajaPDF>
             <a href="{% url 'generate-pdf' %}?recibo={{ recibo.id }}" target="_blank">
                 <figure>
                     <img id="imgRecibo" class="rounded-sm" src="{% static 'images/'%}pdf.png" alt=""
                         style="max-width: 300;" />
 
                     <span class="caption">{{td.title}}</span>
-            </a> </div>
+            </a>
+        </span>
+
+
     </div>
 
+ -->
+
+    <div id="element1">
+        <p><b> Titulo del recibo:</b> {{ recibo.title }}</p>
+        <p><b>Empresa: </b>{{recibo.empresa}}</p>
+        <p><b>Direción: </b>{{recibo.address}}</p>
+        <p><b>Identificador: </b>{{recibo.identifier}}</p>
+        <p><b>Precio total: </b>{{recibo.price}}</p>
+        <p><b>Método de pago: </b>{{recibo.payment}}</p>
+    </div>
+
+    <div id="element2">
+        <span id=cajaPDF>
+            <a href="{% url 'generate-pdf' %}?recibo={{ recibo.id }}" target="_blank">
+                <figure>
+                    <img id="imgRecibo" class="rounded-sm" src="{% static 'images/'%}pdf.png" alt=""
+                        style="max-width: 300;" />
+
+                    <span class="caption">{{td.title}}</span>
+            </a>
+        </span>
 
 
 
-
-
-
+    </div>
 </body>
 
 

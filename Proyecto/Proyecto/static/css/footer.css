@@ -14,13 +14,17 @@ footer {
   margin-right: 0;
 } */
 footer {
-  position: absolute;
-  overflow: auto;
-  right: 0;
-  bottom: 0;
+  /* position: absolute;
+  overflow: auto; */
+  position: fixed;
   left: 0;
-
-  padding: 1rem;
-  background-color: #efefef;
+  bottom: 0;
+  width: 100%;
+  background-color: red;
+  color: white;
   text-align: center;
+
+  /* padding: 1rem;
+  background-color: #efefef;
+  text-align: center; */
 }

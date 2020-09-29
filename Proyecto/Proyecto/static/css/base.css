@@ -6,6 +6,23 @@
 html,
 body {
   margin-top: 3.5em;
-  position: relative;
-  min-height: 100vh;
+  /* position: relative;
+  min-height: 100vh; */
+}
+
+#displayBase {
+  margin-left: 30%;
+  margin-right: 30%;
+  margin-top: 5%;
+}
+
+#edit {
+  margin-left: 30%;
+  margin-right: 30%;
+  margin-top: 5%;
+}
+
+#tableDiv {
+  margin-left: 5em;
+  margin-right: 5em;
 }

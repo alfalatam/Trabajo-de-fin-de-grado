@@ -48,7 +48,12 @@ urlpatterns = [
     path("recibo", views.recibo, name="recibo"),
     path("resultadosBusqueda/", views.busqueda_recibos, name="recibosBusq"),
     path("buscar/", views.buscar),
+
     path('generate-pdf', viewsPdf.generate_pdf, name='generate-pdf'),
+
+    #     url(r'^generate-pdf/(?P<random_url>[-\w]+)/$',
+    #         viewsPdf.generate_pdf, name='generate-pdf'),
+
     path('profile/', profile),
     path('importScanned/', views.scannedTiket),
     path("misProductos/", productoViews.misProductos,
@@ -68,6 +73,9 @@ urlpatterns = [
 
     path("exportData/", productoViews.export_data,
          name="export-data"),  # <-- added
+
+    path("exportRecibo/", views.export_recibo,
+         name="export-recibo"),  # <-- added
 
     path("importData/", productoViews.simple_upload,
          name="import-data"),  # <-- added

@@ -7,14 +7,13 @@ View
 
 {% block content %}
 
-
-<html>
-
 <head>
 
     {% block mycss %}
-    <link rel="stylesheet" type="text/css" href="{%  static 'css/misRecibos.css' %}">
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css">
 
+    <link rel="stylesheet" type="text/css" href="{%  static 'css/misRecibos.css' %}">
+    <script src="//cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
     {% endblock mycss %}
 
     <script>
@@ -27,58 +26,69 @@ View
 
 </head>
 
-<body>
+<body style="text-align: center;">
+    <div style="text-align: center; margin-top: 4em; margin-bottom: 2em;">
+        <a href="/createRecibo"><input type="button" class="btn btn-primary" value="Crear Recibo"></a>
+        <!-- <a href="/importData"><input type="button" class="btn btn-success" value="Import data"></a> -->
+        <a href="/exportRecibo"><input type="button" class="btn btn-info" value="Exportar datos"></a>
+    </div>
 
-    <div id="filas">
+    <div id="tableDiv">
+        <table id="table_id" class="dataTables_wrapper" style="text-align: center;">
+            <thead>
+                <tr>
+                    <th>Titulo</th>
+                    <th>Identificador único</th>
+                    <th>Precio</th>
+                    <th>Fecha de creación</th>
+                    <th>Método de pago</th>
+                    <th>Mostrar</th>
+                    <th>Eliminar</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for recibo in user.ticketList.all %}
+                <!-- <p>{{producto.name}}</p>
+                    <a href="/displayProducto/{{producto.id}}">Link</a> -->
+                <tr>
+                    <td>{{recibo.title}}</td>
+                    <td>{{recibo.identifier}}</td>
+                    <td>{{recibo.price}}€</td>
+                    <td>{{recibo.momentOfCreation|date}}</td>
+                    <td>{{recibo.payment}}
+                        {% if recibo.payment == 'EF' %}
+                        <i class="fas fa-money-bill" style="color: green;"></i>
 
-        {% for recibo in user.ticketList.all %}
-        <a href="{% url 'recibo' %}?={{ recibo.id }}" target="_blank" name=non value={{recibo.id}}>
-            <figure>
-                <img id="imgRecibo" class="rounded-sm"
-                    src="{% static 'images/companyLogo/'%}{{ recibo.companyIdentifier }}.png" alt=""
-                    onerror="imgError(this);" />
-                <!-- <span class="caption">{{td.title}}</span> -->
-        </a>
-        <figcaption class="caption" id="captionImage">{{recibo.title}}</figcaption>
+                        {% elif recibo.payment == 'TD' %}
+                        <i class="fas fa-money-check-alt" style="color: black;"></i>
 
-        </figure>
+                        {% else %}
+                        <i class="fas fa-money-check" style="color: blue;"></i>
 
-
-
-        {% endfor %}
-
-
-        <!-- </div> -->
-        <!-- <div id="filas">
-
-        {% for recibo in user.ticketList.all %}
-        <a href="{% url 'generate-pdf' %}?recibo={{ recibo.id }}" target="_blank">
-            <figure>
-                <img id="imgRecibo" class="rounded-sm"
-                    src="{% static 'images/companyLogo/'%}{{ recibo.companyIdentifier }}.png" alt=""
-                    onerror="imgError(this);" />
-                 <span class="caption">{{td.title}}</span> -->
-        <!-- </a>
-    <figcaption class="caption" id="captionImage">{{recibo.title}}</figcaption>
-
-    </figure> -->
-
-
-
-        <!-- {% endfor %} -->
+                        {% endif %}
 
 
-        <!-- </div>  -->
+                    </td>
+                    <td><a href="/recibo?={{recibo.id}}">Mostrar</a></td>
+                    <td>
+                        <i class="fa fa-trash" style="font-size:24px; color: red;"></i>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
+    <script>
+        $(document).ready(function () {
+            $('#table_id').DataTable();
+        })
+
+
+
+    </script>
 
 </body>
-
-
-
-</html>
-
-
-
 
 
 {% endblock %}

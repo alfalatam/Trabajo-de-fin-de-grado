@@ -10,9 +10,11 @@ scanned tickets
 
 {% block content %}
 
-<form action='.' method='POST'>{% csrf_token %}
-    {{ form.as_p }}
-    <input type='submit' value='Guardar' />
-</form>
+<div id="edit">
+    <form action='.' method='POST'>{% csrf_token %}
+        {{ form|crispy}}
+        <input type='submit' value='Guardar' />
+    </form>
 
+</div>
 {% endblock %}

@@ -138,8 +138,9 @@ def generate_pdf(request, *args, **kwargs):
     if request.method == 'GET':
 
         reciboID = request.GET.get('recibo')
-        recibos = Ticket.objects.filter(user=request.user)
+        recibos = Ticket.objects.all()
         recibo = recibos.get(pk=reciboID)
+
         # TODO
         # productosRecibo = Producto.objects.filter(ticket=recibo)
         productosRecibo = Producto.objects.all()

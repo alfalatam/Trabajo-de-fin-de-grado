@@ -16,8 +16,8 @@ from .forms import ScannedTicketForm, TicketForm
 from register.models import User, Store
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
 from django.http import HttpResponseRedirect
-
-
+from .resources import TicketResource
+import uuid
 # def recibo(response):
 
 #     ticket = Ticket.objects.get(id=3)
@@ -243,10 +243,42 @@ class ReciboCreateView(CreateView):
     def form_valid(self, form):
         obj = form.save(commit=False)
         obj.user = User.objects.get(id=self.request.user.id)
+        obj.identifier = uuid.uuid4().hex[:16]
         store = Store.objects.get(user_id=self.request.user.id)
         obj.address = store.address
         obj.company_name = store.company_name
         # obj.companyIdentifier = store.companyIdentifier
         obj.save()
 
-        return HttpResponseRedirect('/misProductos/')
+        return HttpResponseRedirect('/misRecibos/')
+
+
+# Export data form import-export
+def export_recibo(request):
+    if request.method == 'POST':
+        # Get selected option from form
+        file_format = request.POST['file-format']
+        recibo_resource = TicketResource()
+        user = request.user
+        # store = Store.objects.get(user=user.id)
+
+        queryset = Ticket.objects.filter(user=user)
+        dataset = TicketResource().export(queryset)
+
+        # dataset = producto_resource.export()
+        if file_format == 'CSV':
+            response = HttpResponse(dataset.csv, content_type='text/csv')
+            response['Content-Disposition'] = 'attachment; filename="exported_data.csv"'
+            return response
+        elif file_format == 'JSON':
+            response = HttpResponse(
+                dataset.json, content_type='application/json')
+            response['Content-Disposition'] = 'attachment; filename="exported_data.json"'
+            return response
+        elif file_format == 'XLS (Excel)':
+            response = HttpResponse(
+                dataset.xls, content_type='application/vnd.ms-excel')
+            response['Content-Disposition'] = 'attachment; filename="exported_data.xls"'
+            return response
+
+    return render(request, 'exportData.html')

@@ -1,6 +1,6 @@
 #datosRecibo {
-  margin-top: 14em;
-  margin-left: 15em;
+  /* margin-left: 15em; */
+  display: inline;
 }
 
 #imgRec {
@@ -18,10 +18,26 @@
 
 #pdfLink {
   text-align: right;
+  display: inline;
 
   border: 1px solid black;
   margin-left: 82em;
 }
 
 #cajaPDF {
+  display: inline;
+}
+
+#block-container {
+  display: flex;
+  justify-content: center;
+}
+
+#element1 {
+  display: inline-block;
+  margin-right: 30%;
+  margin-left: 10%;
+}
+#element2 {
+  display: inline-block;
 }

@@ -1,9 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h3>Import Data</h3>
-<p>importing to database</p>
-<!-- <form method="post" enctype="multipart/form-data">
+<div id="displayBase">
+
+    <h3>Import Data</h3>
+    <p>importing to database</p>
+    <!-- <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <input type="file" name="importData">
     <p>Please select format of file.</p>
@@ -11,16 +13,17 @@
         <option selected>Choose format...</option>
         <option>CSV</option>
         <option>JSON</option> -->
-<!-- <option>XLS (Excel)</option> -->
-<!-- </select>
+    <!-- <option>XLS (Excel)</option> -->
+    <!-- </select>
     <button class="btn btn-primary" type="submit">Import</button>
 </form>
 <a href="{% url 'home' %}">Return Home View</a> -->
-
-
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    <input type="file" name="myfile">
-    <button type="submit">Upload</button>
-</form>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="file" name="myfile">
+        <br>
+        <br>
+        <button class="btn btn-primary" type="submit">Upload</button>
+    </form>
+</div>
 {% endblock %}

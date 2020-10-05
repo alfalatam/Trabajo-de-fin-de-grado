@@ -7,30 +7,33 @@ Notificationes
 
 {% block content %}
 
+<body>
 
-<div id="displayBase">
-    <div class="card border-dark mb-3">
-        <div class="card-header">Producto</div>
-        <div class="card-body text-dark">
-            <h5 class="card-title">{{producto.name}}</h5>
-            <p class="card-text">{{producto.price}}€</p>
-            <p class="card-text">{{producto.warranty}}</p>
+
+    <div id="displayBase">
+        <div class="card border-dark mb-3">
+            <div class="card-header">Producto</div>
+            <div class="card-body text-dark">
+                <h5 class="card-title">{{producto.name}}</h5>
+                <p class="card-text">{{producto.price}}€</p>
+                <p class="card-text">{{producto.warranty}}</p>
+            </div>
         </div>
+
+        <a href="/updateProducto/{{producto.id}}"><button type="button" class="btn btn-primary">Editar</button>
+        </a>
+        <a class="delete" href="{% url 'delete-producto' producto.pk%}" class="btn btn-danger btn-sm" role="button"
+            aria-pressed="true"><button type="button" href="{% url 'delete-producto' producto.pk %}"
+                class="btn btn-danger">Borrar</button>
+        </a>
+
+        <a href="/misProductos/">
+            <button type="button" class="btn btn-secondary">Volver a mis productos</button>
+        </a>
+
+        <!-- <button type="button" href="{% url 'delete-producto' producto.pk %}" class="btn btn-danger">Danger</button> -->
+
     </div>
 
-    <a href="/updateProducto/{{producto.id}}"><button type="button" class="btn btn-primary">Editar</button>
-    </a>
-    <a class="delete" href="{% url 'delete-producto' producto.pk%}" class="btn btn-danger btn-sm" role="button"
-        aria-pressed="true"><button type="button" href="{% url 'delete-producto' producto.pk %}"
-            class="btn btn-danger">Borrar</button>
-    </a>
-
-    <a href="/misProductos/">
-        <button type="button" class="btn btn-secondary">Volver a mis productos</button>
-    </a>
-
-    <!-- <button type="button" href="{% url 'delete-producto' producto.pk %}" class="btn btn-danger">Danger</button> -->
-
-</div>
-
+</body>
 {% endblock %}

@@ -46,10 +46,17 @@ urlpatterns = [
     path("Notificationes/", views.productsToNotify,
          name="misNotificaciones"),  # <-- added
     path("recibo", views.recibo, name="recibo"),
+    #     path("reciboUser", views.reciboUser, name="reciboUser"),
     path("resultadosBusqueda/", views.busqueda_recibos, name="recibosBusq"),
     path("buscar/", views.buscar),
 
     path('generate-pdf', viewsPdf.generate_pdf, name='generate-pdf'),
+
+    path('qr_code/', include('qr_code.urls', namespace="qr_code")),
+
+
+    url(r'^generate-public-pdf',
+        viewsPdf.generate_public_pdf, name="generate-public-pdf"),
 
     #     url(r'^generate-pdf/(?P<random_url>[-\w]+)/$',
     #         viewsPdf.generate_pdf, name='generate-pdf'),

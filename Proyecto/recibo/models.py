@@ -30,7 +30,7 @@ class Ticket(models.Model):
     momentOfCreation = models.DateTimeField(
         auto_now_add=datetime.now)
 
-    companyIdentifier = models.CharField(max_length=11, default='0')
+    # companyIdentifier = models.CharField(max_length=11, default='0')
     # barcode = models.DateField()
     # paymentMethod = models.CharField()
     data = models.TextField(blank=True, null=True)
@@ -67,22 +67,28 @@ class ScannedTicket(models.Model):
         return self.title
 
 
-# @receiver(post_save, sender=User)
-# def create_ticket(sender, instance, created, **kwargs):
-#     if created:
-#         Ticket.objects.created(user=instance)
+class TicketLink(models.Model):
 
+    ticket = models.ForeignKey(
+        Ticket, on_delete=models.CASCADE, related_name="ticketLink", null=True, blank=False)
 
-# @receiver(post_save, sender=User)
-# def save_ticket(sender, instance, **kwargs):
-#     instance.ticket.save()
+    url = models.CharField(max_length=150, blank=False, null=False)
+    is_shared = models.BooleanField(default=False)
 
+    # @receiver(post_save, sender=User)
+    # def create_ticket(sender, instance, created, **kwargs):
+    #     if created:
+    #         Ticket.objects.created(user=instance)
 
-# class product(models.Model):
-#     name = models.CharField(max_length=30)
-#     # quantity = models.CharField()
-#     # price = models.CharField()
-#     # warranty = models.CharField()
+    # @receiver(post_save, sender=User)
+    # def save_ticket(sender, instance, **kwargs):
+    #     instance.ticket.save()
 
-#     def __str__(self):
-#         return self.name
+    # class product(models.Model):
+    #     name = models.CharField(max_length=30)
+    #     # quantity = models.CharField()
+    #     # price = models.CharField()
+    #     # warranty = models.CharField()
+
+    #     def __str__(self):
+    #         return self.name

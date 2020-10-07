@@ -3,7 +3,7 @@ from Proyecto import settings
 from django.shortcuts import render
 # from django.shortcuts import render
 from django.http import HttpResponse
-from .models import Ticket
+from .models import Ticket, TicketLink
 from producto.models import Producto
 from datetime import date, timedelta, datetime, timezone
 # Create your views here.
@@ -36,7 +36,15 @@ def recibo(request):
         print('la id  es : ', idRecibo)
         ticket = Ticket.objects.get(id=idRecibo)
 
-        return render(request, "recibo.html", {"recibo": ticket})
+        # context = {}
+        tLink = TicketLink.objects.get(ticket=ticket)
+        shareUrl = "http://"+request.META['HTTP_HOST'] + \
+            "/generate-public-pdf?url="+tLink.url
+        print(shareUrl)
+        # print(tLnk)
+        # context['urlLink'] = tLink.url
+
+        return render(request, "recibo.html", {"recibo": ticket, "tLink": tLink, "shareUrl": shareUrl})
 
     except Exception as e:
         print('Has pasado por la exception, buena suerte')
@@ -44,6 +52,23 @@ def recibo(request):
         message = str(e) + " " + str(trace_back)
         print(message)
         return render(request, 'error.html')
+
+
+# def reciboUser(request, recibo):
+
+#     try:
+#         ticket = Ticket.objects.get(id=recibo)
+#         ticketLink = TicketLink.objects.get(ticket=ticket)
+#         # ticketLink.is_shared
+
+#         return render(request, "recibo.html", {"recibo": ticket})
+
+#     except Exception as e:
+#         print('Has pasado por la exception, buena suerte')
+#         trace_back = traceback.format_exc()
+#         message = str(e) + " " + str(trace_back)
+#         print(message)
+#         return render(request, 'error.html')
 
 
 def misRecibos(response):
@@ -245,10 +270,18 @@ class ReciboCreateView(CreateView):
         obj.user = User.objects.get(id=self.request.user.id)
         obj.identifier = uuid.uuid4().hex[:16]
         store = Store.objects.get(user_id=self.request.user.id)
+        # obj.companyIdentifier = store.company
+
         obj.address = store.address
         obj.company_name = store.company_name
         # obj.companyIdentifier = store.companyIdentifier
+
         obj.save()
+
+        # __Aqui creamos el ticketUrl___
+        url = uuid.uuid4().hex[:32].upper()
+        ticketLink = TicketLink.objects.create(
+            ticket=obj, url=url, is_shared=False)
 
         return HttpResponseRedirect('/misRecibos/')
 

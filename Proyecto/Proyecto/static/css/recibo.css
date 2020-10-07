@@ -38,6 +38,12 @@
   margin-right: 30%;
   margin-left: 10%;
 }
+
+#elementFirst {
+  display: inline-block;
+  margin-right: 10%;
+  margin-left: 10%;
+}
 #element2 {
   display: inline-block;
 }

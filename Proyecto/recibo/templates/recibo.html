@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load qr_code %}
 
 {% block title %}
 View
@@ -33,47 +34,16 @@ View
 
 <body>
 
-    <div>
+    <!-- <div>
         <img id="imgRec" class="rounded-sm" src="{% static 'images/companyLogo/'%}{{ recibo.companyIdentifier }}.png"
             alt="" onerror="imgError(this);" />
-    </div>
+    </div> -->
 
     <br>
+    <div style="margin-top: 5em;"></div>
     <br>
-    <!-- 
-    <div id="block_container">
-        <span id=datosRecibo>
-            <p><b> Titulo del recibo:</b> {{ recibo.title }}</p>
-            <br>
-            <b>Empresa: </b>{{recibo.empresa}}
-            <br>
-            <b>Direción: </b>{{recibo.address}}
-            <br>
-            <b>Identificador: </b>{{recibo.identifier}}
-            <br>
-            <b>Precio total: </b>{{recibo.price}}
-            <br>
-            <b>Método de pago: </b>{{recibo.payment}}
 
-        </span>
-
-
-        <span id=cajaPDF>
-            <a href="{% url 'generate-pdf' %}?recibo={{ recibo.id }}" target="_blank">
-                <figure>
-                    <img id="imgRecibo" class="rounded-sm" src="{% static 'images/'%}pdf.png" alt=""
-                        style="max-width: 300;" />
-
-                    <span class="caption">{{td.title}}</span>
-            </a>
-        </span>
-
-
-    </div>
-
- -->
-
-    <div id="element1">
+    <div id="elementFirst">
         <p><b> Titulo del recibo:</b> {{ recibo.title }}</p>
         <p><b>Empresa: </b>{{recibo.empresa}}</p>
         <p><b>Direción: </b>{{recibo.address}}</p>
@@ -83,10 +53,23 @@ View
     </div>
 
     <div id="element2">
+        <span id=cajaPDF data-toggle="modal" data-target="#exampleModal">
+            <figure>
+                <img id="imgRecibo" class="rounded-sm" src="{% static 'images/'%}QR.png" alt=""
+                    style="max-width: 300;" />
+
+                <span class="caption">{{td.title}}</span>
+
+
+        </span>
+
+    </div>
+
+    <div id="element2">
         <span id=cajaPDF>
             <a href="{% url 'generate-pdf' %}?recibo={{ recibo.id }}" target="_blank">
                 <figure>
-                    <img id="imgRecibo" class="rounded-sm" src="{% static 'images/'%}pdf.png" alt=""
+                    <img id="imgRecibo" class="rounded-sm" src="{% static 'images/'%}PDFIcon.png" alt=""
                         style="max-width: 300;" />
 
                     <span class="caption">{{td.title}}</span>
@@ -95,6 +78,41 @@ View
 
 
 
+    </div>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Aqui puede descargarse el recibo de compra</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <!-- <a href="{% url 'generate-public-pdf' %}?url={{ tLink.url }}" target="_blank">
+
+                    </a> -->
+                    <!-- <img src="{% qr_url_from_text "Hello World!" %}"> -->
+
+                    <!-- <img src="{% qr_url_from_text "Hello World!" url_signature_enabled=False %}" alt="Hello World!"> -->
+                    <!-- {% qr_from_text "Hello World!" size="m" image_format="png" error_correction="L" %} -->
+                    <div style="text-align: center;">
+                        <!-- {% qr_from_text "http://127.0.0.1:8000/generate-public-pdf?url={{tLink.url}}" size="M" %} -->
+                        {% qr_from_text shareUrl size="M" %}
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" style="margin-right: 45%;" class="btn btn-secondary"
+                        data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 

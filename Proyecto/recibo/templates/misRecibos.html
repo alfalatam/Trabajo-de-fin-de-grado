@@ -33,11 +33,17 @@ View
         <a href="/exportRecibo"><input type="button" class="btn btn-info" value="Exportar datos"></a>
     </div>
 
+    <!-- {{ now|date:" Y" }} -->
+
+    <!-- {% now "SHORT_DATETIME_FORMAT" %} -->
     <div id="tableDiv">
         <table id="table_id" class="dataTables_wrapper" style="text-align: center;">
             <thead>
                 <tr>
                     <th>Titulo</th>
+                    {% if user.is_customer is True %}
+                    <th>Compañia</th>
+                    {% endif %}
                     <th>Identificador único</th>
                     <th>Precio</th>
                     <th>Fecha de creación</th>
@@ -48,10 +54,23 @@ View
             </thead>
             <tbody>
                 {% for recibo in user.ticketList.all %}
-                <!-- <p>{{producto.name}}</p>
-                    <a href="/displayProducto/{{producto.id}}">Link</a> -->
+
+
+                {% with rYear=recibo.momentOfCreation|date:"Y"|add:"2" %}
+                {% if rYear < year %}
+                <tr style="opacity: 0.5;">
+                    {% else %}
                 <tr>
+                    {% endif %}
+                    {% endwith %}
                     <td>{{recibo.title}}</td>
+                    {% if user.is_customer is True %}
+                    <th>
+                        <img id="imgRec" class="rounded-sm" style="max-width: 200; max-height: 105;"
+                            src="{% static 'images/companyLogo/'%}{{ recibo.companyIdentifier }}.png" alt=""
+                            onerror="imgError(this);" />
+                    </th>
+                    {% endif %}
                     <td>{{recibo.identifier}}</td>
                     <td>{{recibo.price}}€</td>
                     <td>{{recibo.momentOfCreation|date}}</td>

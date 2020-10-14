@@ -6,6 +6,8 @@ from django.http import HttpResponse
 from .models import Ticket, TicketLink
 from producto.models import Producto
 from datetime import date, timedelta, datetime, timezone
+import datetime
+
 # Create your views here.
 # Decorators
 from django.contrib.auth.decorators import login_required
@@ -38,6 +40,7 @@ def recibo(request):
 
         # context = {}
         tLink = TicketLink.objects.get(ticket=ticket)
+
         shareUrl = "http://"+request.META['HTTP_HOST'] + \
             "/generate-public-pdf?url="+tLink.url
         print(shareUrl)
@@ -72,7 +75,12 @@ def recibo(request):
 
 
 def misRecibos(response):
-    return render(response, "misRecibos.html", {})
+
+    now = datetime.datetime.now()
+
+    year = now.year
+
+    return render(response, "misRecibos.html", {'year': year})
 
     # inside views.py
 
@@ -227,7 +235,7 @@ def productsToNotify(request):
     # try:
     for p in productos:
         fechaLimite = p.momentOfCreation + timedelta(days=p.warranty)
-        delta = fechaLimite - (datetime.now(timezone.utc))
+        delta = fechaLimite - (datetime.datetime.now(timezone.utc))
         if (delta.days < 30):
             dictToSendMails[p.ticket.user.email] = [p.name, p.ticket.title]
             # dictToSendMails.add(p.ticket.user.email,
@@ -270,6 +278,8 @@ class ReciboCreateView(CreateView):
         obj.user = User.objects.get(id=self.request.user.id)
         obj.identifier = uuid.uuid4().hex[:16]
         store = Store.objects.get(user_id=self.request.user.id)
+        obj.companyIdentifier = store.identifier
+
         # obj.companyIdentifier = store.company
 
         obj.address = store.address

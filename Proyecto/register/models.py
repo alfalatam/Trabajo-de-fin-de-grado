@@ -48,6 +48,8 @@ class Store(models.Model):
 
     store_name = models.CharField(max_length=100)
 
+    identifier = models.CharField(max_length=20, default='')
+
     # company which owns the store (if have it)
     company_name = models.CharField(max_length=150)
 

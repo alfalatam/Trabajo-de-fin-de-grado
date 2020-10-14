@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .forms import RegisterCustomerForm, RegisterStoreForm
-
+import uuid
 # Create your views here.
 
 

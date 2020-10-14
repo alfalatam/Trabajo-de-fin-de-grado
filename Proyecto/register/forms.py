@@ -6,6 +6,7 @@ from .models import User, Customer, Store
 
 from django.core.exceptions import ValidationError
 from phonenumber_field.formfields import PhoneNumberField
+import uuid
 
 
 class RegisterCustomerForm(UserCreationForm):
@@ -41,6 +42,7 @@ class RegisterStoreForm(UserCreationForm):
     company_name = forms.CharField(required=True)
     logo = forms.ImageField(required=False)
     address = forms.CharField(required=True)
+    # identifier = forms.CharField(required=True)
 
     class Meta(UserCreationForm.Meta):
         model = User
@@ -57,6 +59,7 @@ class RegisterStoreForm(UserCreationForm):
         user.save()
         # Store creation
         store = Store.objects.create(user=user)
+        store.identifier = uuid.uuid4().hex[:20]
         store.store_name = self.cleaned_data.get('store_name')
         store.company_name = self.cleaned_data.get('company_name')
         store.logo = self.cleaned_data.get('logo')

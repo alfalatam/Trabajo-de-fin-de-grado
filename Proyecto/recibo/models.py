@@ -8,6 +8,7 @@ from django.db.models import DateField
 from datetime import date
 # Create your models here.
 import uuid
+from django.contrib.postgres.fields import JSONField
 
 
 class Ticket(models.Model):

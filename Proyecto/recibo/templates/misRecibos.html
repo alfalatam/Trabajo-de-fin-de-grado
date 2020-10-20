@@ -43,12 +43,13 @@ View
                     <th>Titulo</th>
                     {% if user.is_customer is True %}
                     <th>Compañia</th>
+                    <th>Empresa</th>
                     {% endif %}
                     <th>Identificador único</th>
                     <th>Precio</th>
                     <th>Fecha de creación</th>
                     <th>Método de pago</th>
-                    <th>Mostrar</th>
+
                     <th>Eliminar</th>
                 </tr>
             </thead>
@@ -63,13 +64,16 @@ View
                 <tr>
                     {% endif %}
                     {% endwith %}
-                    <td>{{recibo.title}}</td>
+                    <td><a href="/recibo?={{recibo.id}}">{{recibo.title}}</a></td>
                     {% if user.is_customer is True %}
                     <th>
                         <img id="imgRec" class="rounded-sm" style="max-width: 200; max-height: 105;"
                             src="{% static 'images/companyLogo/'%}{{ recibo.companyIdentifier }}.png" alt=""
                             onerror="imgError(this);" />
+
                     </th>
+
+                    <td>{{recibo.empresa}}</td>
                     {% endif %}
                     <td>{{recibo.identifier}}</td>
                     <td>{{recibo.price}}€</td>
@@ -88,7 +92,7 @@ View
 
 
                     </td>
-                    <td><a href="/recibo?={{recibo.id}}">Mostrar</a></td>
+
                     <td>
                         <i class="fa fa-trash" style="font-size:24px; color: red;"></i>
                     </td>

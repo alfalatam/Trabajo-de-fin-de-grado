@@ -20,6 +20,7 @@ from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
 from django.http import HttpResponseRedirect
 from .resources import TicketResource
 import uuid
+import json
 # def recibo(response):
 
 #     ticket = Ticket.objects.get(id=3)
@@ -159,12 +160,23 @@ def buscar(request):
 
 
 def importeTotal(recibo):
-    importe = 0
+    importe = []
+    importeTotal = 0.0
+    data = recibo.data
+
+    if(data):
+        jsonData = json.loads(data)
+        importe += [((float(p["priceIVA"])*int(p["quantity"])))
+                    for p in jsonData]
+
+        for el in importe:
+            importeTotal += el
+
+    # Devuelvo el valor con solo dos decimales
+    return str(round(importeTotal, 2))
     # productosRecibo = Producto.objects.filter(ticket=recibo)
     # for p in productosRecibo:
     #     importe += p.quantity*p.price
-
-    return importe
 
 
 # def identificadorUnico():
@@ -233,6 +245,11 @@ def productsToNotify(request):
     dictToSendMails = {}
     mensaje = 'No hay productos para mandar'
     # try:
+
+    # recorro los tickets
+    # recorro el campo JSON
+    #  en ellos el producto tendrá una fecha y un warranty days
+    # recorro el método con esa info
     for p in productos:
         fechaLimite = p.momentOfCreation + timedelta(days=p.warranty)
         delta = fechaLimite - (datetime.datetime.now(timezone.utc))
@@ -276,7 +293,7 @@ class ReciboCreateView(CreateView):
     def form_valid(self, form):
         obj = form.save(commit=False)
         obj.user = User.objects.get(id=self.request.user.id)
-        obj.identifier = uuid.uuid4().hex[:16]
+        obj.identifier = uuid.uuid4().hex[:16].upper()
         store = Store.objects.get(user_id=self.request.user.id)
         obj.companyIdentifier = store.identifier
 

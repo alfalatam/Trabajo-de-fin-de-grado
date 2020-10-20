@@ -20,7 +20,8 @@ from reportlab.lib.enums import TA_LEFT, TA_CENTER, TA_RIGHT
 from recibo.views import importeTotal
 from django.shortcuts import redirect
 from django.shortcuts import render
-
+import json
+import textwrap
 
 # def generate_pdf(request):
 
@@ -147,6 +148,10 @@ def generate_pdf(request, *args, **kwargs):
         # productosRecibo = Producto.objects.filter(ticket=recibo)
         productosRecibo = Producto.objects.all()
 
+        data = recibo.data
+        if (recibo.data is not None):
+            jsonData = json.loads(data)
+
         response = HttpResponse(content_type='application/pdf')
         # pdf_name = "clientes.pdf"  # llamado clientes
         response['Content-Disposition'] = 'inline; filename="%s.pdf"' % (
@@ -197,9 +202,9 @@ def generate_pdf(request, *args, **kwargs):
 
         # Imagen de la compañia
         try:
-            # image2 = MEDIA_URL + \
-            #     '/companyLogo/%s.png' % (recibo.companyIdentifier)
-            image2 = MEDIA_URL + '/companyLogo/base.png'
+            image2 = MEDIA_URL + \
+                '/companyLogo/%s.png' % (recibo.companyIdentifier)
+            # image2 = MEDIA_URL + '/companyLogo/base.png'
             canvas.drawImage(image2, 350, 700, width=200,
                              height=90, mask='auto')
 
@@ -243,6 +248,7 @@ def generate_pdf(request, *args, **kwargs):
         canvas.drawString(125, 575, recibo.address)
 
     # Importe
+
         ipt = importeTotal(recibo)
         canvas.setFont("Times-Bold", 11)
         canvas.drawString(75, 550, 'Importe total:')
@@ -288,15 +294,24 @@ def generate_pdf(request, *args, **kwargs):
         registerFont(TTFont('Calibri', 'Calibri.ttf'))
 
         # ---------------------- Tabla de productos -------------------------------------------
-    headings = ('Nombre', 'Cantidad', 'precio unitario',
+    headings = ('Nombre', 'Cantidad', 'precio sin IVA', 'precio con IVA',
                 'Precio total(IVA incluido)')
 
     empty = ('')
 
-    productos = [(p.name, p.quantity, p.price, p.price*p.quantity)
-                 for p in productosRecibo]
+    # Aqui esta la chicha jsonData
+    # jsonData
+    if(recibo.data):
+        productos = [(textwrap.fill(p["name"], 40), p["quantity"], p["price"]+' €', p["priceIVA"]+' €', str((float(p["priceIVA"])*int(p["quantity"])))+' €')
+                     for p in jsonData]
 
-    t = Table([headings] + productos,  spaceAfter=200,  spaceBefore=800)
+    # productos = [(p.name, p.quantity, p.price, p.price*p.quantity)
+    #              for p in productosRecibo]
+
+    if (recibo.data):
+        t = Table([headings] + productos, spaceAfter=200, spaceBefore=800)
+    else:
+        t = Table([headings], spaceAfter=200,  spaceBefore=800)
 
     # t.setStyle(TableStyle(
     #     [
@@ -317,7 +332,7 @@ def generate_pdf(request, *args, **kwargs):
     t.setStyle(TableStyle([('ALIGN', (0, 0), (-1, -1), 'CENTER'),
                            ('TEXTCOLOR', (0, 0), (3, 0), colors.black),
                            ('BACKGROUND', (0, 0), (-1, 0), colors.lightgrey),
-                           ('FONTNAME', (3, 0), (3, -1), 'Helvetica-Bold'),
+                           ('FONTNAME', (4, 0), (4, -1), 'Helvetica-Bold'),
                            ('INNERGRID', (0, 0), (-1, -1), 0.25, colors.black),
                            ('BOX', (0, 0), (-1, -1), 0.25, colors.black),
                            ('ROWHEIGHT', (0, 0), (-1, -1), 20),
@@ -350,6 +365,10 @@ def generate_public_pdf(request, *args, **kwargs):
         ticketLink = TicketLink.objects.get(url=reciboID)
         recibo = ticketLink.ticket
 
+        data = recibo.data
+        jsonData = json.loads(data)
+        print(jsonData)
+
         print(ticketLink.is_shared)
         if (ticketLink.is_shared == True):
             print('============= IF ===================')
@@ -360,6 +379,8 @@ def generate_public_pdf(request, *args, **kwargs):
             # TODO
             # productosRecibo = Producto.objects.filter(ticket=recibo)
             productosRecibo = Producto.objects.all()
+
+            # JSON
 
             response = HttpResponse(content_type='application/pdf')
             # pdf_name = "clientes.pdf"  # llamado clientes
@@ -512,8 +533,14 @@ def generate_public_pdf(request, *args, **kwargs):
 
             empty = ('')
 
+            # Aqui esta la chicha jsonData
+            # jsonData
+
             productos = [(p.name, p.quantity, p.price, p.price*p.quantity)
                          for p in productosRecibo]
+
+            # productos = [(p.name, p.quantity, p.price, p.price*p.quantity)
+            #              for p in productosRecibo]
 
             t = Table([headings] + productos,
                       spaceAfter=200,  spaceBefore=800)

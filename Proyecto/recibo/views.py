@@ -164,10 +164,15 @@ def importeTotal(recibo):
     importeTotal = 0.0
     data = recibo.data
 
-    if(data):
-        jsonData = json.loads(data)
-        importe += [((float(p["priceIVA"])*int(p["quantity"])))
-                    for p in jsonData]
+    if (data):
+        try:
+
+            jsonData = json.loads(data)
+            importe += [((float(p["priceIVA"])*int(p["quantity"])))
+                        for p in jsonData]
+
+        except ValueError as e:
+            pass
 
         for el in importe:
             importeTotal += el

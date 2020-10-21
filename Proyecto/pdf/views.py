@@ -150,7 +150,20 @@ def generate_pdf(request, *args, **kwargs):
 
         data = recibo.data
         if (recibo.data is not None):
-            jsonData = json.loads(data)
+            try:
+                # a_json = json.loads(a_string)
+                jsonData = json.loads(data)
+                print(jsonData)
+
+                if (jsonData is dict):
+                    jsonData = None
+
+            except ValueError as e:
+                if (data):
+                    data = ""
+                # jsonData = json.loads(data)
+                # print('=======2=========')
+                # print(jsonData)
 
         response = HttpResponse(content_type='application/pdf')
         # pdf_name = "clientes.pdf"  # llamado clientes
@@ -301,14 +314,28 @@ def generate_pdf(request, *args, **kwargs):
 
     # Aqui esta la chicha jsonData
     # jsonData
-    if(recibo.data):
+    if (data):
+        # print('=====================================')
+        # print(jsonData)
+        # print(type(jsonData))
+
         productos = [(textwrap.fill(p["name"], 40), p["quantity"], p["price"]+' €', p["priceIVA"]+' €', str((float(p["priceIVA"])*int(p["quantity"])))+' €')
                      for p in jsonData]
+        # elif (jsonData is dict):
+        #     print('9999999999999999999999999')
+        #     listA = []
+        #     listA.append(jsonData)
+        #     productos = [(textwrap.fill(p["name"], 40), p["quantity"], p["price"]+' €', p["priceIVA"]+' €', str((float(p["priceIVA"])*int(p["quantity"])))+' €')
+        #                  for p in listA]
+        # else:
+        #     productos = []
+
+        # productos=[]
 
     # productos = [(p.name, p.quantity, p.price, p.price*p.quantity)
     #              for p in productosRecibo]
 
-    if (recibo.data):
+    if (data):
         t = Table([headings] + productos, spaceAfter=200, spaceBefore=800)
     else:
         t = Table([headings], spaceAfter=200,  spaceBefore=800)

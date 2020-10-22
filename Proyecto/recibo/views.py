@@ -1,26 +1,26 @@
-from django.core.mail import send_mail
-from Proyecto import settings
-from django.shortcuts import render
-# from django.shortcuts import render
-from django.http import HttpResponse
-from .models import Ticket, TicketLink
-from producto.models import Producto
-from datetime import date, timedelta, datetime, timezone
 import datetime
+import json
+import traceback
+import uuid
+from datetime import date, datetime, timedelta, timezone
 
+import producto
 # Create your views here.
 # Decorators
 from django.contrib.auth.decorators import login_required
-import traceback
-from django.shortcuts import redirect
-import producto
+from django.core.mail import send_mail
+# from django.shortcuts import render
+from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import redirect, render
+from django.views.generic import CreateView, DeleteView, DetailView, UpdateView
+from producto.models import Producto
+from Proyecto import settings
+from register.models import Store, User
+
 from .forms import ScannedTicketForm, TicketForm
-from register.models import User, Store
-from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
-from django.http import HttpResponseRedirect
+from .models import Ticket, TicketLink
 from .resources import TicketResource
-import uuid
-import json
+
 # def recibo(response):
 
 #     ticket = Ticket.objects.get(id=3)
@@ -77,7 +77,7 @@ def recibo(request):
 
 def misRecibos(response):
 
-    now = datetime.datetime.now()
+    now = datetime.now()
 
     year = now.year
 
@@ -229,9 +229,10 @@ def sendMail(request, dict):
         dataList = i[1]
         productName = dataList[0]
         ticketTitle = dataList[1]
+        warranty = dataList[2]
         subject = "Aviso de garantía sobre:  %s" % (productName)
-        msg = "Uno de sus productos está cerca de perder su garantía, le recomendamos que tenga esto en cuenta,más concretamente sobre el recibo %s" % (
-            ticketTitle)
+        msg = "Como nos indicó, le recordamos que uno de sus productos está cerca de expirar su garantía \n \n Nombre del recibo : <b> %s </b> \n Producto: %s \n Fecha fin de garantía: %s \n \n Atentamente, el equipo de E-tick " % (
+            ticketTitle, productName, warranty)
 
         res = send_mail(
             subject, msg, settings.EMAIL_HOST_USER, to)
@@ -246,32 +247,43 @@ def sendMail(request, dict):
 
 def productsToNotify(request):
 
-    productos = Producto.objects.all()
+    # productos = Producto.objects.all()
+    # queryset of recibos
+    recibos = Ticket.objects.filter(warranty=True)
     dictToSendMails = {}
-    mensaje = 'No hay productos para mandar'
-    # try:
+    mensaje = 'No hay notificationes para mandar'
+    for r in recibos:
 
-    # recorro los tickets
-    # recorro el campo JSON
-    #  en ellos el producto tendrá una fecha y un warranty days
-    # recorro el método con esa info
-    for p in productos:
-        fechaLimite = p.momentOfCreation + timedelta(days=p.warranty)
-        delta = fechaLimite - (datetime.datetime.now(timezone.utc))
-        if (delta.days < 30):
-            dictToSendMails[p.ticket.user.email] = [p.name, p.ticket.title]
-            # dictToSendMails.add(p.ticket.user.email,
-            #                     p.name, p.ticket.title)
+        try:
+            jsonData = json.loads(r.data)
+            for p in jsonData:
+                email = r.user.email
+                name = p['name']
+                # if(p['warranty'] is Non):
+                warranty = p['warranty']
+                format_str = '%d%m%Y'
+                datetime_obj = datetime.strptime(warranty, format_str)
 
-            mensaje = "Mensajes enviados"
+                # Fecha del producto
+                # print(datetime_obj.date())
+                # fecha actual
+                # print((datetime.now(timezone.utc).date()))
+
+                diffDays = datetime_obj.date() - (datetime.now(timezone.utc).date())
+                daysToExpire = diffDays.days
+                # print(daysToExpire)
+                # print('La resta entre las dos fechas es:')
+                # print(resta.days)
+                if (diffDays.days < 8 and diffDays.days > 6):
+                    # print('debe avisar por correo')
+                    dictToSendMails[email] = [
+                        name, r.title, datetime_obj.date()]
+
+        except ValueError as e:
+            pass
+
     sendMail(request=request, dict=dictToSendMails)
     return HttpResponse(mensaje)
-
-    # except Exception as e:
-    #     trace_back = traceback.format_exc()
-    #     message = str(e) + " " + str(trace_back)
-    #     print('peto')
-    #     return render(request, 'error.html')
 
 
 def createRecibo(request):
@@ -347,3 +359,26 @@ def export_recibo(request):
             return response
 
     return render(request, 'exportData.html')
+
+
+def update_recibo(request, pk):
+
+    template = 'misRecibos.html'
+    recibo = Ticket.objects.get(id=pk)
+
+    # print('====================================================')
+    # print(recibo)
+    # print('====================================================')
+    # print(recibo.warranty)
+
+    # bol = not recibo.warranty()
+    recibo.warranty = not recibo.warranty
+    recibo.save()
+
+    # productos = Producto.objects.all()
+
+    context = {
+        # 'productos': productos,
+    }
+
+    return render(request, template, context)

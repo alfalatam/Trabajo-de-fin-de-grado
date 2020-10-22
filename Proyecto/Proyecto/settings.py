@@ -163,7 +163,7 @@ EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'electronicticketofficial@gmail.com'
-EMAIL_HOST_PASSWORD = 'Alfonso212'
+EMAIL_HOST_PASSWORD = 'superStrongPassword'
 
 # django import-export
 # The default value is False. It determines if the library will use database transactions on data import.

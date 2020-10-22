@@ -90,6 +90,9 @@ urlpatterns = [
     path('createRecibo/', views.ReciboCreateView.as_view(),
          name='create-recibo'),
 
+    url(r'^updateRecibo/(?P<pk>\d+)$',
+        views.update_recibo, name="update-recibo"),
+
 
 
     # beta

@@ -49,6 +49,9 @@ View
                     <th>Precio</th>
                     <th>Fecha de creación</th>
                     <th>Método de pago</th>
+                    {% if user.is_customer is True %}
+                    <th>Seguimiento</th>
+                    {% endif %}
 
                     <th>Eliminar</th>
                 </tr>
@@ -94,6 +97,44 @@ View
                     </td>
 
                     <td>
+                        {% if recibo.warranty is True %}
+                        <a href="{% url 'update-recibo' recibo.pk%}" role="button" aria-pressed="true">
+                            <i class="fas fa-envelope" style=" font-size:24px; color: green;"></i>
+                        </a>
+
+                        {% else %}
+                        <a href="{% url 'update-recibo' recibo.pk%}" role="button" aria-pressed="true">
+                            <i class="fas fa-envelope" style=" font-size:24px; color: red;"></i>
+                        </a>
+                        {% endif %}
+                    </td>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" style="margin: auto;" id="exampleModalLabel">Notificación
+                                        del sistema</h5>
+                                    <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button> -->
+                                </div>
+                                <div class="modal-body">
+                                    Se le notificará por correo cuando alguno de los productos del recibo vaya este
+                                    próximo a expirar su garantía
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                                        style="margin-right: 42%;">Cerrar</button>
+                                    <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Modal end -->
+                    <td>
                         <i class="fa fa-trash" style="font-size:24px; color: red;"></i>
                     </td>
                 </tr>
@@ -105,7 +146,14 @@ View
     <script>
         $(document).ready(function () {
             $('#table_id').DataTable();
-        })
+        });
+
+        // function reloadTable() {
+        //     console.log('entra en la funcion');
+        //     var table = $('#table_id').DataTable();
+        //     table.ajax().reload();
+
+        // }
 
 
 

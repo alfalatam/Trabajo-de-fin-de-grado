@@ -38,6 +38,7 @@ class Ticket(models.Model):
     # barcode = models.DateField()
     # paymentMethod = models.CharField()
     data = models.TextField(blank=True, null=True)
+    warranty = models.BooleanField(default=False)
 
     class paymentMethod(models.TextChoices):
         EFECTIVO = 'EF', ('Efectivo')

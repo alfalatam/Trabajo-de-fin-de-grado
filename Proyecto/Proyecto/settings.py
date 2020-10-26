@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'notifications',
     'import_export',
     'qr_code',
+    'django_apscheduler',
 
 
 

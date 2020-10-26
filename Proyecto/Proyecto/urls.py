@@ -99,8 +99,4 @@ urlpatterns = [
     path('delete/', viewsUsers.delete_user, name='delete'),
 
 
-
-
-
-
 ]

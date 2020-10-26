@@ -27,10 +27,16 @@ View
 </head>
 
 <body style="text-align: center;">
+
+
     <div style="text-align: center; margin-top: 4em; margin-bottom: 2em;">
+
+        {% if user.is_store is True %}
         <a href="/createRecibo"><input type="button" class="btn btn-primary" value="Crear Recibo"></a>
         <!-- <a href="/importData"><input type="button" class="btn btn-success" value="Import data"></a> -->
         <a href="/exportRecibo"><input type="button" class="btn btn-info" value="Exportar datos"></a>
+        {% endif %}
+
     </div>
 
     <!-- {{ now|date:" Y" }} -->
@@ -43,7 +49,7 @@ View
                     <th>Titulo</th>
                     {% if user.is_customer is True %}
                     <th>Compañia</th>
-                    <th>Empresa</th>
+                    <!-- <th>Empresa</th> -->
                     {% endif %}
                     <th>Identificador único</th>
                     <th>Precio</th>
@@ -73,10 +79,13 @@ View
                         <img id="imgRec" class="rounded-sm" style="max-width: 200; max-height: 105;"
                             src="{% static 'images/companyLogo/'%}{{ recibo.companyIdentifier }}.png" alt=""
                             onerror="imgError(this);" />
+                        <p style="visibility: hidden; font-size: xx-small; margin-top: 0%; margin-bottom: 0%;">
+                            {{recibo.empresa}}
+                        </p>
 
                     </th>
 
-                    <td>{{recibo.empresa}}</td>
+                    <!-- <td>{{recibo.empresa}}</td> -->
                     {% endif %}
                     <td>{{recibo.identifier}}</td>
                     <td>{{recibo.price}}€</td>
@@ -145,7 +154,17 @@ View
 
     <script>
         $(document).ready(function () {
-            $('#table_id').DataTable();
+            // $('#table_id').DataTable();
+
+            $('#table_id').dataTable({
+                "pageLength": 5,
+                "order": [[2, "desc"]], //or asc 
+                // "language": {
+                //     "emptyTable": "Aún no tienes ningún recibo.",
+                //     url: '{% static "json/es_ES.json" %}'
+                // },
+            });
+
         });
 
         // function reloadTable() {

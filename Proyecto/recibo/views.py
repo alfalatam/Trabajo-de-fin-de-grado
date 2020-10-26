@@ -21,6 +21,15 @@ from .forms import ScannedTicketForm, TicketForm
 from .models import Ticket, TicketLink
 from .resources import TicketResource
 
+
+# Celery
+# from celery import shared_task
+# from celery.task import periodic_task
+
+# from Proyecto.celery import app
+# from celery.decorators import task
+
+
 # def recibo(response):
 
 #     ticket = Ticket.objects.get(id=3)
@@ -214,7 +223,7 @@ def scannedTiket(request):
     return render(request, "importScanned.html", context)
 
 
-def sendMail(request, dict):
+def sendMail(dict):
 
     res = 0
     subject = "Notificación de garantía"
@@ -222,7 +231,7 @@ def sendMail(request, dict):
     # msg.attach_file('/images/weather_map.png')
     # customer = 'alfonsoalarcontamayo27@gmail.com'
     to = []
-    print(dict)
+    # print(dict)
     for i in dict.items():
         # to = i.key()
         to.append(i[0])
@@ -245,7 +254,10 @@ def sendMail(request, dict):
     return HttpResponse(msg)
 
 
-def productsToNotify(request):
+# @task(name="mails")
+# @periodic_task(run_every=crontab(minute=0, hour='*/12'))
+def productsToNotify():
+    print('Procediendo al envío de avisos de garantías...')
 
     # productos = Producto.objects.all()
     # queryset of recibos
@@ -282,7 +294,7 @@ def productsToNotify(request):
         except ValueError as e:
             pass
 
-    sendMail(request=request, dict=dictToSendMails)
+    sendMail(dict=dictToSendMails)
     return HttpResponse(mensaje)
 
 

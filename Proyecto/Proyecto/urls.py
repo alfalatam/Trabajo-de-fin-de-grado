@@ -93,6 +93,8 @@ urlpatterns = [
     url(r'^updateRecibo/(?P<pk>\d+)$',
         views.update_recibo, name="update-recibo"),
 
+    url(r'^cvopen/', views.camera, name="cvopen"),
+
 
 
     # beta

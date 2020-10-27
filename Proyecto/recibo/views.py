@@ -17,10 +17,20 @@ from producto.models import Producto
 from Proyecto import settings
 from register.models import Store, User
 
-from .forms import ScannedTicketForm, TicketForm
+from .forms import ScannedTicketForm, TicketForm, UserTicketForm
 from .models import Ticket, TicketLink
 from .resources import TicketResource
 
+# QR Decoder
+import cv2
+import numpy as np
+import pyzbar.pyzbar as pyzbar
+
+from django.shortcuts import get_object_or_404
+
+from django.contrib import messages
+
+import re
 
 # Celery
 # from celery import shared_task
@@ -38,6 +48,8 @@ from .resources import TicketResource
 @login_required
 def recibo(request):
 
+    print('=====================================1=======================================0')
+
     try:
         idRecibo = ""
         fullURL = request.get_full_path()
@@ -45,11 +57,57 @@ def recibo(request):
         idRecib = fullURL.split("=")
         idRecibo = idRecib[1]
 
+        try:
+            codeGenerate = fullURL.split("%")
+            code = codeGenerate[1]
+
+        except IndexError:
+            code = 0
+
         print('la id  es : ', idRecibo)
         ticket = Ticket.objects.get(id=idRecibo)
 
         # context = {}
         tLink = TicketLink.objects.get(ticket=ticket)
+
+        #  recibo
+
+        form = UserTicketForm(request.POST or None)
+
+        if(form.is_valid()):
+            form.save()
+            form = UserTicketForm
+
+        context = {
+            'form': form
+
+        }
+
+        # if (code == 0):
+        #     message = None
+        tupleN = (None, 'Recibo añadido correctamente al cliente',
+                  'Ese recibo ya existe', 'Error interno, inténtelo de nuevo más tarde')
+
+        codeString = tupleN[int(code)]
+
+        # print('EL code es------>', code)
+        # if (code == 1):
+        #     apex = 'Recibo añadido correctamente al cliente'
+        # elif (code == 2):
+        #     apex = 'Ese recibo ya existe'
+        # elif (code == 3):
+        #     apex = 'Error interno, inténtelo de nuevo más tarde'
+        # elif (code == 0):
+        #     apex = None
+        # print('El apex es ------>', apex)
+        # else:
+        #     message = ''
+
+        # -----------------
+
+        print('---------------------c', codeString)
+        print('---------------------l', code)
+        print('---------------------', )
 
         shareUrl = "http://"+request.META['HTTP_HOST'] + \
             "/generate-public-pdf?url="+tLink.url
@@ -57,7 +115,7 @@ def recibo(request):
         # print(tLnk)
         # context['urlLink'] = tLink.url
 
-        return render(request, "recibo.html", {"recibo": ticket, "tLink": tLink, "shareUrl": shareUrl})
+        return render(request, "recibo.html", {"recibo": ticket, "tLink": tLink, "code": code, 'codeString': codeString, "shareUrl": shareUrl})
 
     except Exception as e:
         print('Has pasado por la exception, buena suerte')
@@ -394,3 +452,90 @@ def update_recibo(request, pk):
     }
 
     return render(request, template, context)
+
+
+def camera(request):
+
+    if request.method == 'GET':
+
+        reciboID = request.GET.get('recibo')
+        recibo = Ticket.objects.get(pk=reciboID)
+        # recibos = Ticket.objects.all()
+        print(recibo)
+
+    cap = cv2.VideoCapture(0)
+    font = cv2.FONT_HERSHEY_PLAIN
+
+    while True:
+        _, frame = cap.read()
+
+        mail = None
+
+        decodedObjects = pyzbar.decode(frame)
+        # print(decodedObjects.data)
+
+        for obj in decodedObjects:
+            # print("Data", obj.data)
+
+            decodeData = obj.data
+            d = decodeData.decode("utf-8")
+            mail = d[7:]
+
+            # m = re.findall(rb"'(.*?)'", decodeData, re.DOTALL)
+            # print('El valor decodificado es -->', d[7:])
+
+            if mail is not None:
+                try:
+                    user = User.objects.get(email=mail)
+                    obj = Ticket.objects.get(pk=recibo.id)
+                    obj.identifier = None
+                    obj.identifier = recibo.identifier + '-c'
+
+                    try:
+                        existingTicket = Ticket.objects.get(
+                            identifier=obj.identifier)
+                    except Ticket.DoesNotExist:
+                        existingTicket = None
+
+                    if (existingTicket is None):
+                        print('====================================')
+                        print('Entra en el IF')
+
+                        obj.user = None
+                        obj.user = user
+                        obj.pk = None
+                        obj.save()
+
+                        b = TicketLink(is_shared=True, ticket=obj, url='')
+                        b.save()
+
+                        print('Recibo creado satisfactoriamente.')
+                        cv2.destroyAllWindows()
+
+                        message = 'Recibo creado correctamente'
+                        return HttpResponseRedirect('/recibo?='+reciboID+'=%1', {'message': message})
+
+                    else:
+                        print('====================================')
+                        print('Entra en el ELSE')
+                        print('Ese recibo ya existe')
+                        message = 'Recibo creado correctamente'
+                        cv2.destroyAllWindows()
+                        # message = 'Ese recibo ya ha sido asignado, compruebe en sus recibos si ya existe.'
+                        return HttpResponseRedirect('/recibo?=' + reciboID+'=%2', {'message': message})
+
+                except ValueError as e:
+                    print(
+                        'Parece que hay un error la creacion del recibo intentelo de nuevo más tarde')
+                    cv2.destroyAllWindows()
+                    message = 'Parece que ha habido un error en la operación, inténtelo de nuevo.'
+                    return HttpResponseRedirect('/recibo?='+reciboID+'=%3', {'message': message})
+
+            # found: 1234
+
+        cv2.imshow("Frame", frame)
+        # print('El texto es:', cv2.putText)
+
+        key = cv2.waitKey(1)
+        if key == 27:
+            break

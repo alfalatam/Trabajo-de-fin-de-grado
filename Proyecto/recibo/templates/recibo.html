@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% load qr_code %}
+{% load crispy_forms_tags %}
 
 {% block title %}
 View
@@ -39,9 +40,38 @@ View
             alt="" onerror="imgError(this);" />
     </div> -->
 
+
+
+    {% if codeString is not None %}
+    <div>
+
+        {% if code == '3' %}
+        <div class="alert alert-danger" role="alert">
+            {{ codeString }}
+
+        </div>
+        {% elif code == '2' %}
+        <div class="alert alert-warning" role="alert">
+            {{ codeString }}
+
+        </div>
+        {% elif code == '1' %}
+        <div class="alert alert-success" role="alert">
+            {{ codeString }}
+
+        </div>
+        {% endif %}
+
+        <!-- {{ codeString }}
+        {{ code }} -->
+
+
+    </div>
     <br>
     <div style="margin-top: 5em;"></div>
     <br>
+
+    {% endif %}
 
     <div id="elementFirst">
         <p><b> Titulo del recibo:</b> {{ recibo.title }}</p>
@@ -52,6 +82,22 @@ View
         <p><b>Método de pago: </b>{{recibo.payment}}</p>
 
     </div>
+
+
+    <div id="element2">
+        <span id=cajaPDF>
+            <a href="{% url 'cvopen' %}?recibo={{ recibo.id }}" target="_blank">
+
+                <img id="imgRecibo" class="rounded-sm" src="{% static 'images/'%}add.png" alt=""
+                    style="max-width: 300;" />
+
+                <span class="caption">{{td.title}}</span>
+
+            </a>
+        </span>
+
+    </div>
+
 
     <div id="element2">
         <span id=cajaPDF data-toggle="modal" data-target="#exampleModal">
@@ -95,17 +141,36 @@ View
                 </div>
                 <div class="modal-body">
 
-                    <!-- <a href="{% url 'generate-public-pdf' %}?url={{ tLink.url }}" target="_blank">
-
-                    </a> -->
-                    <!-- <img src="{% qr_url_from_text "Hello World!" %}"> -->
-
-                    <!-- <img src="{% qr_url_from_text "Hello World!" url_signature_enabled=False %}" alt="Hello World!"> -->
-                    <!-- {% qr_from_text "Hello World!" size="m" image_format="png" error_correction="L" %} -->
                     <div style="text-align: center;">
-                        <!-- {% qr_from_text "http://127.0.0.1:8000/generate-public-pdf?url={{tLink.url}}" size="M" %} -->
                         {% qr_from_text shareUrl size="M" %}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" style="margin-right: 45%;" class="btn btn-secondary"
+                        data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <!-- ModalForm -->
+    <div class="modal fade" id="modalForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Aggggggggggggg</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <div style="text-align: center;">
+                        <form action='.' method='POST'>{% csrf_token %}
+                            {{ form|crispy }}
+                            <input type='submit' class="btn btn-success" value='Guardar' />
+                        </form>
                     </div>
                 </div>
                 <div class="modal-footer">

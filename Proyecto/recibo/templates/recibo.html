@@ -62,9 +62,6 @@ View
         </div>
         {% endif %}
 
-        <!-- {{ codeString }}
-        {{ code }} -->
-
 
     </div>
     <br>
@@ -84,6 +81,7 @@ View
     </div>
 
 
+    {% if recibo.isCopy is False  %}
     <div id="element2">
         <span id=cajaPDF>
             <a href="{% url 'cvopen' %}?recibo={{ recibo.id }}" target="_blank">
@@ -111,6 +109,7 @@ View
         </span>
 
     </div>
+    {% endif %}
 
     <div id="element2">
         <span id=cajaPDF>

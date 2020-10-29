@@ -39,6 +39,7 @@ class Ticket(models.Model):
     # paymentMethod = models.CharField()
     data = models.TextField(blank=True, null=True)
     warranty = models.BooleanField(default=False)
+    isCopy = models.BooleanField(default=False)
 
     class paymentMethod(models.TextChoices):
         EFECTIVO = 'EF', ('Efectivo')

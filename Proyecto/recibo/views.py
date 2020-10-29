@@ -388,6 +388,7 @@ class ReciboCreateView(CreateView):
 
         obj.address = store.address
         obj.company_name = store.company_name
+
         # obj.companyIdentifier = store.companyIdentifier
 
         obj.save()
@@ -479,7 +480,19 @@ def camera(request):
 
             decodeData = obj.data
             d = decodeData.decode("utf-8")
-            mail = d[7:]
+
+            if (d.startswith('http')):
+                mail = d[7:]
+            else:
+                mail = d
+
+            exist = False
+            if User.objects.filter(email=mail).exists():
+                exist = True
+            if(exist == False):
+                cv2.destroyAllWindows()
+                message = 'Parece que ha habido un error en la operación, inténtelo de nuevo.'
+                return HttpResponseRedirect('/recibo?='+reciboID+'=%3', {'message': message})
 
             # m = re.findall(rb"'(.*?)'", decodeData, re.DOTALL)
             # print('El valor decodificado es -->', d[7:])
@@ -504,6 +517,7 @@ def camera(request):
                         obj.user = None
                         obj.user = user
                         obj.pk = None
+                        obj.isCopy = True
                         obj.save()
 
                         b = TicketLink(is_shared=True, ticket=obj, url='')
@@ -538,4 +552,7 @@ def camera(request):
 
         key = cv2.waitKey(1)
         if key == 27:
-            break
+            cv2.destroyAllWindows()
+
+            # break
+            return HttpResponseRedirect('/recibo?=' + reciboID)

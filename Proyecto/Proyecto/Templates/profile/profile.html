@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load qr_code %}
 
 {% load crispy_forms_tags %}
 
@@ -29,12 +30,74 @@
 
 
 
+    <!-- <div style="position: relative; left: 0; top: 0; text-align: center;">
+        <img id="imgRecibo" class="rounded-sm" src="{% static 'images/'%}card.png" alt="" style="max-width: 500;" />
+    </div> -->
+
+
+    <!-- <div background="{% static 'images/'%}card.png"> -->
+
+    <!-- 
+    {% qr_from_text user.email size="M" %} -->
+
+    <!-- <div class="container">
+        <div class=" row">
+
+
+            <b>Esta es tu tarjeta personalizada, Sácale una foto o imprímela, y empieza a
+                disfrutar de las ventajas de E-Tick</b>
+        </div>
+    </div> -->
+
+    <span class="border border-success" id="borders-exports">
+        <div class="w3-container w3-border w3-round-xlarge" id=exportarDatos>
+            <b> Esta es tu tarjeta personalizada, Sácale una foto o imprímela, y empieza a disfrutar de las ventajas de
+                E-Tick</b><br><br>
+        </div>
+    </span>
+
+
+
+
+
+
+    <div class="container" style="margin-left: 35%;">
+        <div class="row">
+
+            <div class="col-md-6">
+
+                <img src="{% static 'images/'%}card.png" style="max-width: 500;" alt="test" class="img-responsive">
+
+                <div class="carousel-caption">
+                    <h1 style="margin-left: 35%;">{% qr_from_text user.email size="S" %}</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
 
     <span class="border border-success" id="borders-exports">
         <div class="w3-container w3-border w3-round-xlarge" id=exportarDatos>
 
             <b> Extrae todos tus archivos del sistema en un archivo ZIP</b><br><br>
-            <button type="button" class="btn btn-primary">Exportar datos</button>
+            <button type="button" class="btn btn-primary">Exportar datos</button><br><br>
+            <b> Borra tu cuenta pero te echaremos de menos</b><br><br>
+
+            <form action="/delete/" method="POST">
+                {% csrf_token %}
+                {{form | crispy }}
+                <button type="submit" class="btn btn-danger" value="delete " name="delete"
+                    id="confirmClickActionElementId">Delete</button>
+
+            </form>
 
         </div>
     </span>
@@ -53,13 +116,7 @@
         </div>
     </span> -->
 
-    <form action="/delete/" method="POST">
-        {% csrf_token %}
-        {{form | crispy }}
-        <button type="submit" class="btn btn-danger" value="delete " name="delete"
-            id="confirmClickActionElementId">Delete</button>
 
-    </form>
 
 
 

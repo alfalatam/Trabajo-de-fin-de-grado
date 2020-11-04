@@ -1,4 +1,4 @@
-from django.db import models
+# from django.db import models
 from django.contrib.auth.base_user import BaseUserManager
 # Create your models here.
 
@@ -7,9 +7,7 @@ class UserManager(BaseUserManager):
     use_in_migrations = True
 
     def _create_user(self, email, password, **extra_fields):
-        """
-        Creates and saves a User with the given username, email and password.
-        """
+        """Creates and saves a User with the given username, email and password."""
         if not email:
             raise ValueError('The given email must be set')
         email = self.normalize_email(email)

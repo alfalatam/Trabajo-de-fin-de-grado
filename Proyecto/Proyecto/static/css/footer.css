@@ -13,18 +13,19 @@ footer {
   margin-left: 0;
   margin-right: 0;
 } */
-footer {
-  /* position: absolute;
-  overflow: auto; */
-  position: fixed;
+/* footer {
+  height: 50px;
+
+  /* clear: both;
+  position: relative;
+  height: 200px;
+  margin-top: -200px; */
+
+/* position: fixed;
   left: 0;
   bottom: 0;
   width: 100%;
   background-color: red;
   color: white;
-  text-align: center;
-
-  /* padding: 1rem;
-  background-color: #efefef;
   text-align: center; */
-}
+/* }  */

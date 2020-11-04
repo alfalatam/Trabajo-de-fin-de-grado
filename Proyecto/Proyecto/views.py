@@ -15,6 +15,10 @@ def inicio(request):
     return render(request, "inicio.html")
 
 
+def quienesSomos(request):
+    return render(request, "QuienesSomos.html")
+
+
 def profile(request):
     return render(request, "profile/profile.html")
 

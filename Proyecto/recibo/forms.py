@@ -12,7 +12,7 @@ class ScannedTicketForm(forms.ModelForm):
 class TicketForm(forms.ModelForm):
     class Meta:
         model = Ticket
-        fields = ['title',  'payment']
+        fields = ['title',  'payment', 'data']
 
 
 class UserTicketForm(forms.ModelForm):

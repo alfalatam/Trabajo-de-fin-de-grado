@@ -105,6 +105,7 @@ View
 
                     </td>
 
+                    {% if user.is_customer is True %}
                     <td>
                         {% if recibo.warranty is True %}
                         <a href="{% url 'update-recibo' recibo.pk%}" role="button" aria-pressed="true">
@@ -117,6 +118,7 @@ View
                         </a>
                         {% endif %}
                     </td>
+                    {% endif %}
 
                     <!-- Modal -->
                     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
@@ -179,6 +181,12 @@ View
     </script>
 
 </body>
+
+<!-- <footer id="sticky-footer" class="py-4 bg-dark text-white-50" style="margin-top: 2em;">
+    <div class="container text-center">
+        <small>Copyright &copy; Your Website</small>
+    </div>
+</footer> -->
 
 
 {% endblock %}

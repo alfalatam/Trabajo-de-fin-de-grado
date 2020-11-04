@@ -14,29 +14,16 @@
   <!-- <style> Your entire css </style>  -->
   <link rel="stylesheet" type="text/css" href="{%  static 'css/inicio.css' %}">
 
+  <!-- Share buttons -->
+  <script type="text/javascript"
+    src="https://platform-api.sharethis.com/js/sharethis.js#property=5f9aae3a4b803600192284bc&product=inline-share-buttons"
+    async="async"></script>
+
   {% endblock %}
 </head>
 
 <body>
   {% block content %}
-
-  <!-- style="margin-left: 5em" -->
-  <!-- <div class="card flex-row flex-wrap">
-    <div class="card-header border-0">
-      <img src="{% static 'images/E-tick Mobile.png' %}" alt="Logo" class="img-fluid" alt="Responsive image"
-        style='width:70%'>
-    </div>
-    <div class="card-block px-2">
-      <h4 class="card-title">Title</h4>
-      <p class="card-text">Description</p>
-      <a href="#" class="btn btn-primary">BUTTON</a>
-    </div>
-    <div class="w-100"></div>
-    <div class="card-footer w-100 text-muted">
-      FOOTER
-    </div>
-  </div> -->
-
 
 
   <!-- -------------------------------------------------------------------------------- -->
@@ -46,17 +33,26 @@
       <div class="col-lg-7 img-years mb-5 mb-lg-0">
         <img src="{% static 'images/inicio/E-tick Mobile.png' %}" alt="Image" class="img-fluid">
       </div>
-      <div class="col-lg-4 ml-auto">
-        <span class="sub-title">Learn To Know</span>
-        <h3 class="mb-4">About Us</h3>
-        <p class="mb-4">Lorem ipsum dolor sit amet, consectet</p>
+      <div class="col-lg-5 ml-auto">
+        <h3 class="mb-5">Sobre nosotros</h3>
+        <p class="mb-5">E-tick es una aplicación cuyo objetivo es ayudar a reducir el consumo de papel, mientras ayuda
+          al usuario y a las empresas a organizar sus recibos</p>
         <ul class="list-unstyled ul-check text-left success mb-5">
-          <li>Asperiores modi sed</li>
-          <li>Enim cum voluptas</li>
-          <li>Commodi aliquid aspernatur</li>
-          <li>Cupiditate fuga ipsum commodi</li>
+          <li>Olvídate del papel</li>
+          <li>Olvídate de buscar el recibo cuando hace falta</li>
+          <li>Olvídate de esas discusiones a la hora de devolver</li>
+          <li>Lo organizamos todo por tí</li>
         </ul>
-        <p><a href="#" class="btn btn-primary btn-lg rounded-0">Read More About Us</a></p>
+        <b>¿Necesitas más razones usar E-tick? Esta bien.</b>
+        <br>
+        <br>
+
+        <!-- <p><a href="#" class="btn btn-primary btn-lg rounded-0"></a></p> -->
+        <div style="margin-left: 20%;">
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+            Haz click aquí
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -66,7 +62,7 @@
 
   <div class="site-section  border-bottom">
     <div class="container">
-      <div class="row">
+      <div class="row" style="margin-bottom: 5em;">
         <div class="col-lg-4 col-md-6 mb-5 mb-lg-0">
           <div class="media custom-media">
             <div class="mr-3 icon" style=" max-width: 100px;">
@@ -74,8 +70,9 @@
 
               </span></div>
             <div class="media-body">
-              <h5 class="mt-0">Innovative Structure</h5>
-              Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin..
+              <h5 class="mt-0">Respetable con el medio ambiente</h5>
+              Guarda los recibos en nuestra aplicación o descargalo directamente en tu móvil y olvidate de utilizar
+              papel, salvemos el medio ambiente todos juntos
             </div>
           </div>
         </div>
@@ -87,8 +84,9 @@
 
               </span></div>
             <div class="media-body">
-              <h5 class="mt-0">Arhictectural</h5>
-              Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin..
+              <h5 class="mt-0">Arquitectura</h5>
+              Hemos estudiado y diseñado una estructura sencilla y eficiente para que sea lo más cómoda posible para el
+              usuario, desde la búsqueda hasta la gestión de las notificaciones
             </div>
           </div>
         </div>
@@ -100,8 +98,9 @@
 
             </div>
             <div class="media-body">
-              <h5 class="mt-0">Interior Design</h5>
-              Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin..
+              <h5 class="mt-0">Gestión y organización</h5>
+              Todos tenemos muchas cosas en la cabeza hoy en día,y una que no queremos tener que pensar es donde tenemos
+              el recibo, déjanos que nosotros lo hagamos por tí
             </div>
           </div>
         </div>
@@ -117,15 +116,58 @@
 
   <div class="row justify-content-center" style="margin-top: 50px;">
     <div class="col-md-7 text-center">
-      <span class="sub-title">Get In Touch</span>
-      <h2 class="font-weight-bold text-black">Contact Us</h2>
-      <p class="mb-5">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi, explicabo, quasi. Magni
-        deserunt sunt labore.</p>
+      <span class="sub-title">¿Tienes alguna duda?</span>
+      <h2 class="font-weight-bold text-black">Contáctanos</h2>
+      <p class="mb-5">Un miembro de nuestro equipo se pondrá en contacto contigo con la mayor rapidez y le ayudará en lo
+        que necesite
+        <!-- Email -->
+        <a href="mailto:electronicticketofficial@gmail.com?Subject=&amp;Body=">
+          <br>
+          <br>
+          <img src="{%  static 'images/email.png' %}" alt="Email" style="max-width: 75;" />
+        </a>
+        <!-- <div>Icons made by <a href="https://www.flaticon.com/authors/pixel-perfect" title="Pixel perfect">Pixel perfect</a> from
+          <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div> -->
+
+      </p>
     </div>
   </div>
 
 
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" style="margin: auto;" id="exampleModalLabel">¿Porque usar E-tick en vez del papel de
+            siempre?</h5>
+
+        </div>
+        <div class="modal-body">
+
+          <a href="https://www.sciencedirect.com/science/article/pii/S2666524720300033">Estabilidad del covid-19 en
+            materiales</a>
+          <br>
+          <a
+            href="https://www.lavanguardia.com/vida/20190116/454166494562/tickets-compra-cancer-infertilidad-bisfenol.html">El
+            cancer y la infertilidad por la tinta de los recibos</a>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal"
+            style="margin-right: 42%;">Cerrar</button>
+          <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal end -->
+
   {% endblock %}
 </body>
+
+
+
 
 </html>

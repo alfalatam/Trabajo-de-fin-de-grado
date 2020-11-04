@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% load static %}
+{% load qr_code %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+View
+{% endblock %}
+
+{% block content %}
+
+
+<html>
+
+<head>
+</head>
+
+<body>
+
+    <div class="C-margin-container" id="margin-container">
+
+        <div class="row align-items-center">
+            <div class="col-lg-7 img-years ">
+                <img src="{% static 'images/student.jpg' %}" alt="Image" class="img-fluid" style="max-width: 850px">
+            </div>
+            <div class="col-lg-5 ml-auto">
+                <h3 class="mb-5">Quiénes somos</h3>
+                <p class="mb-5">E-tick es una aplicación web y móvil desarrollada por estudiantes de ingeniería
+                    informática como trabajo de fin de curso, estudiantes que saben lo importante que es innovar y
+                    reciclarse para cuidar el medio ambiente y mejorar nuestras vidas a la vez</p>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="C-margin-container" id="margin-container">
+
+        <div class="row align-items-center ">
+
+            <div class="col-lg-4 ml-auto">
+                <h3 class="mb-5">¿Por que queremos que uses nuestra aplicación?</h3>
+                <p class="mb-5">El consumo de papel y C02 que se genera por este simple papel, debido a su gran número
+                    tiene un impacto notorio en el medio ambiente y en nosotros mismos.</p>
+                <b>el 93 por ciento de los recibos en papel están recubiertos con Bisfenol-A (BPA) o Bisfenol-S (BPS)
+                </b>
+                <br>
+                <br>
+                <p>Son productos que están muy relacionados con aspectos cancerígenos y estériles y queremos que esto
+                    pase a la historia, ya tenemos cosas más importantes de las que preocuparnos</p>
+            </div>
+            <div class="col-lg-7 img-years mb-5 mb-lg-0">
+                <img src="{% static 'images/paper.jpg' %}" alt="Image" class="img-fluid"
+                    style=" float: right; max-width: 810px">
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="C-margin-container" id="margin-container">
+
+        <div class="row align-items-center">
+            <div class="col-lg-7 img-years ">
+                <img src="{% static 'images/recipe.jpg' %}" alt="Image" class="img-fluid"
+                    style="width: 850px; height: 600px;">
+            </div>
+            <div class="col-lg-5 ml-auto">
+                <h3 class="mb-5">Seamos sinceros</h3>
+                <p class="mb-5">Es algo molesto tener que organizar los recibos, si es un recibo que nos da igual, nos
+                    lo metemos en el bolsillo y al sacarlo de la lavadora te tienes que poner a quitar papelitos de los
+                    bolsillos.</p>
+                <p class="mb-5">Si es algo que nos interesa guardar tenemos que sacar la cartera o el bolso y doblarlo
+                    con cuidado y luego se nos rompe o pierde cuando nos hace falta</p>
+
+            </div>
+        </div>
+    </div>
+
+
+
+</body>
+
+
+
+</html>
+
+
+
+
+
+{% endblock %}

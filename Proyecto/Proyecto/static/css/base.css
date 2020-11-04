@@ -6,6 +6,8 @@
 html,
 body {
   margin-top: 3.5em;
+  min-height: calc(100vh - 70px);
+  /* min-height: 100%; */
   /* position: relative;
   min-height: 100vh; */
 }

@@ -298,7 +298,7 @@ def sendMail(dict):
         ticketTitle = dataList[1]
         warranty = dataList[2]
         subject = "Aviso de garantía sobre:  %s" % (productName)
-        msg = "Como nos indicó, le recordamos que uno de sus productos está cerca de expirar su garantía \n \n Nombre del recibo : <b> %s </b> \n Producto: %s \n Fecha fin de garantía: %s \n \n Atentamente, el equipo de E-tick " % (
+        msg = "Como nos indicó, le recordamos que uno de sus productos está cerca de expirar su garantía \n \n Nombre del recibo :  %s  \n Producto: %s \n Fecha fin de garantía: %s \n \n Atentamente, el equipo de E-tick " % (
             ticketTitle, productName, warranty)
 
         res = send_mail(

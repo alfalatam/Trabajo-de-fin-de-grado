@@ -26,6 +26,7 @@ from pdf import views as viewsPdf
 from usuarios import views as viewsUsers
 from producto import views as viewsProduct
 from django.conf.urls import url
+from .views import quienesSomos
 
 app_name = 'proyecto'
 
@@ -89,6 +90,10 @@ urlpatterns = [
 
     path('createRecibo/', views.ReciboCreateView.as_view(),
          name='create-recibo'),
+
+    path('QuienesSomos/', quienesSomos,
+         name='QuienesSomos'),
+
 
     url(r'^updateRecibo/(?P<pk>\d+)$',
         views.update_recibo, name="update-recibo"),

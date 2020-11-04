@@ -5,22 +5,27 @@
 .st0 {
   fill: #fff;
 }
+
 .st2 {
   fill: #5d89af;
 }
+
 .st3 {
   fill: #709abf;
 }
+
 .st4,
 .st6 {
   fill: #fff;
   stroke: #b3dcdf;
   stroke-miterlimit: 10;
 }
+
 .st6 {
   stroke: #5d89af;
   stroke-width: 2;
 }
+
 .st7,
 .st8,
 .st9 {
@@ -33,14 +38,18 @@
   stroke-linecap: round;
   fill: none;
 }
+
 .st8,
 .st9 {
   fill: #fff;
 }
+
 .st9 {
   fill: none;
 }
+
 .st10 {
+  fill: none;
 }
 
 #cloud1 {

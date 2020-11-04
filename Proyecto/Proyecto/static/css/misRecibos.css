@@ -3,7 +3,6 @@
   margin: auto;
   border: 1px solid black;
   display: block;
-
   float: left;
   width: 300px;
   height: 150px;
@@ -24,6 +23,5 @@ figure {
   margin-top: 1.5em;
   margin-left: 3em;
   margin-right: 3em;
-
   padding-bottom: 4.5rem;
 }

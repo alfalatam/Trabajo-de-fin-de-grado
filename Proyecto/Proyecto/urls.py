@@ -1,5 +1,5 @@
-"""Proyecto URL Configuration
 
+"""Proyecto URL Configuration
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.0/topics/http/urls/
 Examples:
@@ -14,14 +14,14 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+# from django.urls import path
 from Proyecto.views import inicio, profile
 from register import views as v
 from register.views import home
-from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+# from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.urls import path, include
 from recibo import views
-from producto import views as productoViews
+# from producto import views as productoViews
 from pdf import views as viewsPdf
 from usuarios import views as viewsUsers
 from producto import views as viewsProduct
@@ -64,7 +64,7 @@ urlpatterns = [
 
     path('profile/', profile),
     path('importScanned/', views.scannedTiket),
-    path("misProductos/", productoViews.misProductos,
+    path("misProductos/", viewsProduct.misProductos,
          name="misProductos"),  # <-- added
     path('create/', viewsProduct.ProductoCreateView.as_view(),
          name='producto-create'),
@@ -79,13 +79,13 @@ urlpatterns = [
     path('displayProducto/<int:pk>/',
          viewsProduct.ProductoDetailView.as_view(), name='detail'),
 
-    path("exportData/", productoViews.export_data,
+    path("exportData/", viewsProduct.export_data,
          name="export-data"),  # <-- added
 
     path("exportRecibo/", views.export_recibo,
          name="export-recibo"),  # <-- added
 
-    path("importData/", productoViews.simple_upload,
+    path("importData/", viewsProduct.simple_upload,
          name="import-data"),  # <-- added
 
     path('createRecibo/', views.ReciboCreateView.as_view(),

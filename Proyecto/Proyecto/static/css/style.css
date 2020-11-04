@@ -16,6 +16,7 @@ body {
   background: #191919;
   text-align: center;
 }
+
 .box h1 {
   color: white;
   text-transform: uppercase;
@@ -43,8 +44,9 @@ body {
   width: 280px;
   border-color: #2ecc71;
 }
+
 .box input[type="submit"] {
-  border: 0;
+  /* border: 0; */
   background: none;
   display: block;
   margin: 20px auto;

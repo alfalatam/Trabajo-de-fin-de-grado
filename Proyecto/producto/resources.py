@@ -1,10 +1,10 @@
 from import_export import resources
 from .models import Producto
-from register.models import Store
-from import_export.widgets import ForeignKeyWidget
 
 
 class ProductoResource(resources.ModelResource):
+
+    ''' Este método sirve como referencia para que django-export-import relacione bien el modelo'''
 
     class Meta:
         model = Producto

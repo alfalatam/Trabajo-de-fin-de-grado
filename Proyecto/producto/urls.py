@@ -1,11 +1,11 @@
 
-from django.urls import path
-from .views import (
-    ProductoCreateView,
-    ProductoDetailView,
+# from django.urls import path
+# from .views import (
+#     ProductoCreateView,
+#     ProductoDetailView,
 
 
-)
+# )
 
 # app_name = 'productos'
 

@@ -1,14 +1,14 @@
 from django.db import models
 from datetime import datetime
-from annoying.fields import AutoOneToOneField
-from register.models import User, Customer
-from django.db.models.signals import post_save
-from django.dispatch import receiver
-from django.db.models import DateField
-from datetime import date
+# from annoying.fields import AutoOneToOneField
+from register.models import User
+# from django.db.models.signals import post_save
+# from django.dispatch import receiver
+# from django.db.models import DateField
+# from datetime import date
 # Create your models here.
 import uuid
-from django.contrib.postgres.fields import JSONField
+# from django.contrib.postgres.fields import JSONField
 
 
 class Ticket(models.Model):
@@ -42,6 +42,8 @@ class Ticket(models.Model):
     isCopy = models.BooleanField(default=False)
 
     class paymentMethod(models.TextChoices):
+        ''' There are 3 payments types debit card, credit card and payment with money '''
+
         EFECTIVO = 'EF', ('Efectivo')
         TARJETA_DE_CREDITO = 'TC', ('Tarjeta de debito')
         TARJETA_DE_DEBITO = 'TD', ('Tarjeta de credito')
@@ -53,6 +55,7 @@ class Ticket(models.Model):
     )
 
     def __str__(self):
+        '''This definition returns the ticket title '''
         return self.title
 
 

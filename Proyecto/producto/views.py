@@ -2,19 +2,19 @@ from django.http import HttpResponse
 from .models import Producto
 from .resources import ProductoResource
 from tablib import Dataset
-from django.shortcuts import render
-from .models import Producto
-from recibo.models import Ticket
+# from django.shortcuts import render
+# from .models import Producto
+# from recibo.models import Ticket
 # Create your views here.
 # For notifications
-from django.db.models.signals import post_save
+# from django.db.models.signals import post_save
 from notifications.signals import notify
 import traceback
-from django.shortcuts import redirect
+# from django.shortcuts import redirect
 from datetime import datetime
 from register.models import Store
 from .forms import ProductoModelForm
-from tablib import Dataset
+# from tablib import Dataset
 
 
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
@@ -48,40 +48,40 @@ def generateNotification(request, user):
 
 # @periodic_task(run_every=crontab(hour=7, minute=30, day_of_week="mon"))
 # TODO CHECK
-def checkWarranty():
+# def checkWarranty():
 
-    products = Producto.objects.all()
-    currentDay = datetime.now()
+#     products = Producto.objects.all()
+#     # currentDay = datetime.now()
 
-    for p in products:
-        if(p.warranty < 0):
-            warrantyDays = p.warranty
-            dateOfCreation = p.momentOfCreation
-            limitDate = dateOfCreation + datetime.timedelta(days=warrantyDays)
-            user = p.ticket.user
+#     for p in products:
+#         if(p.warranty < 0):
+#             warrantyDays = p.warranty
+#             dateOfCreation = p.momentOfCreation
+#             limitDate = dateOfCreation + datetime.timedelta(days=warrantyDays)
+#             user = p.ticket.user
 
-            if(limitDate - daysFromToday >= 10):
+#             if(limitDate - daysFromToday >= 10):
 
-                generateNotification(user=user, producto=p)
-                print('checkwarranty mandada')
+#                 generateNotification(user=user, producto=p)
+#                 print('checkwarranty mandada')
 
 
-def misNotificaciones(request):
+# def misNotificaciones(request):
 
-    try:
-        user = request.user
-        notifications = user.notifications
+#     try:
+#         user = request.user
+#         notifications = user.notifications
 
-        unreaded = user.notifications.unread()
-        readed = user.notifications.read()
-        generateNotification(request, user)
-        return render(request, "notificaciones.html", {"unreaded": unreaded, "readed": readed})
+#         unreaded = user.notifications.unread()
+#         readed = user.notifications.read()
+#         generateNotification(request, user)
+#         return render(request, "notificaciones.html", {"unreaded": unreaded, "readed": readed})
 
-    except Exception as e:
-        trace_back = traceback.format_exc()
-        message = str(e) + " " + str(trace_back)
-        print(message)
-        return render(request, 'error.html')
+#     except Exception as e:
+#         trace_back = traceback.format_exc()
+#         message = str(e) + " " + str(trace_back)
+#         print(message)
+#         return render(request, 'error.html')
 
 
 def misProductos(request):
@@ -170,7 +170,7 @@ def export_data(request):
     if request.method == 'POST':
         # Get selected option from form
         file_format = request.POST['file-format']
-        producto_resource = ProductoResource()
+        # producto_resource = ProductoResource()
 
         user = request.user
         store = Store.objects.get(user=user.id)
@@ -268,14 +268,6 @@ def simple_upload(request):
 
             )
             data[1] == id_store
-            print('==================================')
-            # print('El 0 es ->', data[0])
-            print('El 1 es ->', data[1])
-            # print('El 2 es ->', data[2])
-            # print('El 3 es ->', data[3])
-            # print('El 4 es ->', data[4])
-            # print('El 5 es ->', data[5])
-            # print('El 6 es ->', data[6])
             value.save()
 
         # result = person_resource.import_data(dataset, dry_run=True)  # Test the data import

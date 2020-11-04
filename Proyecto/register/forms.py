@@ -1,11 +1,11 @@
 from django import forms
 from django.db import transaction
-from django.contrib.auth import login, authenticate
+# from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from .models import User, Customer, Store
 
-from django.core.exceptions import ValidationError
-from phonenumber_field.formfields import PhoneNumberField
+# from django.core.exceptions import ValidationError
+# from phonenumber_field.formfields import PhoneNumberField
 import uuid
 
 
@@ -15,6 +15,7 @@ class RegisterCustomerForm(UserCreationForm):
     last_name = forms.CharField(required=True)
     email = forms.EmailField(required=True)
 
+    ''' There are two types of user, customer and store '''
     class Meta(UserCreationForm.Meta):
         model = User
 
@@ -27,7 +28,6 @@ class RegisterCustomerForm(UserCreationForm):
         user.is_customer = True
         user.save()
         customer = Customer.objects.create(user=user)
-
         customer.first_name = self.cleaned_data.get('first_name')
         customer.last_name = self.cleaned_data.get('last_name')
         customer.email = self.cleaned_data.get('email')
@@ -44,6 +44,7 @@ class RegisterStoreForm(UserCreationForm):
     address = forms.CharField(required=True)
     # identifier = forms.CharField(required=True)
 
+    ''' There are two types of user, customer and store '''
     class Meta(UserCreationForm.Meta):
         model = User
 
@@ -53,7 +54,6 @@ class RegisterStoreForm(UserCreationForm):
 
     @transaction.atomic
     def save(self):
-        print('====================================================0')
         user = super().save(commit=False)
         user.is_store = True
         user.save()

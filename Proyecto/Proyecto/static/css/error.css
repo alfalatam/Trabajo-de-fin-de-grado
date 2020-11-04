@@ -88,9 +88,11 @@
   0% {
     transform: translateY(0px);
   }
+
   50% {
     transform: translateY(1px);
   }
+
   100% {
     transform: translateY(0px);
   }
@@ -104,6 +106,7 @@
   from {
     transform: translateX(0);
   }
+
   to {
     transform: translateX(1000px);
   }
@@ -113,6 +116,7 @@
   from {
     transform: translateX(0px);
   }
+
   to {
     transform: translateX(100px);
   }
@@ -171,15 +175,19 @@
   0% {
     transform: translateX(-2px);
   }
+
   25% {
     transform: translateX(3px);
   }
+
   50% {
     transform: translateX(-2px);
   }
+
   75% {
     transform: translateX(3px);
   }
+
   100% {
     transform: translateX(-2px);
   }

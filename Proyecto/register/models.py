@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from usuarios.models import UserManager
 
@@ -22,6 +22,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     class Meta:
+        ''' complete '''
         verbose_name = ('user')
         verbose_name_plural = ('users')
     is_store = models.BooleanField(default=False)

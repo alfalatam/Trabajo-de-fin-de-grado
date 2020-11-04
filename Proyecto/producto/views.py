@@ -11,13 +11,13 @@ from tablib import Dataset
 from notifications.signals import notify
 import traceback
 # from django.shortcuts import redirect
-from datetime import datetime
+# from datetime import datetime
 from register.models import Store
 from .forms import ProductoModelForm
 # from tablib import Dataset
 
 
-from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
+from django.views.generic import CreateView, DetailView, UpdateView
 from django.shortcuts import render, get_object_or_404
 
 from django.http import HttpResponseRedirect

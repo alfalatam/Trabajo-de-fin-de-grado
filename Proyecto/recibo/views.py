@@ -2,18 +2,18 @@ import datetime
 import json
 import traceback
 import uuid
-from datetime import date, datetime, timedelta, timezone
+from datetime import datetime, timedelta, timezone
 
-import producto
+# import producto
 # Create your views here.
 # Decorators
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 # from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import redirect, render
-from django.views.generic import CreateView, DeleteView, DetailView, UpdateView
-from producto.models import Producto
+from django.shortcuts import render
+from django.views.generic import CreateView, DetailView, UpdateView
+# from producto.models import Producto
 from Proyecto import settings
 from register.models import Store, User
 
@@ -23,14 +23,14 @@ from .resources import TicketResource
 
 # QR Decoder
 import cv2
-import numpy as np
+# import numpy as np
 import pyzbar.pyzbar as pyzbar
 
-from django.shortcuts import get_object_or_404
+# from django.shortcuts import get_object_or_404
 
 from django.contrib import messages
 
-import re
+# import re
 
 # Celery
 # from celery import shared_task
@@ -78,10 +78,10 @@ def recibo(request):
             form.save()
             form = UserTicketForm
 
-        context = {
-            'form': form
+        # context = {
+        #     'form': form
 
-        }
+        # }
 
         # if (code == 0):
         #     message = None
@@ -195,7 +195,8 @@ def buscar(request):
         if(len(producto) > 30):
             mensaje = "El valor introducido es demasiado largo"
 
-            return render(request, "resultadosBusqueda.html", {"recibos": recibos, "query": producto})
+            # return render(request, "resultadosBusqueda.html", {"recibos": recibos, "query": producto})
+            return render(request, "resultadosBusqueda.html", {"query": producto})
 
         else:
 
@@ -340,7 +341,7 @@ def productsToNotify():
                 # print((datetime.now(timezone.utc).date()))
 
                 diffDays = datetime_obj.date() - (datetime.now(timezone.utc).date())
-                daysToExpire = diffDays.days
+                # daysToExpire = diffDays.days
                 # print(daysToExpire)
                 # print('La resta entre las dos fechas es:')
                 # print(resta.days)
@@ -406,7 +407,7 @@ def export_recibo(request):
     if request.method == 'POST':
         # Get selected option from form
         file_format = request.POST['file-format']
-        recibo_resource = TicketResource()
+        # recibo_resource = TicketResource()
         user = request.user
         # store = Store.objects.get(user=user.id)
 
@@ -465,7 +466,7 @@ def camera(request):
         print(recibo)
 
     cap = cv2.VideoCapture(0)
-    font = cv2.FONT_HERSHEY_PLAIN
+    # font = cv2.FONT_HERSHEY_PLAIN
 
     while True:
         _, frame = cap.read()

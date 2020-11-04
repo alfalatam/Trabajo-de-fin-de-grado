@@ -4,9 +4,8 @@ from .models import Producto
 
 class ProductoResource(resources.ModelResource):
 
-    ''' Este método sirve como referencia para que django-export-import relacione bien el modelo'''
-
     class Meta:
+        ''' Este método sirve como referencia para que django-export-import relacione bien el modelo'''
         model = Producto
 
     # def export(self, queryset=None, *args, **kwargs):

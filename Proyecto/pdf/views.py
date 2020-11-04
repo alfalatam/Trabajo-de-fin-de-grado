@@ -1,25 +1,25 @@
 from io import BytesIO
-from reportlab.pdfgen import canvas
+# from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
 from django.http import HttpResponse
-from django import forms
+# from django import forms
 from recibo.models import Ticket, TicketLink
 from producto.models import Producto
-from Proyecto.settings import STATIC_URL, MEDIA_URL
+from Proyecto.settings import MEDIA_URL
 from datetime import datetime
 from reportlab.pdfbase.pdfmetrics import registerFont
 from reportlab.pdfbase.ttfonts import TTFont
-from reportlab.pdfbase import pdfmetrics
+# from reportlab.pdfbase import pdfmetrics
 from reportlab.lib.styles import ParagraphStyle
 from reportlab.lib import colors
-from reportlab.lib.units import cm
-from reportlab.platypus import Table, TableStyle, Paragraph, SimpleDocTemplate, Image
-from reportlab.lib.units import mm, inch
-from reportlab.lib.styles import getSampleStyleSheet
-from reportlab.lib.enums import TA_LEFT, TA_CENTER, TA_RIGHT
+# from reportlab.lib.units import cm
+from reportlab.platypus import Table, TableStyle, SimpleDocTemplate, Image
+# from reportlab.lib.units import inch
+# from reportlab.lib.styles import getSampleStyleSheet
+# from reportlab.lib.enums import TA_LEFT, TA_CENTER, TA_RIGHT
 from recibo.views import importeTotal
 from django.shortcuts import redirect
-from django.shortcuts import render
+# from django.shortcuts import render
 import json
 import textwrap
 
@@ -34,7 +34,7 @@ def generate_pdf(request, *args, **kwargs):
 
         # TODO
         # productosRecibo = Producto.objects.filter(ticket=recibo)
-        productosRecibo = Producto.objects.all()
+        # productosRecibo = Producto.objects.all()
 
         data = recibo.data
 
@@ -71,18 +71,18 @@ def generate_pdf(request, *args, **kwargs):
                             bottomMargin=50,
                             )
 
-    negrita = ParagraphStyle('parrafos',
+    # negrita = ParagraphStyle('parrafos',
 
-                             fontSize=12,
-                             fontName="Times-bold")
+    #                          fontSize=12,
+    #                          fontName="Times-bold")
 
-    tabla1 = ParagraphStyle('tablas',
+    # tabla1 = ParagraphStyle('tablas',
 
-                            fontSize=12,
-                            fontName="Times-bold")
+    #                         fontSize=12,
+    #                         fontName="Times-bold")
 
     clientes = []
-    styles = getSampleStyleSheet()
+    # styles = getSampleStyleSheet()
     # header = Paragraph("Listado de Clientes", styles['Heading1'])
     # clientes.append(header)
     # solicitado = Paragraph(
@@ -318,18 +318,18 @@ def generate_public_pdf(request, *args, **kwargs):
                             bottomMargin=50,
                             )
 
-    negrita = ParagraphStyle('parrafos',
+    # negrita = ParagraphStyle('parrafos',
 
-                             fontSize=12,
-                             fontName="Times-bold")
+    #                          fontSize=12,
+    #                          fontName="Times-bold")
 
-    tabla1 = ParagraphStyle('tablas',
+    # tabla1 = ParagraphStyle('tablas',
 
-                            fontSize=12,
-                            fontName="Times-bold")
+    #                         fontSize=12,
+    #                         fontName="Times-bold")
 
     clientes = []
-    styles = getSampleStyleSheet()
+    # styles = getSampleStyleSheet()
     # header = Paragraph("Listado de Clientes", styles['Heading1'])
     # clientes.append(header)
     # solicitado = Paragraph(

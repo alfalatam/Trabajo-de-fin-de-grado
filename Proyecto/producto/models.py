@@ -5,7 +5,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 # from django.db.models import DateField
 from datetime import datetime
 # from django.urls import reverse
-from django.shortcuts import redirect
+# from django.shortcuts import redirect
 
 # Create your models here.
 
@@ -43,5 +43,5 @@ class Producto(models.Model):
         store.save()
 
     def __str__(self):
-        '''Returns the name of the ticket '''
+        '''Returns the name of the ticket'''
         return self.name

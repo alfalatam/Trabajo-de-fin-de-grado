@@ -1,8 +1,9 @@
+/* https://stackoverflow.com/questions/4394309/how-do-i-fit-an-image-img-inside-a-div-and-keep-the-aspect-ratio  */
+
 #exportarDatos {
   text-align: center;
   margin-top: 5em;
 }
-/* https://stackoverflow.com/questions/4394309/how-do-i-fit-an-image-img-inside-a-div-and-keep-the-aspect-ratio*/
 
 div.gallery {
   margin: 5px;

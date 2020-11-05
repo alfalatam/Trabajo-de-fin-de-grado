@@ -2,7 +2,7 @@ import datetime
 import json
 import traceback
 import uuid
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timezone
 
 # import producto
 # Create your views here.
@@ -12,7 +12,7 @@ from django.core.mail import send_mail
 # from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
-from django.views.generic import CreateView, DetailView, UpdateView
+from django.views.generic import CreateView, UpdateView
 # from producto.models import Producto
 from Proyecto import settings
 from register.models import Store, User
@@ -28,7 +28,7 @@ import pyzbar.pyzbar as pyzbar
 
 # from django.shortcuts import get_object_or_404
 
-from django.contrib import messages
+# from django.contrib import messages
 
 # import re
 

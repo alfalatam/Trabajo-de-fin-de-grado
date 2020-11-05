@@ -43,7 +43,6 @@ class Ticket(models.Model):
 
     class paymentMethod(models.TextChoices):
         ''' There are 3 payments types debit card, credit card and payment with money '''
-
         EFECTIVO = 'EF', ('Efectivo')
         TARJETA_DE_CREDITO = 'TC', ('Tarjeta de debito')
         TARJETA_DE_DEBITO = 'TD', ('Tarjeta de credito')
@@ -73,6 +72,7 @@ class ScannedTicket(models.Model):
     photo = models.ImageField(upload_to='user_scannedTickets')
 
     def __str__(self):
+        '''Returns the title of the ticket'''
         return self.title
 
 

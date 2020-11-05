@@ -25,7 +25,7 @@ body {
 
 .box input[type="text"],
 .box input[type="password"] {
-  border: 0;
+  /* border: 0; */
   background: none;
   display: block;
   margin: 20px auto;

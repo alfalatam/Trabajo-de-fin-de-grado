@@ -4,7 +4,7 @@ from reportlab.lib.pagesizes import A4
 from django.http import HttpResponse
 # from django import forms
 from recibo.models import Ticket, TicketLink
-from producto.models import Producto
+# from producto.models import Producto
 from Proyecto.settings import MEDIA_URL
 from datetime import datetime
 from reportlab.pdfbase.pdfmetrics import registerFont
@@ -13,12 +13,12 @@ from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.lib.styles import ParagraphStyle
 from reportlab.lib import colors
 # from reportlab.lib.units import cm
-from reportlab.platypus import Table, TableStyle, SimpleDocTemplate, Image
+from reportlab.platypus import Table, TableStyle, SimpleDocTemplate
 # from reportlab.lib.units import inch
 # from reportlab.lib.styles import getSampleStyleSheet
 # from reportlab.lib.enums import TA_LEFT, TA_CENTER, TA_RIGHT
 from recibo.views import importeTotal
-from django.shortcuts import redirect
+# from django.shortcuts import redirect
 # from django.shortcuts import render
 import json
 import textwrap

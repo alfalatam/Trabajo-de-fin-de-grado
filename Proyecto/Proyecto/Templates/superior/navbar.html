@@ -79,11 +79,10 @@
             <!-- and  request.get_full_path == "/misRecibos/" -->
             {% if user.is_authenticated   %}
 
-            <form action="/buscar/" class="form-inline my-2 my-lg-0" method="GET">
+            <!-- <form action="/buscar/" class="form-inline my-2 my-lg-0" method="GET">
                 <input class="form-control mr-sm-2" type="text" placeholder="Buscar" aria-label="Search" name="prd">
-                <!-- <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> -->
                 <input type="submit" class="btn btn-outline-success my-2 my-sm-0" value="Buscar">
-            </form>
+            </form> -->
 
 
 
@@ -97,6 +96,24 @@
 
 
             <div class="btn-group">
+
+                <ul class="navbar-nav mr-auto">
+                    {% if user.is_customer == True %}
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/profile" style="margin-right: -0.5em">{{user.customer.first_name}}
+                            {{user.customer.last_name}}<span class="sr-only">(current)</span></a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/profile" style="margin-right: -0.5em">{{user.store.store_name}}
+                            <span class="sr-only">(current)</span></a>
+                    </li>
+
+                    {% endif %}
+
+                </ul>
+
+
                 <button type="button" id="button-drop" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
                     P

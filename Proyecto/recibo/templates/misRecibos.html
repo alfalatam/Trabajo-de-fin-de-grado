@@ -44,10 +44,14 @@ View
     {% if  user.ticketList.all|length  == 0 %}
 
     <div class="">
-        <h3 class="mb-5 ">¡Vaya!</h3>
-        <p class="mb-5 ml-7">Prece que todavia no tienes ningún recibo almacenado en el sistema, pero no te
+        <h3 class="mb-2 ">¡Vaya!</h3>
+        <p class="mb-3 ml-7">Parece que todavia no tienes ningún recibo almacenado en el sistema, pero no te
             preocupes, al
             comprar en una tienda que utilice E-Tick, podrás usar tu tarjeta personal para añadirlo a tu cuenta
+        </p>
+        <br>
+        <p>
+            Puedes acceder a tu tarjeta <a href="/profile">aquí</a>
         </p>
 
         <div class="C-margin-container" id="margin-container">
@@ -60,7 +64,7 @@ View
         </div>
 
         {% else %}
-        <div id=" tableDiv">
+        <div id=" tableDiv" style="margin-left: 5em; margin-right: 5em;">
             <table id="table_id" class="dataTables_wrapper" style="text-align: center;">
                 <thead>
                     <tr>

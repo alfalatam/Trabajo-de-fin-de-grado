@@ -16,38 +16,15 @@
     {% block mycss %}
     <link rel="stylesheet" type="text/css" href="{%  static 'css/profile.css' %}">
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
 
 
     {% endblock mycss %}
 </head>
 
 
-
-
 <body>
 
-
-
-    <!-- <div style="position: relative; left: 0; top: 0; text-align: center;">
-        <img id="imgRecibo" class="rounded-sm" src="{% static 'images/'%}card.png" alt="" style="max-width: 500;" />
-    </div> -->
-
-
-    <!-- <div background="{% static 'images/'%}card.png"> -->
-
-    <!-- 
-    {% qr_from_text user.email size="M" %} -->
-
-    <!-- <div class="container">
-        <div class=" row">
-
-
-            <b>Esta es tu tarjeta personalizada, Sácale una foto o imprímela, y empieza a
-                disfrutar de las ventajas de E-Tick</b>
-        </div>
-    </div> -->
 
     <span class="border border-success" id="borders-exports">
         <div class="w3-container w3-border w3-round-xlarge" id=exportarDatos>
@@ -55,10 +32,6 @@
                 E-Tick</b><br><br>
         </div>
     </span>
-
-
-
-
 
 
     <div class="container" style="margin-left: 35%;">
@@ -76,21 +49,10 @@
     </div>
 
 
-
-
-
-
-
-
-
-
     <span class="border border-success" id="borders-exports">
         <div class="w3-container w3-border w3-round-xlarge" id=exportarDatos>
-            <!-- 
-            <b> Extrae todos tus archivos del sistema en un archivo ZIP</b><br><br>
-            <button type="button" class="btn btn-primary">Exportar datos</button><br><br> -->
-            <b> Borra tu cuenta pero te echaremos de menos</b><br><br>
 
+            <b> Borra tu cuenta pero te echaremos de menos</b><br><br>
             <form action="/delete/" method="POST">
                 {% csrf_token %}
                 {{form | crispy }}

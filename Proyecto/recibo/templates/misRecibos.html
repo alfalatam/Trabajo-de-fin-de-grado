@@ -39,135 +39,161 @@ View
 
     </div>
 
-    <!-- {{ now|date:" Y" }} -->
-
-    <!-- {% now "SHORT_DATETIME_FORMAT" %} -->
-    <div id="tableDiv">
-        <table id="table_id" class="dataTables_wrapper" style="text-align: center;">
-            <thead>
-                <tr>
-                    <th>Titulo</th>
-                    {% if user.is_customer is True %}
-                    <th>Compañia</th>
-                    <!-- <th>Empresa</th> -->
-                    {% endif %}
-                    <th>Identificador único</th>
-                    <th>Precio</th>
-                    <th>Fecha de creación</th>
-                    <th>Método de pago</th>
-                    {% if user.is_customer is True %}
-                    <th>Seguimiento</th>
-                    {% endif %}
-
-                    <th>Eliminar</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for recibo in user.ticketList.all %}
 
 
-                {% with rYear=recibo.momentOfCreation|date:"Y"|add:"2" %}
-                {% if rYear < year %}
-                <tr style="opacity: 0.5;">
-                    {% else %}
-                <tr>
-                    {% endif %}
-                    {% endwith %}
-                    <td><a href="/recibo?={{recibo.id}}">{{recibo.title}}</a></td>
-                    {% if user.is_customer is True %}
-                    <th>
-                        <img id="imgRec" class="rounded-sm" style="max-width: 200; max-height: 105;"
-                            src="{% static 'images/companyLogo/'%}{{ recibo.companyIdentifier }}.png" alt=""
-                            onerror="imgError(this);" />
-                        <p style="visibility: hidden; font-size: xx-small; margin-top: 0%; margin-bottom: 0%;">
-                            {{recibo.empresa}}
-                        </p>
+    {% if  user.ticketList.all|length  == 0 %}
 
-                    </th>
+    <div class="">
+        <h3 class="mb-5 ">¡Vaya!</h3>
+        <p class="mb-5 ml-7">Prece que todavia no tienes ningún recibo almacenado en el sistema, pero no te
+            preocupes, al
+            comprar en una tienda que utilice E-Tick, podrás usar tu tarjeta personal para añadirlo a tu cuenta
+        </p>
 
-                    <!-- <td>{{recibo.empresa}}</td> -->
-                    {% endif %}
-                    <td>{{recibo.identifier}}</td>
-                    <td>{{recibo.price}}€</td>
-                    <td>{{recibo.momentOfCreation|date}}</td>
-                    <td>{{recibo.payment}}
-                        {% if recibo.payment == 'EF' %}
-                        <i class="fas fa-money-bill" style="color: green;"></i>
+        <div class="C-margin-container" id="margin-container">
 
-                        {% elif recibo.payment == 'TD' %}
-                        <i class="fas fa-money-check-alt" style="color: black;"></i>
 
-                        {% else %}
-                        <i class="fas fa-money-check" style="color: blue;"></i>
+            <img src="{% static 'images/empty.jpg' %}" alt="Image" class="img-fluid"
+                style="max-width: 550px; border-radius: 1%;">
 
+
+        </div>
+
+        {% else %}
+        <div id=" tableDiv">
+            <table id="table_id" class="dataTables_wrapper" style="text-align: center;">
+                <thead>
+                    <tr>
+                        <th>Titulo</th>
+                        {% if user.is_customer is True %}
+                        <th>Compañia</th>
+                        <!-- <th>Empresa</th> -->
+                        {% endif %}
+                        <th>Identificador único</th>
+                        <th>Precio</th>
+                        <th>Fecha de creación</th>
+                        <th>Método de pago</th>
+                        {% if user.is_customer is True %}
+                        <th>Seguimiento</th>
                         {% endif %}
 
+                        <th>Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for recibo in user.ticketList.all %}
 
-                    </td>
 
-                    {% if user.is_customer is True %}
-                    <td>
-                        {% if recibo.warranty is True %}
-                        <a href="{% url 'update-recibo' recibo.pk%}" role="button" aria-pressed="true">
-                            <i class="fas fa-envelope" style=" font-size:24px; color: green;"></i>
-                        </a>
-
+                    {% with rYear=recibo.momentOfCreation|date:"Y"|add:"2" %}
+                    {% if rYear < year %}
+                    <tr style="opacity: 0.5;">
                         {% else %}
-                        <a href="{% url 'update-recibo' recibo.pk%}" role="button" aria-pressed="true">
-                            <i class="fas fa-envelope" style=" font-size:24px; color: red;"></i>
-                        </a>
+                    <tr>
                         {% endif %}
-                    </td>
-                    {% endif %}
+                        {% endwith %}
+                        <td><a href="/recibo?={{recibo.id}}">{{recibo.title}}</a></td>
+                        {% if user.is_customer is True %}
+                        <th>
+                            <img id="imgRec" class="rounded-sm" style="max-width: 200; max-height: 105;"
+                                src="{% static 'images/companyLogo/'%}{{ recibo.companyIdentifier }}.png" alt=""
+                                onerror="imgError(this);" />
+                            <p style="visibility: hidden; font-size: xx-small; margin-top: 0%; margin-bottom: 0%;">
+                                {{recibo.empresa}}
+                            </p>
 
-                    <!-- Modal -->
-                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
-                        aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" style="margin: auto;" id="exampleModalLabel">Notificación
-                                        del sistema</h5>
-                                    <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button> -->
-                                </div>
-                                <div class="modal-body">
-                                    Se le notificará por correo cuando alguno de los productos del recibo vaya este
-                                    próximo a expirar su garantía
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal"
-                                        style="margin-right: 42%;">Cerrar</button>
-                                    <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+                        </th>
+
+                        <!-- <td>{{recibo.empresa}}</td> -->
+                        {% endif %}
+                        <td>{{recibo.identifier}}</td>
+                        <td>{{recibo.price}}€</td>
+                        <td>{{recibo.momentOfCreation|date}}</td>
+                        <td>{{recibo.payment}}
+                            {% if recibo.payment == 'EF' %}
+                            <i class="fas fa-money-bill" style="color: green;"></i>
+
+                            {% elif recibo.payment == 'TD' %}
+                            <i class="fas fa-money-check-alt" style="color: black;"></i>
+
+                            {% else %}
+                            <i class="fas fa-money-check" style="color: blue;"></i>
+
+                            {% endif %}
+
+
+                        </td>
+
+                        {% if user.is_customer is True %}
+                        <td>
+                            {% if recibo.warranty is True %}
+                            <a href="{% url 'update-recibo' recibo.pk%}" role="button" aria-pressed="true">
+                                <i class="fas fa-envelope" style=" font-size:24px; color: green;"></i>
+                            </a>
+
+                            {% else %}
+                            <a href="{% url 'update-recibo' recibo.pk%}" role="button" aria-pressed="true">
+                                <i class="fas fa-envelope" style=" font-size:24px; color: red;"></i>
+                            </a>
+                            {% endif %}
+                        </td>
+                        {% endif %}
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" style="margin: auto;" id="exampleModalLabel">
+                                            Notificación
+                                            del sistema</h5>
+                                        <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button> -->
+                                    </div>
+                                    <div class="modal-body">
+                                        Se le notificará por correo cuando alguno de los productos del recibo vaya este
+                                        próximo a expirar su garantía
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                                            style="margin-right: 42%;">Cerrar</button>
+                                        <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- Modal end -->
-                    <td>
-                        <i class="fa fa-trash" style="font-size:24px; color: red;"></i>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+                        <!-- Modal end -->
+                        <td>
+                            <i class="fa fa-trash" style="font-size:24px; color: red;"></i>
+                        </td>
+                    </tr>
 
-    <script>
-        $(document).ready(function () {
-            // $('#table_id').DataTable();
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
 
-            $('#table_id').dataTable({
-                "pageLength": 5,
-                "order": [[2, "desc"]], //or asc 
-                // "language": {
-                //     "emptyTable": "Aún no tienes ningún recibo.",
-                //     url: '{% static "json/es_ES.json" %}'
-                // },
+        {% endif %}
+
+
+
+
+
+        <script>
+            $(document).ready(function () {
+                // $('#table_id').DataTable();
+
+                $('#table_id').dataTable({
+                    "pageLength": 5,
+                    "order": [[2, "desc"]], //or asc 
+                    // "language": {
+                    //     "emptyTable": "Aún no tienes ningún recibo.",
+                    //     url: '{% static "json/es_ES.json" %}'
+                    // },
+                });
+
             });
-
-        });
 
         // function reloadTable() {
         //     console.log('entra en la funcion');
@@ -178,7 +204,7 @@ View
 
 
 
-    </script>
+        </script>
 
 </body>
 

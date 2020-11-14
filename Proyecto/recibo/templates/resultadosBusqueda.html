@@ -57,7 +57,6 @@ View
                 <img id="imgRecibo" class="rounded-sm"
                     src="{% static 'images/companyLogo/'%}{{ recibo.companyIdentifier }}.png" alt=""
                     onerror="imgError(this);" />
-                <!-- <span class="caption">{{td.title}}</span> -->
         </a>
 
         <figcaption class="caption" id="captionImage">{{recibo.title}}</figcaption>
@@ -74,12 +73,7 @@ View
 
 </body>
 
-
-
 </html>
-
-
-
 
 
 {% endblock %}

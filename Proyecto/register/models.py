@@ -12,6 +12,8 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
+    is_store = models.BooleanField(default=False)
+    is_customer = models.BooleanField(default=False)
 
     last_login = models.DateTimeField(auto_now_add=True)
     created = models.DateTimeField(auto_now_add=True)
@@ -22,12 +24,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     class Meta:
-        ''' complete '''
+        ''' verbose '''
         verbose_name = ('user')
         verbose_name_plural = ('users')
-    is_store = models.BooleanField(default=False)
-    is_customer = models.BooleanField(default=False)
-    # email = models.EmailField()
 
     # ==================== Customer ===============================
 
@@ -57,9 +56,6 @@ class Store(models.Model):
     # To take the logo of the image
     logo = models.ImageField(blank=True, null=True,
                              default=str(identifier)+'.png')
-
-    # plt.savefig(os.path.join(
-    #     settings.STATICFILES_DIRS, 'static/img/imagen.png'))
 
     # Adress of the store
     address = models.CharField(max_length=150)

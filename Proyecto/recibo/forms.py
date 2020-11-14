@@ -40,7 +40,5 @@ class TicketModelForm(forms.ModelForm):
         ''' Form to create and manage the tickets'''
         model = Ticket
         fields = [
-            # 'store',
             'title',
-            # 'momentOfCreation',
         ]

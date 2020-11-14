@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect
 from .forms import RegisterCustomerForm, RegisterStoreForm
-# import uuid
 # Create your views here.
 
 
@@ -34,7 +33,6 @@ def recibos(response):
 
 def registerStore(request):
     if(request.method == "POST"):
-        # form = RegisterStoreForm(response.POST )
         form = RegisterStoreForm(request.POST, request.FILES)
 
         if (form.is_valid()):

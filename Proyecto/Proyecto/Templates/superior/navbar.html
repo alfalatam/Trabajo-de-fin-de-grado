@@ -3,20 +3,13 @@
 
 <html>
 
-
-<!-- Aquí ponemos el cabecero  con los link y los "meta" con el cual,llamaremos a boostrap -->
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-
-
     <link rel="stylesheet" type="text/css" href="{%  static 'css/navbar.css' %}">
-
-
 
 </head>
 
@@ -30,12 +23,10 @@
             alt="Responsive image" style="margin-right: 3em">
 
 
-
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
             aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-
 
         <div class="collapse navbar-collapse" id="navbarsExampleDefault">
             <ul class="navbar-nav mr-auto">
@@ -54,13 +45,7 @@
                     <a class="nav-link" href="/misRecibos" style="margin-right: 1.5em">Recibos <span
                             class="sr-only">(current)</span></a>
                 </li>
-                <!-- TODO creo que sobra -->
-                <!-- {% if user.is_customer == True %}
-                <li class="nav-item active">
-                    <a class="nav-link" href="/Notificationes" style="margin-right: 1.5em">Notificaciones <span
-                            class="sr-only">(current)</span></a>
-                </li>
-                {% endif %} -->
+
                 {% if user.is_store == True %}
                 <li class="nav-item active">
                     <a class="nav-link" href="/misProductos" style="margin-right: 1.5em">Productos <span
@@ -74,26 +59,7 @@
 
             </ul>
 
-
-            <!-- Este buscador solo se verá si esta autenticado el usuario -->
-            <!-- and  request.get_full_path == "/misRecibos/" -->
             {% if user.is_authenticated   %}
-
-            <!-- <form action="/buscar/" class="form-inline my-2 my-lg-0" method="GET">
-                <input class="form-control mr-sm-2" type="text" placeholder="Buscar" aria-label="Search" name="prd">
-                <input type="submit" class="btn btn-outline-success my-2 my-sm-0" value="Buscar">
-            </form> -->
-
-
-
-
-            <!-- <div>Icons made by <a href="https://www.flaticon.com/authors/iconixar" title="iconixar">iconixar</a> from <a
-                    href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div> -->
-
-
-
-
-
 
             <div class="btn-group">
 

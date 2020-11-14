@@ -15,7 +15,6 @@
 
     {% endif %}
     <form method="POST" class="form-group" enctype="multipart/form-data">
-        <!-- <form method='POST' action='{{ action_url }}' enctype='multipart/form-data'></form> -->
         {% csrf_token %}
         {{form | crispy }}
         <button type="submit" class="btn btn-success">Register</button>

@@ -53,7 +53,6 @@ urlpatterns = [
     url(r'^generate-public-pdf',
         viewsPdf.generate_public_pdf, name="generate-public-pdf"),
     path('profile/', profile),
-    path('importScanned/', views.scannedTiket),
     path("misProductos/", viewsProduct.misProductos,
          name="misProductos"),  # <-- added
     path('create/', viewsProduct.ProductoCreateView.as_view(),

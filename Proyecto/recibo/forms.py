@@ -1,17 +1,9 @@
 from django import forms
-from .models import ScannedTicket, Ticket
+from .models import Ticket
 from datetime import datetime
 import uuid
 
 from django.utils.crypto import get_random_string
-
-
-class ScannedTicketForm(forms.ModelForm):
-
-    class Meta:
-        ''' Delete'''
-        model = ScannedTicket
-        fields = ['user', 'title', 'empresa', 'photo']
 
 
 class TicketForm(forms.ModelForm):

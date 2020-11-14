@@ -17,7 +17,7 @@ from django.views.generic import CreateView, UpdateView
 from Proyecto import settings
 from register.models import Store, User
 
-from .forms import ScannedTicketForm, TicketForm, UserTicketForm, TicketModelForm
+from .forms import TicketForm, UserTicketForm, TicketModelForm
 from .models import Ticket, TicketLink
 from .resources import TicketResource
 from django.shortcuts import redirect, get_object_or_404
@@ -246,39 +246,6 @@ def importeTotal(recibo):
 
     # Devuelvo el valor con solo dos decimales
     return str(round(importeTotal, 2))
-    # productosRecibo = Producto.objects.filter(ticket=recibo)
-    # for p in productosRecibo:
-    #     importe += p.quantity*p.price
-
-
-# def identificadorUnico():
-#     cadena
-#     rng1 = random.sample(range(0, 9), 2)
-#     rng2 = rng_generator()
-#     cadena += recibo.user.usernames[:2]+recibo.company[:2] + \
-#         rng1 + "-"+datetime.today().strftime('%d%m%Y')+"-"+rng2
-
-#     return cadena
-
-
-# def rng_generator(size=6, chars=string.ascii_uppercase + string.digits):
-#     return ''.join(random.choice(chars) for _ in range(size))
-
-
-def scannedTiket(request):
-
-    form = ScannedTicketForm(request.POST or None)
-
-    if(form.is_valid()):
-        form.save()
-        form = ScannedTicketForm
-
-    context = {
-        'form': form
-
-    }
-
-    return render(request, "importScanned.html", context)
 
 
 def sendMail(dict):

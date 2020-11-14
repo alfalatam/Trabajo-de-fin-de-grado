@@ -397,7 +397,7 @@ def generate_public_pdf(request, *args, **kwargs):
     listC.append(t)
     # -----------------------------------------------------------------------------------
     t.spaceBefore = 20
-    doc.build(clientes, onFirstPage=pageSetup, onLaterPages=pageSetup2)
+    doc.build(listC, onFirstPage=pageSetup, onLaterPages=pageSetup2)
     response.write(buff.getvalue())
     buff.close()
     return response

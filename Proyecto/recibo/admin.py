@@ -1,7 +1,7 @@
 from django.contrib import admin
 # from register.forms import RegisterCustomerForm
 
-from .models import Ticket, ScannedTicket, TicketLink
+from .models import Ticket, TicketLink
 
 
 # admin.site.register(Producto)
@@ -13,12 +13,6 @@ class TicketAdmin(admin.ModelAdmin):
     list_display = ('user', 'title', 'empresa', 'identifier')
 
 
-class ScannedTicketAdmin(admin.ModelAdmin):
-
-    search_fields = ("user__username", "title")
-    list_display = ('user', 'title')
-
-
 class TicketLinkAdmin(admin.ModelAdmin):
 
     search_fields = ("url", "is_shared")
@@ -27,4 +21,3 @@ class TicketLinkAdmin(admin.ModelAdmin):
 
 admin.site.register(TicketLink,)
 admin.site.register(Ticket, TicketAdmin)
-admin.site.register(ScannedTicket, ScannedTicketAdmin)

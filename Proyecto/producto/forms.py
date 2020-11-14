@@ -8,10 +8,5 @@ class ProductoModelForm(forms.ModelForm):
         ''' Form to create and manage the products'''
         model = Producto
         fields = [
-            # 'store',
             'name', 'quantity', 'price', 'warranty',
-            # 'momentOfCreation',
         ]
-
-        # def __init__(self, *args, **kwargs):
-        #     self.fields['store'].initial =

@@ -12,9 +12,6 @@ from datetime import datetime
 
 class Producto(models.Model):
     # Relaciones
-    # ticket = models.ForeignKey(
-    #     Ticket, on_delete=models.CASCADE, null=False, blank=False)
-    # Relacion con user(Store)
     store = models.ForeignKey(
         Store, on_delete=models.CASCADE, null=False, blank=False)
 
@@ -36,7 +33,6 @@ class Producto(models.Model):
         t = self.ticket
         t.price += priceToAdd
 
-        # warranty = models.CharField()
     def save(self, **kwargs):
         super(Producto, self).save(**kwargs)
         store = Store.objects.get(pk=self.store.user.id)

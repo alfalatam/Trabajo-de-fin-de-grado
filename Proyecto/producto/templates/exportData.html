@@ -3,16 +3,17 @@
 {% block content %}
 
 <div id="displayBase">
-    <h3>Exportar Datos</h3>
+    <h3>Exportar Datos del sistema</h3>
     <p>Exportando de la base de datos..</p>
     <form method="post" enctype="multipart/form-data">
+        <!-- csft for security -->
         {% csrf_token %}
-        <p>Please select format of file.</p>
+        <p>Por favor seleccione un formato.</p>
         <select name="file-format" class="form-control my-3">
             <option selected>Elija un formato.</option>
             <option>CSV</option>
             <option>JSON</option>
-            <option>XLS (Excel)</option>
+            <option>EXCEL(XLS)</option>
         </select>
         <button class="btn btn-primary" type="submit">Exportar</button>
     </form>

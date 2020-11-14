@@ -232,9 +232,7 @@ def generate_public_pdf(request, *args, **kwargs):
         data = recibo.data
         if (recibo.data is not None):
             try:
-                # a_json = json.loads(a_string)
                 jsonData = json.loads(data)
-                # print(jsonData)
 
                 if (jsonData is dict):
                     jsonData = None
@@ -242,17 +240,10 @@ def generate_public_pdf(request, *args, **kwargs):
             except ValueError as e:
                 if (data):
                     data = ""
-                # jsonData = json.loads(data)
-                # print('=======2=========')
-                # print(jsonData)
 
-        # print(ticketLink.is_shared)
         response = HttpResponse(content_type='application/pdf')
-        # pdf_name = "clientes.pdf"  # llamado clientes
         response['Content-Disposition'] = 'attachment; filename="%s.pdf"' % (
             recibo.title)
-    # la linea 26 es por si deseas descargar el pdf a tu computadora
-    # response['Content-Disposition'] = 'attachment; filename=%s' % pdf_name
 
     buff = BytesIO()
     doc = SimpleDocTemplate(buff,
@@ -263,25 +254,8 @@ def generate_public_pdf(request, *args, **kwargs):
                             bottomMargin=50,
                             )
 
-    # negrita = ParagraphStyle('parrafos',
-
-    #                          fontSize=12,
-    #                          fontName="Times-bold")
-
-    # tabla1 = ParagraphStyle('tablas',
-
-    #                         fontSize=12,
-    #                         fontName="Times-bold")
-
-    clientes = []
-    # styles = getSampleStyleSheet()
-    # header = Paragraph("Listado de Clientes", styles['Heading1'])
-    # clientes.append(header)
-    # solicitado = Paragraph(
-    #     u"SOLICITADO POR: " + requerimiento.solicitante.nombre_completo(), izquierda)
-
+    listC = []
     # -------------------------Marca de agua ---------------------------------------------
-
     def pageSetup(canvas, doc):
 
         canvas.saveState()
@@ -299,7 +273,6 @@ def generate_public_pdf(request, *args, **kwargs):
         try:
             image2 = MEDIA_URL + \
                 '/companyLogo/%s' % (recibo.companyIdentifier)
-            # image2 = MEDIA_URL + '/companyLogo/base.png'
             canvas.drawImage(image2, 350, 700, width=200,
                              height=90, mask='auto')
 
@@ -394,50 +367,16 @@ def generate_public_pdf(request, *args, **kwargs):
 
     empty = ('')
 
-    # Aqui esta la chicha jsonData
-    # jsonData
     if (data):
-        # print('=====================================')
-        # print(jsonData)
-        # print(type(jsonData))
 
         productos = [(textwrap.fill(p["name"], 40), p["quantity"], p["price"]+' €', p["priceIVA"]+' €', str((float(p["priceIVA"])*int(p["quantity"])))+' €')
                      for p in jsonData]
-        # elif (jsonData is dict):
-        #     print('9999999999999999999999999')
-        #     listA = []
-        #     listA.append(jsonData)
-        #     productos = [(textwrap.fill(p["name"], 40), p["quantity"], p["price"]+' €', p["priceIVA"]+' €', str((float(p["priceIVA"])*int(p["quantity"])))+' €')
-        #                  for p in listA]
-        # else:
-        #     productos = []
-
-        # productos=[]
-
-    # productos = [(p.name, p.quantity, p.price, p.price*p.quantity)
-    #              for p in productosRecibo]
 
     if (data):
         t = Table([headings] + productos, spaceAfter=200, spaceBefore=800)
     else:
         t = Table([headings], spaceAfter=200,  spaceBefore=800)
 
-    # t.setStyle(TableStyle(
-    #     [
-    #         ('LINEABOVE', (1, 2), (-2, 2), 5, colors.blue),
-    #         ('ALIGN', (100, 100), (100, -1), 'RIGHT'),
-    #         ('GRID', (0, 0), (3, -1), 1, colors.black),
-    #         ('LINEBELOW', (0, 0), (-1, 0), 2, colors.black),
-    #         ('BACKGROUND', (0, 0), (-1, 0), colors.white),
-
-    #     ]
-    # ))
-
-    # t.levelStyles = [
-    #     spaceBefore = 10,
-
-    # ]
-    # clientes.append(t)
     t.setStyle(TableStyle([('ALIGN', (0, 0), (-1, -1), 'CENTER'),
                            ('TEXTCOLOR', (0, 0), (3, 0), colors.black),
                            ('BACKGROUND', (0, 0), (-1, 0), colors.lightgrey),
@@ -451,18 +390,14 @@ def generate_public_pdf(request, *args, **kwargs):
 
                            ]))
 
-    # hAlign = TA_LEFT
     t2 = Table([empty],  spaceAfter=300)
     # cmds = t.se.getCommands()
     # print(cmds)
-    clientes.append(t2)
-    clientes.append(t)
-
+    listC.append(t2)
+    listC.append(t)
     # -----------------------------------------------------------------------------------
     t.spaceBefore = 20
     doc.build(clientes, onFirstPage=pageSetup, onLaterPages=pageSetup2)
     response.write(buff.getvalue())
     buff.close()
     return response
-
-    # return render(request, 'inicio.html', context=None, content_type=None, status=None, using=None)

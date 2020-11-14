@@ -85,9 +85,10 @@ def generate_pdf(request, *args, **kwargs):
         registerFont(TTFont('Calibri', 'Calibri.ttf'))
 
         # Imagen de la compañia
+
         try:
             image2 = MEDIA_URL + \
-                '/companyLogo/%s.png' % (recibo.companyIdentifier)
+                '/companyLogo/%s' % (recibo.companyIdentifier)
             canvas.drawImage(image2, 350, 700, width=200,
                              height=90, mask='auto')
         # Si no tiene imagen o hay algún error con su imagen carga una genérica
@@ -233,7 +234,7 @@ def generate_public_pdf(request, *args, **kwargs):
             try:
                 # a_json = json.loads(a_string)
                 jsonData = json.loads(data)
-                print(jsonData)
+                # print(jsonData)
 
                 if (jsonData is dict):
                     jsonData = None
@@ -245,7 +246,7 @@ def generate_public_pdf(request, *args, **kwargs):
                 # print('=======2=========')
                 # print(jsonData)
 
-        print(ticketLink.is_shared)
+        # print(ticketLink.is_shared)
         response = HttpResponse(content_type='application/pdf')
         # pdf_name = "clientes.pdf"  # llamado clientes
         response['Content-Disposition'] = 'attachment; filename="%s.pdf"' % (
@@ -297,7 +298,7 @@ def generate_public_pdf(request, *args, **kwargs):
         # Imagen de la compañia
         try:
             image2 = MEDIA_URL + \
-                '/companyLogo/%s.png' % (recibo.companyIdentifier)
+                '/companyLogo/%s' % (recibo.companyIdentifier)
             # image2 = MEDIA_URL + '/companyLogo/base.png'
             canvas.drawImage(image2, 350, 700, width=200,
                              height=90, mask='auto')

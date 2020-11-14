@@ -7,6 +7,7 @@ from .models import User, Customer, Store
 # from django.core.exceptions import ValidationError
 # from phonenumber_field.formfields import PhoneNumberField
 import uuid
+import os
 
 
 class RegisterCustomerForm(UserCreationForm):
@@ -65,7 +66,13 @@ class RegisterStoreForm(UserCreationForm):
         store.logo = self.cleaned_data.get('logo')
         store.address = self.cleaned_data.get('address')
         store.email = self.cleaned_data.get('email')
+
         store.save()
+
+        def content_file_name(instance, filename):
+            store.logo = filename.split('.')[-1]
+            filename = "%s.%s" % (store.identifier, ext)
+            return os.path.join('uploads', filename)
 
         return user
 # ==============================================================

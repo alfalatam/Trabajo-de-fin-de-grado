@@ -82,7 +82,7 @@ View
                         {% if user.is_customer is True %}
                         <th>Seguimiento</th>
                         {% endif %}
-
+                        <th>Editar</th>
                         <th>Eliminar</th>
                     </tr>
                 </thead>
@@ -171,6 +171,13 @@ View
                         </div>
                         <!-- Modal end -->
                         <td>
+                            <a class="edit" href="{% url 'recibo-update' recibo.pk%}" class="btn btn-danger btn-sm"
+                                role="button" aria-pressed="true">
+                                <i class="fa fa-edit" style="font-size:24px; color: orange;"></i>
+                            </a>
+                        </td>
+
+                        <td>
                             <a class="delete" href="{% url 'delete-recibo' recibo.pk%}" class="btn btn-danger btn-sm"
                                 role="button" aria-pressed="true">
                                 <i class="fa fa-trash" style="font-size:24px; color: red;"></i>
@@ -178,6 +185,7 @@ View
 
                             </i>
                         </td>
+
                     </tr>
 
                     {% endfor %}

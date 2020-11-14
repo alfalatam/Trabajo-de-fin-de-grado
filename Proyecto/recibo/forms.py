@@ -33,3 +33,14 @@ class UserTicketForm(forms.ModelForm):
         ''' Check '''
         model = Ticket
         fields = ['user']
+
+
+class TicketModelForm(forms.ModelForm):
+    class Meta:
+        ''' Form to create and manage the tickets'''
+        model = Ticket
+        fields = [
+            # 'store',
+            'title',
+            # 'momentOfCreation',
+        ]

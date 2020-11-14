@@ -162,7 +162,7 @@ def delete_producto(request, pk):
     producto = Producto.objects.get(id=pk)
 
     storeProperty = producto.store
-    print(storeProperty)
+    # print(storeProperty)
 
     if(storeProperty == store):
         producto.delete()

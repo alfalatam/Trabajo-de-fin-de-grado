@@ -17,10 +17,10 @@ from django.views.generic import CreateView, UpdateView
 from Proyecto import settings
 from register.models import Store, User
 
-from .forms import ScannedTicketForm, TicketForm, UserTicketForm
+from .forms import ScannedTicketForm, TicketForm, UserTicketForm, TicketModelForm
 from .models import Ticket, TicketLink
 from .resources import TicketResource
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404
 
 # QR Decoder
 import cv2
@@ -49,12 +49,9 @@ import pyzbar.pyzbar as pyzbar
 @login_required
 def recibo(request):
 
-    print('=====================================1=======================================0')
-
     try:
         idRecibo = ""
         fullURL = request.get_full_path()
-        print('eL ID QUE LE ESTOY PASANDO ES: ', idRecibo)
         idRecib = fullURL.split("=")
         idRecibo = idRecib[1]
 
@@ -65,8 +62,9 @@ def recibo(request):
         except IndexError:
             code = 0
 
-        print('la id  es : ', idRecibo)
         ticket = Ticket.objects.get(id=idRecibo)
+
+        price = importeTotal(ticket)
 
         # context = {}
         tLink = TicketLink.objects.get(ticket=ticket)
@@ -87,7 +85,7 @@ def recibo(request):
         # if (code == 0):
         #     message = None
         tupleN = (None, 'Recibo añadido correctamente al cliente',
-                  'Ese recibo ya existe', 'Error interno, inténtelo de nuevo más tarde')
+                  'Ese recibo ya existe', 'Error interno, inténtelo de nuevo más tarde', 'No se ha detectado ningún lector')
 
         codeString = tupleN[int(code)]
 
@@ -106,20 +104,20 @@ def recibo(request):
 
         # -----------------
 
-        print('---------------------c', codeString)
-        print('---------------------l', code)
-        print('---------------------', )
+        # print('---------------------c', codeString)
+        # print('---------------------l', code)
+        # print('---------------------', )
 
         shareUrl = "http://"+request.META['HTTP_HOST'] + \
             "/generate-public-pdf?url="+tLink.url
-        print(shareUrl)
+        # print(shareUrl)
         # print(tLnk)
         # context['urlLink'] = tLink.url
 
-        return render(request, "recibo.html", {"recibo": ticket, "tLink": tLink, "code": code, 'codeString': codeString, "shareUrl": shareUrl})
+        return render(request, "recibo.html", {"recibo": ticket, "tLink": tLink, "code": code, 'codeString': codeString, "shareUrl": shareUrl, "price": price})
 
     except Exception as e:
-        print('Has pasado por la exception, buena suerte')
+        # print('Has pasado por la exception, buena suerte')
         trace_back = traceback.format_exc()
         message = str(e) + " " + str(trace_back)
         print(message)
@@ -384,7 +382,8 @@ class ReciboCreateView(CreateView):
         obj.user = User.objects.get(id=self.request.user.id)
         obj.identifier = uuid.uuid4().hex[:16].upper()
         store = Store.objects.get(user_id=self.request.user.id)
-        obj.companyIdentifier = store.identifier
+        obj.companyIdentifier = store.logo
+        obj.empresa = store.company_name
 
         # obj.companyIdentifier = store.company
 
@@ -468,6 +467,11 @@ def camera(request):
 
     # Accedemos a la cámara
     cap = cv2.VideoCapture(0)
+
+    if (cap is None or not cap.isOpened()):
+        print('Nothing detected')
+        return HttpResponseRedirect('/recibo?='+reciboID+'=%4', {'message': message})
+
     # OPCIONAL: mostrar texto en cámara
     # font = cv2.FONT_HERSHEY_PLAIN
 
@@ -572,3 +576,22 @@ def delete_recibo(request, pk):
     }
 
     return render(request, 'misRecibos.html', context)
+
+
+class ReciboUpdateView(UpdateView):
+    template_name = 'createRecibo.html'
+    form_class = TicketModelForm
+
+    def get_object(self):
+        id_ = self.kwargs.get("id")
+        return get_object_or_404(Ticket, id=id_)
+
+    def form_valid(self, form):
+
+        obj = form.save(commit=False)
+        # obj.store = Store.objects.get(user_id=self.request.user.id)
+        obj.save()
+
+        return HttpResponseRedirect('/misRecibos/')
+        # print(form.cleaned_data)
+        # return super().form_valid(form)

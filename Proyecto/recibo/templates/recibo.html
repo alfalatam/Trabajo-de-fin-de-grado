@@ -60,75 +60,83 @@ View
             {{ codeString }}
 
         </div>
+
+        {% elif code == '4' %}
+        <div class="alert alert-warning" role="alert">
+            {{ codeString }}
+
+        </div>
+
         {% endif %}
 
 
+
     </div>
     <br>
-    <div style="margin-top: 5em;"></div>
     <br>
 
     {% endif %}
 
-    <div id="elementFirst">
-        <p><b> Titulo del recibo:</b> {{ recibo.title }}</p>
-        <p><b>Empresa: </b>{{recibo.empresa}}</p>
-        <p><b>Direción: </b>{{recibo.address}}</p>
-        <p><b>Identificador: </b>{{recibo.identifier}}</p>
-        <p><b>Precio total: </b>{{recibo.price}}</p>
-        <p><b>Método de pago: </b>{{recibo.payment}}</p>
+    <div style="margin-top: 2em;">
+        <div id="elementFirst" style="margin-top: 2em;">
+            <p><b> Titulo del recibo:</b> {{ recibo.title }}</p>
+            <p><b>Empresa: </b>{{recibo.empresa}}</p>
+            <p><b>Direción: </b>{{recibo.address}}</p>
+            <p><b>Identificador: </b>{{recibo.identifier}}</p>
+            <p><b>Precio total: </b>{{price}}€</p>
+            <p><b>Método de pago: </b>{{recibo.payment}}</p>
 
-    </div>
+        </div>
 
-    {% if user.is_customer is False %}
+        {% if user.is_customer is False %}
 
-    {% if recibo.isCopy is False  %}
-    <div id="element2">
-        <span id=cajaPDF>
-            <a href="{% url 'cvopen' %}?recibo={{ recibo.id }}" target="_blank">
+        {% if recibo.isCopy is False  %}
+        <div id="element2">
+            <span id=cajaPDF>
+                <a href="{% url 'cvopen' %}?recibo={{ recibo.id }}" target="_blank">
 
-                <img id="imgRecibo" class="rounded-sm" src="{% static 'images/'%}add.png" alt=""
-                    style="max-width: 300;" />
-
-                <span class="caption">{{td.title}}</span>
-
-            </a>
-        </span>
-
-    </div>
-
-
-    <div id="element2">
-        <span id=cajaPDF data-toggle="modal" data-target="#exampleModal">
-            <figure>
-                <img id="imgRecibo" class="rounded-sm" src="{% static 'images/'%}QR.png" alt=""
-                    style="max-width: 300;" />
-
-                <span class="caption">{{td.title}}</span>
-
-
-        </span>
-
-    </div>
-    {% endif %}
-    {% endif %}
-
-    <div id="element2">
-        <span id=cajaPDF>
-            <a href="{% url 'generate-pdf' %}?recibo={{ recibo.id }}" target="_blank">
-                <figure>
-                    <img id="imgRecibo" class="rounded-sm" src="{% static 'images/'%}PDFIcon.png" alt=""
+                    <img id="imgRecibo" class="rounded-sm" src="{% static 'images/'%}add.png" alt=""
                         style="max-width: 300;" />
 
                     <span class="caption">{{td.title}}</span>
-            </a>
-        </span>
+
+                </a>
+            </span>
+
+        </div>
 
 
+        <div id="element2">
+            <span id=cajaPDF data-toggle="modal" data-target="#exampleModal">
+                <figure>
+                    <img id="imgRecibo" class="rounded-sm" src="{% static 'images/'%}QR.png" alt=""
+                        style="max-width: 300;" />
+
+                    <span class="caption">{{td.title}}</span>
+
+
+            </span>
+
+        </div>
+        {% endif %}
+        {% endif %}
+
+        <div id="element2">
+            <span id=cajaPDF>
+                <a href="{% url 'generate-pdf' %}?recibo={{ recibo.id }}" target="_blank">
+                    <figure>
+                        <img id="imgRecibo" class="rounded-sm" src="{% static 'images/'%}PDFIcon.png" alt=""
+                            style="max-width: 300;" />
+
+                        <span class="caption">{{td.title}}</span>
+                </a>
+            </span>
+
+
+
+        </div>
 
     </div>
-
-
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">

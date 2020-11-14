@@ -92,7 +92,7 @@ urlpatterns = [
     path("exportRecibo/", views.export_recibo,
          name="export-recibo"),  # <-- added
 
-    path("importData/", viewsProduct.simple_upload,
+    path("importData/", viewsProduct.subida,
          name="import-data"),  # <-- added
 
     path('createRecibo/', views.ReciboCreateView.as_view(),

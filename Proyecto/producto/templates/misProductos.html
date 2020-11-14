@@ -29,7 +29,6 @@ Notificationes
 <body style="text-align: center;">
     <div style="text-align: center; margin-top: 4em; margin-bottom: 2em;">
         <a href="/create"><input type="button" class="btn btn-primary" value="Añadir producto"></a>
-        <!-- <a href="/importData"><input type="button" class="btn btn-success" value="Import data"></a> -->
         <a href="/exportData"><input type="button" class="btn btn-info" value="Exportar datos"></a>
     </div>
 
@@ -49,8 +48,6 @@ Notificationes
             </thead>
             <tbody>
                 {% for producto in productos %}
-                <!-- <p>{{producto.name}}</p>
-                    <a href="/displayProducto/{{producto.id}}">Link</a> -->
                 <tr>
                     <td>{{producto.name}}</td>
 

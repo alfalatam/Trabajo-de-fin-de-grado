@@ -1,29 +1,18 @@
 {% extends 'base.html' %}
-
 {% block content %}
+
 <div id="displayBase">
 
-    <h3>Import Data</h3>
-    <p>importing to database</p>
-    <!-- <form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    <input type="file" name="importData">
-    <p>Please select format of file.</p>
-    <select name="file-format" class="form-control my-3">
-        <option selected>Choose format...</option>
-        <option>CSV</option>
-        <option>JSON</option> -->
-    <!-- <option>XLS (Excel)</option> -->
-    <!-- </select>
-    <button class="btn btn-primary" type="submit">Import</button>
-</form>
-<a href="{% url 'home' %}">Return Home View</a> -->
+    <h3>Importar productos al sistema</h3>
+
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <input type="file" name="myfile">
+
         <br>
         <br>
-        <button class="btn btn-primary" type="submit">Upload</button>
+
+        <button class="btn btn-primary" type="submit">Subir.</button>
     </form>
 </div>
 {% endblock %}

@@ -7,8 +7,7 @@ Notificationes
 
 {% block content %}
 
-
-<html>
+<!-- <html>
 
 <head>
 
@@ -17,38 +16,26 @@ Notificationes
 
     {% endblock mycss %}
 
-
 </head>
 
 <body>
 
-        <p>Notificaciones no leídas</p>
-        {% for notification in unreaded %}
+    <p>Notificaciones no leídas</p>
+    {% for notification in unreaded %}
+    {{notification}}
+    <br>
+    {% endfor %}
+    <p>Notificaciones leídas</p>
+    {% for notification in readed %}
 
-            {{notification.verb}}
-            <br>
+    {{notification}}
+    <br>
 
-        {% endfor %}
-
-        <p>Notificaciones leídas</p>
-
-        {% for notification in readed %}
-
-            {{notification.verb}}
-            <br>
-
-        {% endfor %} 
-
-
+    {% endfor %}
 
 </body>
 
-
-
-</html>
-
-
-
+</html> -->
 
 
 {% endblock %}

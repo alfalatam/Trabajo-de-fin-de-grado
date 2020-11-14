@@ -385,12 +385,8 @@ class ReciboCreateView(CreateView):
         obj.companyIdentifier = store.logo
         obj.empresa = store.company_name
 
-        # obj.companyIdentifier = store.company
-
         obj.address = store.address
         obj.company_name = store.company_name
-
-        # obj.companyIdentifier = store.companyIdentifier
 
         obj.save()
 
@@ -402,28 +398,28 @@ class ReciboCreateView(CreateView):
         return HttpResponseRedirect('/misRecibos/')
 
 
-# Export data form import-export
+# Exportamos los datos de la base de datos desde aqui
 def export_recibo(request):
     if request.method == 'POST':
-        # Get selected option from form
+        # Añadimos varios formatos para dar opciones al usuario
         file_format = request.POST['file-format']
-        # recibo_resource = TicketResource()
         user = request.user
-        # store = Store.objects.get(user=user.id)
 
         queryset = Ticket.objects.filter(user=user)
         dataset = TicketResource().export(queryset)
 
-        # dataset = producto_resource.export()
+        # Formato CSV
         if file_format == 'CSV':
             response = HttpResponse(dataset.csv, content_type='text/csv')
             response['Content-Disposition'] = 'attachment; filename="exported_data.csv"'
             return response
+        # Formato JSON
         elif file_format == 'JSON':
             response = HttpResponse(
                 dataset.json, content_type='application/json')
             response['Content-Disposition'] = 'attachment; filename="exported_data.json"'
             return response
+        # Formato XLS(Excel)
         elif file_format == 'XLS (Excel)':
             response = HttpResponse(
                 dataset.xls, content_type='application/vnd.ms-excel')

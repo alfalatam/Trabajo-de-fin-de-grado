@@ -72,6 +72,9 @@ urlpatterns = [
          name='producto-create'),
     path('updateProducto/<int:id>/', viewsProduct.ProductoUpdateView.as_view(),
          name='producto-update'),
+    path('updateRecibo/<int:id>/', views.ReciboUpdateView.as_view(),
+         name='recibo-update'),
+
     #     path('deleteProducto/<int:id>/', viewsProduct.ProductoDeleteView.as_view(),
     #          name='producto-delete'),
     url(r'^deleteProducto/(?P<pk>\d+)$',

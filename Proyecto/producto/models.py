@@ -16,7 +16,7 @@ class Producto(models.Model):
     #     Ticket, on_delete=models.CASCADE, null=False, blank=False)
     # Relacion con user(Store)
     store = models.ForeignKey(
-        Store, on_delete=models.DO_NOTHING, null=False, blank=False)
+        Store, on_delete=models.CASCADE, null=False, blank=False)
 
     # Atributos
     name = models.CharField(max_length=30)

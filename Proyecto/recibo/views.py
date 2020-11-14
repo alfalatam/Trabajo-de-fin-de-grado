@@ -20,6 +20,7 @@ from register.models import Store, User
 from .forms import ScannedTicketForm, TicketForm, UserTicketForm
 from .models import Ticket, TicketLink
 from .resources import TicketResource
+from django.shortcuts import redirect
 
 # QR Decoder
 import cv2
@@ -285,27 +286,32 @@ def scannedTiket(request):
 def sendMail(dict):
 
     res = 0
+    # Será el asunto del correo que se mande a cada uno de los usuarios
     subject = "Notificación de garantía"
+    # Parte del cuerpo del mensaje, con un mensaje genérico
     msg = "Uno de sus productos está cerca de perder su garantía, le recomendamos que tenga esto en cuenta"
-    # msg.attach_file('/images/weather_map.png')
-    # customer = 'alfonsoalarcontamayo27@gmail.com'
+
     to = []
-    # print(dict)
+    # Recorremos el diccionario del método productsToNotify
     for i in dict.items():
-        # to = i.key()
+        # Seleccionados los valores del diccionario: emails, producto fechas...
         to.append(i[0])
         dataList = i[1]
         productName = dataList[0]
         ticketTitle = dataList[1]
         warranty = dataList[2]
+        # Personalizamos el mensaje añadiendo información específica al correo
         subject = "Aviso de garantía sobre:  %s" % (productName)
         msg = "Como nos indicó, le recordamos que uno de sus productos está cerca de expirar su garantía \n \n Nombre del recibo :  %s  \n Producto: %s \n Fecha fin de garantía: %s \n \n Atentamente, el equipo de E-tick " % (
             ticketTitle, productName, warranty)
 
+        # enviamos los correos
         res = send_mail(
             subject, msg, settings.EMAIL_HOST_USER, to)
+        # vaciamos el listado de envios
         to.clear()
 
+    # Avisamos si se ha realizado correctamte o si ha habido algún problema
     if(res == 1):
         msg = "Mail Sent"
     else:
@@ -313,40 +319,34 @@ def sendMail(dict):
     return HttpResponse(msg)
 
 
-# @task(name="mails")
-# @periodic_task(run_every=crontab(minute=0, hour='*/12'))
 def productsToNotify():
+    # Avisamos por consola el inicio del método de envío
     print('Procediendo al envío de avisos de garantías...')
-
-    # productos = Producto.objects.all()
-    # queryset of recibos
+    # Filtramos los recibos por aquellos los cuales se ha activado su seguimiento
     recibos = Ticket.objects.filter(warranty=True)
+    # En este diccionario añadiremos la información para los mensajes
     dictToSendMails = {}
+    # Si no hay ningún envío el sistema avisará con una notificación por consola
     mensaje = 'No hay notificationes para mandar'
+
+    # Recorremos los envios
     for r in recibos:
 
+        # Tratamos de cargar los datos en json de los productos por cada uno de los productos
         try:
             jsonData = json.loads(r.data)
+            # Por cada producto seleccionamos la información requerida
             for p in jsonData:
                 email = r.user.email
                 name = p['name']
-                # if(p['warranty'] is Non):
+                # Seleccionamos la fecha y la convertimos a un formato fecha
                 warranty = p['warranty']
                 format_str = '%d%m%Y'
                 datetime_obj = datetime.strptime(warranty, format_str)
 
-                # Fecha del producto
-                # print(datetime_obj.date())
-                # fecha actual
-                # print((datetime.now(timezone.utc).date()))
-
+                # Calculamos los dias de garantía restantes de los productos
                 diffDays = datetime_obj.date() - (datetime.now(timezone.utc).date())
-                # daysToExpire = diffDays.days
-                # print(daysToExpire)
-                # print('La resta entre las dos fechas es:')
-                # print(resta.days)
                 if (diffDays.days < 8 and diffDays.days > 6):
-                    # print('debe avisar por correo')
                     dictToSendMails[email] = [
                         name, r.title, datetime_obj.date()]
 
@@ -376,6 +376,7 @@ def createRecibo(request):
 class ReciboCreateView(CreateView):
     template_name = "createRecibo.html"
     form_class = TicketForm
+
     # queryset = Producto.objects.all()
 
     def form_valid(self, form):
@@ -458,46 +459,47 @@ def update_recibo(request, pk):
 
 def camera(request):
 
+    # Comprobamos que es un GET
     if request.method == 'GET':
 
+        # Accedemos a la información del recibo y a su ID
         reciboID = request.GET.get('recibo')
         recibo = Ticket.objects.get(pk=reciboID)
-        # recibos = Ticket.objects.all()
-        print(recibo)
 
+    # Accedemos a la cámara
     cap = cv2.VideoCapture(0)
+    # OPCIONAL: mostrar texto en cámara
     # font = cv2.FONT_HERSHEY_PLAIN
 
     while True:
         _, frame = cap.read()
-
         mail = None
-
+        # decodificamos
         decodedObjects = pyzbar.decode(frame)
-        # print(decodedObjects.data)
-
+        # Recorremos los objetos
         for obj in decodedObjects:
-            # print("Data", obj.data)
 
+            # Recorremos los objetos y decoficamos con uft-8
             decodeData = obj.data
             d = decodeData.decode("utf-8")
 
+            # En algunos casos el email contiene http al generarse esto evita problemas en la lectura
             if (d.startswith('http')):
                 mail = d[7:]
             else:
                 mail = d
 
+            # Realizamos una comprobación por si ya existe ese recibo
             exist = False
             if User.objects.filter(email=mail).exists():
                 exist = True
-            if(exist == False):
+            if (exist == False):
+                # En caso de fallo cierra el lector y devuelve un error con la redirección
                 cv2.destroyAllWindows()
                 message = 'Parece que ha habido un error en la operación, inténtelo de nuevo.'
                 return HttpResponseRedirect('/recibo?='+reciboID+'=%3', {'message': message})
 
-            # m = re.findall(rb"'(.*?)'", decodeData, re.DOTALL)
-            # print('El valor decodificado es -->', d[7:])
-
+            # Si todo va bien se genera y emite un aviso
             if mail is not None:
                 try:
                     user = User.objects.get(email=mail)
@@ -512,33 +514,25 @@ def camera(request):
                         existingTicket = None
 
                     if (existingTicket is None):
-                        print('====================================')
-                        print('Entra en el IF')
-
                         obj.user = None
                         obj.user = user
                         obj.pk = None
                         obj.isCopy = True
                         obj.save()
-
                         b = TicketLink(is_shared=True, ticket=obj, url='')
                         b.save()
-
-                        print('Recibo creado satisfactoriamente.')
                         cv2.destroyAllWindows()
 
                         message = 'Recibo creado correctamente'
                         return HttpResponseRedirect('/recibo?='+reciboID+'=%1', {'message': message})
 
                     else:
-                        print('====================================')
-                        print('Entra en el ELSE')
-                        print('Ese recibo ya existe')
+
                         message = 'Recibo creado correctamente'
                         cv2.destroyAllWindows()
-                        # message = 'Ese recibo ya ha sido asignado, compruebe en sus recibos si ya existe.'
                         return HttpResponseRedirect('/recibo?=' + reciboID+'=%2', {'message': message})
 
+                # Si ocurre algún error inesperado, devuelve un aviso
                 except ValueError as e:
                     print(
                         'Parece que hay un error la creacion del recibo intentelo de nuevo más tarde')
@@ -546,14 +540,35 @@ def camera(request):
                     message = 'Parece que ha habido un error en la operación, inténtelo de nuevo.'
                     return HttpResponseRedirect('/recibo?='+reciboID+'=%3', {'message': message})
 
-            # found: 1234
-
         cv2.imshow("Frame", frame)
-        # print('El texto es:', cv2.putText)
-
+        # Tecla ESC para cerrar manualmente el lector
         key = cv2.waitKey(1)
         if key == 27:
             cv2.destroyAllWindows()
-
-            # break
             return HttpResponseRedirect('/recibo?=' + reciboID)
+
+
+def delete_recibo(request, pk):
+
+    template = 'misRecibos.html'
+
+    user = request.user
+    user = User.objects.get(pk=user.pk)
+    # producto = Producto.objects.filter(id=pk)
+    recibo = Ticket.objects.get(id=pk)
+
+    propertyUser = recibo.user
+
+    if(propertyUser == user):
+        recibo.delete()
+        return redirect("/misRecibos")
+    else:
+        pass
+
+    recibos = Ticket.objects.filter(user=user)
+
+    context = {
+        'recibos': recibos,
+    }
+
+    return render(request, 'misRecibos.html', context)

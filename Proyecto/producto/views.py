@@ -15,6 +15,7 @@ import traceback
 from register.models import Store
 from .forms import ProductoModelForm
 # from tablib import Dataset
+from django.shortcuts import redirect
 
 
 from django.views.generic import CreateView, DetailView, UpdateView
@@ -154,9 +155,25 @@ class ProductoUpdateView(UpdateView):
 def delete_producto(request, pk):
 
     template = 'misProductos.html'
-    Producto.objects.filter(id=pk).delete()
 
-    productos = Producto.objects.all()
+    user = request.user
+    store = Store.objects.get(user=user)
+    # producto = Producto.objects.filter(id=pk)
+    producto = Producto.objects.get(id=pk)
+
+    storeProperty = producto.store
+    print(storeProperty)
+
+    if(storeProperty == store):
+        producto.delete()
+        productos = Producto.objects.filter(store=store)
+
+        return redirect("/misProductos")
+
+    else:
+        pass
+
+    productos = Producto.objects.filter(store=store)
 
     context = {
         'productos': productos,

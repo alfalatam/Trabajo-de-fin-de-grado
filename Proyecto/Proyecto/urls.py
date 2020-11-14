@@ -74,6 +74,8 @@ urlpatterns = [
     #          name='producto-delete'),
     url(r'^deleteProducto/(?P<pk>\d+)$',
         viewsProduct.delete_producto, name="delete-producto"),
+    url(r'^deleteRecibo/(?P<pk>\d+)$',
+        views.delete_recibo, name="delete-recibo"),
     # path('display/<int:pk>/', viewsProduct.ProductoDetailView.as_view(),
     #      name='producto-detail'),
     path('displayProducto/<int:pk>/',

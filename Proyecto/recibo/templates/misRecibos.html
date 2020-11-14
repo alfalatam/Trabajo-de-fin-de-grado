@@ -42,6 +42,7 @@ View
 
 
     {% if  user.ticketList.all|length  == 0 %}
+    {% if user.is_customer == True %}
 
     <div class="">
         <h3 class="mb-2 ">¡Vaya!</h3>
@@ -62,6 +63,7 @@ View
 
 
         </div>
+        {% endif %}
 
         {% else %}
         <div id=" tableDiv" style="margin-left: 5em; margin-right: 5em;">
@@ -169,7 +171,12 @@ View
                         </div>
                         <!-- Modal end -->
                         <td>
-                            <i class="fa fa-trash" style="font-size:24px; color: red;"></i>
+                            <a class="delete" href="{% url 'delete-recibo' recibo.pk%}" class="btn btn-danger btn-sm"
+                                role="button" aria-pressed="true">
+                                <i class="fa fa-trash" style="font-size:24px; color: red;"></i>
+                            </a>
+
+                            </i>
                         </td>
                     </tr>
 

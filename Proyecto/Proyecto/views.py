@@ -23,6 +23,8 @@ def profile(request):
     return render(request, "profile/profile.html")
 
 
+# IMPORTANT
+# In pre production deactivate this to open the system the first time
 # SCHEDULING CODE
 scheduler = BackgroundScheduler()
 scheduler.add_jobstore(DjangoJobStore(), "default")

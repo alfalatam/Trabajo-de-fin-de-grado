@@ -27,6 +27,8 @@ from usuarios import views as viewsUsers
 from producto import views as viewsProduct
 from django.conf.urls import url
 from .views import quienesSomos
+from django.conf import settings
+from django.conf.urls.static import static
 
 app_name = 'proyecto'
 
@@ -108,4 +110,4 @@ urlpatterns = [
     path('delete/', viewsUsers.delete_user, name='delete'),
 
 
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

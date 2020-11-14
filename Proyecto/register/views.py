@@ -32,15 +32,17 @@ def recibos(response):
     return render(response, "recibos.html", {})
 
 
-def registerStore(response):
-    if(response.method == "POST"):
-        form = RegisterStoreForm(response.POST)
+def registerStore(request):
+    if(request.method == "POST"):
+        # form = RegisterStoreForm(response.POST )
+        form = RegisterStoreForm(request.POST, request.FILES)
+
         if (form.is_valid()):
             form.save()
             return redirect("/inicio")
         else:
-            return render(response, "register/registerStore.html", {'form': form})
+            return render(request, "register/registerStore.html", {'form': form})
 
     else:
         form = RegisterStoreForm()
-    return render(response, "register/registerStore.html", {"form": form})
+    return render(request, "register/registerStore.html", {"form": form})

@@ -3,8 +3,8 @@ from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from usuarios.models import UserManager
 
-
 # ==================== Standard User =============================
+
 
 class User(AbstractBaseUser, PermissionsMixin):
 
@@ -55,7 +55,11 @@ class Store(models.Model):
     company_name = models.CharField(max_length=150)
 
     # To take the logo of the image
-    logo = models.ImageField(blank=True, null=True)
+    logo = models.ImageField(blank=True, null=True,
+                             default=str(identifier)+'.png')
+
+    # plt.savefig(os.path.join(
+    #     settings.STATICFILES_DIRS, 'static/img/imagen.png'))
 
     # Adress of the store
     address = models.CharField(max_length=150)

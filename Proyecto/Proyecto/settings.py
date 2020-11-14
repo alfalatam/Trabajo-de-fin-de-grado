@@ -151,6 +151,8 @@ STATICFILES_DIRS = [
 # Para archivos e imágenes
 MEDIA_URL = 'Proyecto/static/images/'
 
+MEDIA_ROOT = 'Proyecto/static/images/companyLogo'
+
 CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 LOGIN_REDIRECT_URL = "/inicio"

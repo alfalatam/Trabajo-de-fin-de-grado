@@ -40,4 +40,5 @@ class Producto(models.Model):
 
     def __str__(self):
         '''Returns the name of the ticket'''
+
         return self.name

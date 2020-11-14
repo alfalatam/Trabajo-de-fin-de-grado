@@ -52,6 +52,7 @@ class Ticket(models.Model):
 
     def __str__(self):
         '''This definition returns the ticket title '''
+
         return self.title
 
 

@@ -131,6 +131,7 @@
   0% {
     transform: translateX(-1000px) translateY(3px);
   }
+
   100% {
     transform: translateX(1000px) translateY(0);
   }
@@ -140,6 +141,7 @@
   0% {
     transform: translateX(-1000px) translateY(3px);
   }
+
   100% {
     transform: translateX(1000px) translateY(0);
   }
@@ -149,6 +151,7 @@
   0% {
     transform: translateX(-1000px) translateY(3px);
   }
+
   100% {
     transform: translateX(1000px) translateY(0);
   }
@@ -158,9 +161,11 @@
   0% {
     transform: translateY(0px) translateX(0);
   }
+
   50% {
     transform: translateY(8px) translateX(5px);
   }
+
   100% {
     transform: translateY(0px) translateX(0);
   }

@@ -15,7 +15,9 @@ class TicketForm(forms.ModelForm):
     #     attrs={'value': titleFormat}), required=True, max_length=30)
 
     class Meta:
+
         ''' Ticket form '''
+
         model = Ticket
         fields = ['title', 'payment', 'data']
 

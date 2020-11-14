@@ -24,6 +24,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     class Meta:
+
         ''' verbose '''
         verbose_name = ('user')
         verbose_name_plural = ('users')

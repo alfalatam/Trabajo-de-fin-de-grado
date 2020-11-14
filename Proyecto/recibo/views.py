@@ -2,7 +2,7 @@ import datetime
 import json
 import traceback
 import uuid
-from datetime import datetime, timezone
+from datetime import timezone
 
 # import producto
 # Create your views here.
@@ -433,7 +433,7 @@ def camera(request):
 
     if (cap is None or not cap.isOpened()):
         print('Nothing detected')
-        return HttpResponseRedirect('/recibo?='+reciboID+'=%4', {'message': message})
+        return HttpResponseRedirect('/recibo?='+reciboID+'=%4')
 
     # OPCIONAL: mostrar texto en cámara
     # font = cv2.FONT_HERSHEY_PLAIN

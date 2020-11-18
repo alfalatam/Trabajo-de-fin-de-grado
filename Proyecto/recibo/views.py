@@ -27,25 +27,9 @@ import cv2
 # import numpy as np
 import pyzbar.pyzbar as pyzbar
 
-# from django.shortcuts import get_object_or_404
-
-# from django.contrib import messages
-
-# import re
-
-# Celery
-# from celery import shared_task
-# from celery.task import periodic_task
-
-# from Proyecto.celery import app
-# from celery.decorators import task
+from django.utils.decorators import method_decorator
 
 
-# def recibo(response):
-
-#     ticket = Ticket.objects.get(id=3)
-
-#     return render(response, "recibo.html", {"recibo": ticket})
 @login_required
 def recibo(request):
 
@@ -141,6 +125,7 @@ def recibo(request):
 #         return render(request, 'error.html')
 
 
+@login_required
 def misRecibos(request):
 
     now = datetime.now()
@@ -330,6 +315,7 @@ def productsToNotify():
     return HttpResponse(mensaje)
 
 
+@login_required
 def createRecibo(request):
 
     form = TicketForm(request.POST or None)
@@ -353,7 +339,7 @@ class ReciboCreateView(CreateView):
     form_class = TicketForm
 
     # queryset = Producto.objects.all()
-
+    @login_required
     def form_valid(self, form):
         obj = form.save(commit=False)
         obj.user = User.objects.get(id=self.request.user.id)

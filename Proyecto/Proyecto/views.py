@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django_apscheduler.jobstores import DjangoJobStore, register_events, register_job
 from apscheduler.schedulers.background import BackgroundScheduler
 from recibo.views import productsToNotify
+from django.contrib.auth.decorators import login_required
 
 
 def inicio(request):
@@ -12,6 +13,7 @@ def quienesSomos(request):
     return render(request, "QuienesSomos.html")
 
 
+@login_required
 def profile(request):
     return render(request, "profile/profile.html")
 

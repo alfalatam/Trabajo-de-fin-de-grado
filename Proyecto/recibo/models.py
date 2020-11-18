@@ -9,6 +9,7 @@ from register.models import User
 # Create your models here.
 import uuid
 # from django.contrib.postgres.fields import JSONField
+import json
 
 
 class Ticket(models.Model):
@@ -54,6 +55,28 @@ class Ticket(models.Model):
         '''This definition returns the ticket title '''
 
         return self.title
+
+    def dataPrice(self):
+        "Returns the total price"
+        importe = []
+        importeTotal = 0.0
+        data = self.data
+
+        if (data):
+            try:
+
+                jsonData = json.loads(data)
+                importe += [((float(p["priceIVA"])*int(p["quantity"])))
+                            for p in jsonData]
+
+            except ValueError as e:
+                pass
+
+            for el in importe:
+                importeTotal += el
+
+        # Devuelvo el valor con solo dos decimales
+        return str(round(importeTotal, 2))
 
 
 class TicketLink(models.Model):

@@ -141,13 +141,21 @@ def recibo(request):
 #         return render(request, 'error.html')
 
 
-def misRecibos(response):
+def misRecibos(request):
 
     now = datetime.now()
 
     year = now.year
 
-    return render(response, "misRecibos.html", {'year': year})
+    user = request.user
+
+    recibos = Ticket.objects.filter(user=user)
+
+    for r in recibos:
+        precio = r.dataPrice()
+        print(precio)
+
+    return render(request, "misRecibos.html", {'year': year, 'recibos': recibos})
 
     # inside views.py
 
@@ -326,6 +334,8 @@ def createRecibo(request):
 
     form = TicketForm(request.POST or None)
 
+    print(form)
+
     if(form.is_valid()):
         form.save()
         form = TicketForm
@@ -401,22 +411,15 @@ def update_recibo(request, pk):
     template = 'misRecibos.html'
     recibo = Ticket.objects.get(id=pk)
 
-    # print('====================================================')
-    # print(recibo)
-    # print('====================================================')
-    # print(recibo.warranty)
-
-    # bol = not recibo.warranty()
     recibo.warranty = not recibo.warranty
     recibo.save()
-
-    # productos = Producto.objects.all()
 
     context = {
         # 'productos': productos,
     }
+    return redirect("/misRecibos")
 
-    return render(request, template, context)
+    # return render(request, template, context)
 
 
 def camera(request):

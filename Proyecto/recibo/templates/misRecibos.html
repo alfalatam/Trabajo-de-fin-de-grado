@@ -41,7 +41,7 @@ View
 
 
 
-    {% if  user.ticketList.all|length  == 0 %}
+    {% if  recibos|length  == 0 %}
     {% if user.is_customer == True %}
 
     <div class="">
@@ -86,7 +86,7 @@ View
                     </tr>
                 </thead>
                 <tbody>
-                    {% for recibo in user.ticketList.all %}
+                    {% for recibo in recibos %}
 
 
                     {% with rYear=recibo.momentOfCreation|date:"Y"|add:"2" %}
@@ -100,7 +100,7 @@ View
                         {% if user.is_customer is True %}
                         <th>
                             <img id="imgRec" class="rounded-sm" style="max-width: 200; max-height: 105;"
-                                src="{% static 'images/companyLogo/'%}{{ recibo.companyIdentifier }}.png" alt=""
+                                src="{% static 'images/companyLogo/'%}{{ recibo.companyIdentifier }}" alt=""
                                 onerror="imgError(this);" />
                             <p style="visibility: hidden; font-size: xx-small; margin-top: 0%; margin-bottom: 0%;">
                                 {{recibo.empresa}}
@@ -111,7 +111,7 @@ View
                         <!-- <td>{{recibo.empresa}}</td> -->
                         {% endif %}
                         <td>{{recibo.identifier}}</td>
-                        <td>{{recibo.price}}€</td>
+                        <td>{{recibo.dataPrice}}€</td>
                         <td>{{recibo.momentOfCreation|date}}</td>
                         <td>{{recibo.payment}}
                             {% if recibo.payment == 'EF' %}
@@ -131,12 +131,12 @@ View
                         {% if user.is_customer is True %}
                         <td>
                             {% if recibo.warranty is True %}
-                            <a href="{% url 'update-recibo' recibo.pk%}" role="button" aria-pressed="true">
+                            <a href="{% url 'update-recibo' recibo.pk %}" role="button" aria-pressed="true">
                                 <i class="fas fa-envelope" style=" font-size:24px; color: green;"></i>
                             </a>
 
                             {% else %}
-                            <a href="{% url 'update-recibo' recibo.pk%}" role="button" aria-pressed="true">
+                            <a href="{% url 'update-recibo' recibo.pk %}" role="button" aria-pressed="true">
                                 <i class="fas fa-envelope" style=" font-size:24px; color: red;"></i>
                             </a>
                             {% endif %}

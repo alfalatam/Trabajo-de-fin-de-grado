@@ -315,7 +315,6 @@ def productsToNotify():
     return HttpResponse(mensaje)
 
 
-@login_required
 def createRecibo(request):
 
     form = TicketForm(request.POST or None)
@@ -339,7 +338,6 @@ class ReciboCreateView(CreateView):
     form_class = TicketForm
 
     # queryset = Producto.objects.all()
-    @login_required
     def form_valid(self, form):
         obj = form.save(commit=False)
         obj.user = User.objects.get(id=self.request.user.id)

@@ -27,6 +27,8 @@ from .views import quienesSomos
 from django.conf import settings
 from django.conf.urls.static import static
 
+from django.contrib.auth.decorators import login_required
+
 app_name = 'proyecto'
 
 urlpatterns = [
@@ -46,7 +48,7 @@ urlpatterns = [
     path("resultadosBusqueda/", views.busqueda_recibos, name="recibosBusq"),
     path("buscar/", views.buscar),
 
-    path('generate-pdf', viewsPdf.generate_pdf, name='generate-pdf'),
+    path('generate-pdf', login_required(viewsPdf.generate_pdf), name='generate-pdf'),
 
     path('qr_code/', include('qr_code.urls', namespace="qr_code")),
 
@@ -55,43 +57,44 @@ urlpatterns = [
     path('profile/', profile),
     path("misProductos/", viewsProduct.misProductos,
          name="misProductos"),  # <-- added
-    path('create/', viewsProduct.ProductoCreateView.as_view(),
+    path('create/', login_required(viewsProduct.ProductoCreateView.as_view()),
          name='producto-create'),
-    path('updateProducto/<int:id>/', viewsProduct.ProductoUpdateView.as_view(),
+    path('updateProducto/<int:id>/', login_required(viewsProduct.ProductoUpdateView.as_view()),
          name='producto-update'),
-    path('updateRecibo/<int:id>/', views.ReciboUpdateView.as_view(),
+    path('updateRecibo/<int:id>/', login_required(views.ReciboUpdateView.as_view()),
          name='recibo-update'),
     url(r'^deleteProducto/(?P<pk>\d+)$',
-        viewsProduct.delete_producto, name="delete-producto"),
+        login_required(viewsProduct.delete_producto), name="delete-producto"),
     url(r'^deleteRecibo/(?P<pk>\d+)$',
-        views.delete_recibo, name="delete-recibo"),
+        login_required(views.delete_recibo), name="delete-recibo"),
     # path('display/<int:pk>/', viewsProduct.ProductoDetailView.as_view(),
     #      name='producto-detail'),
     path('displayProducto/<int:pk>/',
-         viewsProduct.ProductoDetailView.as_view(), name='detail'),
+         login_required(
+             viewsProduct.ProductoDetailView.as_view()), name='detail'),
 
-    path("exportData/", viewsProduct.export_data,
+    path("exportData/", login_required(viewsProduct.export_data),
          name="export-data"),  # <-- added
 
-    path("exportRecibo/", views.export_recibo,
+    path("exportRecibo/", login_required(views.export_recibo),
          name="export-recibo"),  # <-- added
 
     path("importData/", viewsProduct.subida,
          name="import-data"),  # <-- added
 
-    path('createRecibo/', views.ReciboCreateView.as_view(),
+    path('createRecibo/', login_required(views.ReciboCreateView.as_view()),
          name='create-recibo'),
 
     path('QuienesSomos/', quienesSomos,
          name='QuienesSomos'),
 
     url(r'^updateRecibo/(?P<pk>\d+)$',
-        views.update_recibo, name="update-recibo"),
+        login_required(views.update_recibo), name="update-recibo"),
 
-    url(r'^cvopen/', views.camera, name="cvopen"),
+    url(r'^cvopen/', login_required(views.camera), name="cvopen"),
 
     # beta
-    path('delete/', viewsUsers.delete_user, name='delete'),
+    path('delete/', login_required(viewsUsers.delete_user), name='delete'),
 
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

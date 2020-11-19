@@ -40,7 +40,14 @@
 #elementFirst {
   display: inline-block;
   margin-right: 10%;
-  margin-left: 10%;
+  margin-left: 0%;
+}
+
+#elementSecond {
+  display: inline-block;
+  margin-right: 10%;
+  margin-left: 0%;
+  margin-top: 0em;
 }
 
 #element2 {

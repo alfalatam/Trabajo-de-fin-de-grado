@@ -77,49 +77,99 @@ View
 
     {% endif %}
 
-    <div style="margin-top: 2em;">
+    <div style="margin-top: 2em; margin-left: 25%; display: inline">
         <div id="elementFirst" style="margin-top: 2em;">
-            <p><b> Titulo del recibo:</b> {{ recibo.title }}</p>
+            <!-- <p><b> Titulo del recibo:</b> {{ recibo.title }}</p>
             <p><b>Empresa: </b>{{recibo.empresa}}</p>
             <p><b>Direción: </b>{{recibo.address}}</p>
             <p><b>Identificador: </b>{{recibo.identifier}}</p>
             <p><b>Precio total: </b>{{price}}€</p>
-            <p><b>Método de pago: </b>{{recibo.payment}}</p>
+            <p><b>Método de pago: </b>{{recibo.payment}}</p> -->
+
+            <div class="card">
+                <img class="rounded-sm" style="max-width: 400px; max-height: 400px;"
+                    src="{% static 'images/companyLogo/'%}{{ recibo.companyIdentifier }}" alt=""
+                    onerror="imgError(this);" />
+
+                <div class="card-body">
+                    <h5 class="card-title">{{ recibo.title }}</h5>
+                    <p class="card-text">
+
+                    <p><b>Empresa: </b>{{recibo.empresa}}</p>
+                    <p><b>Direción: </b>{{recibo.address}}</p>
+                    <p><b>Identificador: </b>{{recibo.identifier}}</p>
+                    <p><b>Precio total: </b>{{price}}€</p>
+                    <p><b>Método de pago: </b>{{recibo.payment}}</p>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">{{recibo.momentOfCreation}}</small>
+                </div>
+            </div>
+
 
         </div>
+
+
 
         {% if user.is_customer is False %}
 
         {% if recibo.isCopy is False  %}
-        <div id="element2">
+        <div id="elementSecond">
+
             <span id=cajaPDF>
                 <a href="{% url 'cvopen' %}?recibo={{ recibo.id }}" target="_blank">
 
                     <img id="imgRecibo" class="rounded-sm" src="{% static 'images/'%}add.png" alt=""
-                        style="max-width: 300;" />
+                        style="max-width: 150;" />
 
                     <span class="caption">{{td.title}}</span>
 
                 </a>
+                <br>
+
+                <a href="{% url 'generate-pdf' %}?recibo={{ recibo.id }}" target="_blank">
+                    <figure>
+                        <img id="imgRecibo" class="rounded-sm" src="{% static 'images/'%}PDFIcon.png" alt=""
+                            style="max-width: 150;" />
+
+                        <span class="caption">{{td.title}}</span>
+                </a>
+
+                <br>
+
+                <span id=cajaPDF data-toggle="modal" data-target="#exampleModal">
+                    <figure>
+                        <img id="imgRecibo" class="rounded-sm" src="{% static 'images/'%}QR.png" alt=""
+                            style="max-width: 150;" />
+
+                        <span class="caption">{{td.title}}</span>
+
+
+                </span>
+
+
             </span>
 
         </div>
 
 
-        <div id="element2">
+        <!-- <div id="element2">
             <span id=cajaPDF data-toggle="modal" data-target="#exampleModal">
                 <figure>
                     <img id="imgRecibo" class="rounded-sm" src="{% static 'images/'%}QR.png" alt=""
-                        style="max-width: 300;" />
+                        style="max-width: 150;" />
 
                     <span class="caption">{{td.title}}</span>
 
 
             </span>
 
-        </div>
+        </div> -->
         {% endif %}
         {% endif %}
+
+
+        {% if recibo.isCopy is True  %}
 
         <div id="element2">
             <span id=cajaPDF>
@@ -136,6 +186,9 @@ View
 
         </div>
 
+
+        {% endif  %}
+
     </div>
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -143,7 +196,8 @@ View
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Aqui puede descargarse el recibo de compra</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Aqui puede descargarse el recibo de compra
+                    </h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>

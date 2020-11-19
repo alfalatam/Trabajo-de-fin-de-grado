@@ -16,7 +16,7 @@ Notificationes
             {{ form|crispy }}
             <input type='submit' class="btn btn-success" value='Guardar' />
         </form>
-        <a href="/misProductos/"><button type="button" class="btn btn-secondary">Return</button></a>
+        <a href="/misProductos/"><button type="button" class="btn btn-secondary">Volver</button></a>
 
         {% if producto %}
         <a class="delete" href="{% url 'delete-producto' producto.pk %}" class="btn btn-danger btn-sm" role="button"

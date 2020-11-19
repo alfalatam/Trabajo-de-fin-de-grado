@@ -69,11 +69,11 @@ class Ticket(models.Model):
                 importe += [((float(p["priceIVA"])*int(p["quantity"])))
                             for p in jsonData]
 
-            except ValueError as e:
-                pass
+                for el in importe:
+                    importeTotal += el
 
-            for el in importe:
-                importeTotal += el
+            except:
+                importe = 0.0
 
         # Devuelvo el valor con solo dos decimales
         return str(round(importeTotal, 2))

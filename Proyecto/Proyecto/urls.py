@@ -31,6 +31,7 @@ from django.contrib.auth.decorators import login_required
 
 app_name = 'proyecto'
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('inicio/', inicio),

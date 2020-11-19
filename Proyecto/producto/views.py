@@ -60,12 +60,23 @@ class ProductoDetailView(DetailView):
     def get(self, request, *args, **kwargs):
         producto = get_object_or_404(Producto, pk=kwargs['pk'])
         context = {'producto': producto}
+        store = Store.objects.get(user=request.user)
+        if (store != producto.store):
+            return redirect('/inicio')
         return render(request, "displayProducto.html", context)
 
 
 class ProductoUpdateView(UpdateView):
     template_name = 'createProducto.html'
     form_class = ProductoModelForm
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        store = Store.objects.get(user=request.user)
+        if (store != self.object.store):
+            return redirect('/inicio')
+
+        return super(ProductoUpdateView, self).get(request, *args, **kwargs)
 
     def get_object(self):
         id_ = self.kwargs.get("id")
@@ -96,7 +107,7 @@ def delete_producto(request, pk):
         return redirect("/misProductos")
 
     else:
-        pass
+        return redirect("/inicio")
 
     productos = Producto.objects.filter(store=store)
 

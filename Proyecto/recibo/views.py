@@ -296,6 +296,7 @@ class ReciboCreateView(CreateView):
     form_class = TicketForm
 
     # queryset = Producto.objects.all()
+
     def form_valid(self, form):
         obj = form.save(commit=False)
         obj.user = User.objects.get(id=self.request.user.id)
@@ -502,6 +503,16 @@ def delete_recibo(request, pk):
 class ReciboUpdateView(UpdateView):
     template_name = 'createRecibo.html'
     form_class = TicketModelForm
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        print('================')
+        print(self.object.user)
+
+        if (request.user != self.object.user):
+            return redirect('/inicio')
+        print('==============')
+        return super(ReciboUpdateView, self).get(request, *args, **kwargs)
 
     def get_object(self):
 

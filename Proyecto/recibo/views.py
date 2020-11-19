@@ -31,7 +31,7 @@ import pyzbar.pyzbar as pyzbar
 from django.utils.decorators import method_decorator
 
 
-@login_required
+@login_required(login_url='/login/')
 def recibo(request):
 
     try:
@@ -85,7 +85,7 @@ def recibo(request):
         return render(request, 'error.html')
 
 
-@login_required
+@login_required(login_url='/login/')
 def misRecibos(request):
 
     now = datetime.now()
@@ -275,6 +275,7 @@ def productsToNotify():
     return HttpResponse(mensaje)
 
 
+@login_required(login_url='/login/')
 def createRecibo(request):
 
     form = TicketForm(request.POST or None)
@@ -320,6 +321,7 @@ class ReciboCreateView(CreateView):
 
 
 # Exportamos los datos de la base de datos desde aqui
+@login_required(login_url='/login/')
 def export_recibo(request):
     if request.method == 'POST':
         # Añadimos varios formatos para dar opciones al usuario
@@ -350,6 +352,7 @@ def export_recibo(request):
     return render(request, 'exportData.html')
 
 
+@login_required(login_url='/login/')
 def update_recibo(request, pk):
 
     template = 'misRecibos.html'
@@ -366,6 +369,7 @@ def update_recibo(request, pk):
     # return render(request, template, context)
 
 
+@login_required(login_url='/login/')
 def camera(request):
 
     # Comprobamos que es un GET
@@ -462,6 +466,7 @@ def camera(request):
             return HttpResponseRedirect('/recibo?=' + reciboID)
 
 
+@login_required(login_url='/login/')
 def delete_recibo(request, pk):
 
     template = 'misRecibos.html'

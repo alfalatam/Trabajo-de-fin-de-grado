@@ -49,9 +49,6 @@ def recibo(request):
 
         ticket = Ticket.objects.get(id=idRecibo)
 
-        print(request.user)
-        print(ticket.user)
-
         if (request.user != ticket.user):
             return redirect("/inicio")
 
@@ -358,6 +355,9 @@ def update_recibo(request, pk):
     template = 'misRecibos.html'
     recibo = Ticket.objects.get(id=pk)
 
+    if (request.user != recibo.user):
+        return redirect("/inicio")
+
     recibo.warranty = not recibo.warranty
     recibo.save()
 
@@ -378,6 +378,9 @@ def camera(request):
         # Accedemos a la información del recibo y a su ID
         reciboID = request.GET.get('recibo')
         recibo = Ticket.objects.get(pk=reciboID)
+
+        if (request.user != recibo.user):
+            return redirect("/inicio")
 
     # Accedemos a la cámara
     cap = cv2.VideoCapture(0)
@@ -476,6 +479,9 @@ def delete_recibo(request, pk):
     # producto = Producto.objects.filter(id=pk)
     recibo = Ticket.objects.get(id=pk)
 
+    if (request.user != recibo.user):
+        return redirect("/inicio")
+
     propertyUser = recibo.user
 
     if(propertyUser == user):
@@ -498,7 +504,9 @@ class ReciboUpdateView(UpdateView):
     form_class = TicketModelForm
 
     def get_object(self):
+
         id_ = self.kwargs.get("id")
+
         return get_object_or_404(Ticket, id=id_)
 
     def form_valid(self, form):

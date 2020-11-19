@@ -18,386 +18,412 @@ from reportlab.platypus import Table, TableStyle, SimpleDocTemplate
 # from reportlab.lib.styles import getSampleStyleSheet
 # from reportlab.lib.enums import TA_LEFT, TA_CENTER, TA_RIGHT
 from recibo.views import importeTotal
-# from django.shortcuts import redirect
+from django.shortcuts import redirect
 # from django.shortcuts import render
 import json
 import textwrap
+import traceback
+from django.shortcuts import render
 
 
 def generate_pdf(request, *args, **kwargs):
 
-    if request.method == 'GET':
+    try:
 
-        # Obtenemos la información del recibo
-        reciboID = request.GET.get('recibo')
-        recibos = Ticket.objects.all()
-        recibo = recibos.get(pk=reciboID)
-        # Data del recibo de compra que contiene la información del producto
-        data = recibo.data
+        if request.method == 'GET':
 
-        if (recibo.data is not None):
-            try:
-                # convertimos el tipo a un json
-                jsonData = json.loads(data)
+            # Obtenemos la información del recibo
+            reciboID = request.GET.get('recibo')
+            recibos = Ticket.objects.all()
+            recibo = recibos.get(pk=reciboID)
+            # Data del recibo de compra que contiene la información del producto
+            data = recibo.data
 
-                if (jsonData is dict):
-                    jsonData = None
+            if (request.user != recibo.user):
+                return redirect("/inicio")
 
-            # Si da algún error la conversión igualamos el data a una cadena vacía
-            except ValueError as e:
-                print(e)
-                if (data):
-                    data = ""
+            if (recibo.data is not None):
+                try:
+                    # convertimos el tipo a un json
+                    jsonData = json.loads(data)
 
-        # Indicador de que el objeto a cargar debe ser un pdf
-        response = HttpResponse(content_type='application/pdf')
-        # Este indicador de que se debe mostrar con un download se descargaría directamente
-        response['Content-Disposition'] = 'inline; filename="%s.pdf"' % (
-            recibo.title,)
+                    if (jsonData is dict):
+                        jsonData = None
 
-    buff = BytesIO()
-    # Datos básicos del formato de las páginas del PDF
-    doc = SimpleDocTemplate(buff,
-                            pagesize=A4,
-                            rightMargin=20,
-                            leftMargin=20,
-                            topMargin=60,
-                            bottomMargin=50,
-                            )
+                # Si da algún error la conversión igualamos el data a una cadena vacía
+                except ValueError as e:
+                    print(e)
+                    if (data):
+                        data = ""
 
-    listC = []
+            # Indicador de que el objeto a cargar debe ser un pdf
+            response = HttpResponse(content_type='application/pdf')
+            # Este indicador de que se debe mostrar con un download se descargaría directamente
+            response['Content-Disposition'] = 'inline; filename="%s.pdf"' % (
+                recibo.title,)
 
-    # -------------------------Marca de agua ---------------------------------------------
+        buff = BytesIO()
+        # Datos básicos del formato de las páginas del PDF
+        doc = SimpleDocTemplate(buff,
+                                pagesize=A4,
+                                rightMargin=20,
+                                leftMargin=20,
+                                topMargin=60,
+                                bottomMargin=50,
+                                )
 
-    def pageSetup(canvas, doc):
+        listC = []
 
-        canvas.saveState()
+        # -------------------------Marca de agua ---------------------------------------------
 
-        # Marca de agua de la página
-        image2 = MEDIA_URL + \
-            '/watermark.png'
-        canvas.saveState()
-        canvas.rotate(10)
-        canvas.drawImage(image2, 200, 280, width=320, height=110, mask='auto')
+        def pageSetup(canvas, doc):
 
-        canvas.restoreState()
-        # Fuente a utilizar en el documento
-        registerFont(TTFont('Calibri', 'Calibri.ttf'))
+            canvas.saveState()
 
-        # Imagen de la compañia
-
-        try:
+            # Marca de agua de la página
             image2 = MEDIA_URL + \
-                '/companyLogo/%s' % (recibo.companyIdentifier)
-            canvas.drawImage(image2, 350, 700, width=200,
-                             height=90, mask='auto')
-        # Si no tiene imagen o hay algún error con su imagen carga una genérica
-        except OSError:
-            image2 = MEDIA_URL + '/companyLogo/base.png'
-            canvas.drawImage(image2, 350, 700, width=200,
-                             height=90, mask='auto')
+                '/watermark.png'
+            canvas.saveState()
+            canvas.rotate(10)
+            canvas.drawImage(image2, 200, 280, width=320,
+                             height=110, mask='auto')
 
-    # Fecha
-        canvas.setFont('Times-Bold', 11)
-        canvas.drawString(75, 750, 'Fecha: ')
-        canvas.setFont("Calibri", 11)
-        canvas.drawString(110, 750, datetime.today().strftime('%d/%m/%Y'))
+            canvas.restoreState()
+            # Fuente a utilizar en el documento
+            registerFont(TTFont('Calibri', 'Calibri.ttf'))
 
-    # Nombre
+            # Imagen de la compañia
 
-        # canvas.setFont('Times-Bold', 11)
-        # canvas.drawString(75, 725, 'Cliente: ')
-        # canvas.setFont("Calibri", 11)
-        # canvas.drawString(
-        #     115, 725, recibo.user.first_name + " " + recibo.user.last_name)
+            try:
+                image2 = MEDIA_URL + \
+                    '/companyLogo/%s' % (recibo.companyIdentifier)
+                canvas.drawImage(image2, 350, 700, width=200,
+                                 height=90, mask='auto')
+            # Si no tiene imagen o hay algún error con su imagen carga una genérica
+            except OSError:
+                image2 = MEDIA_URL + '/companyLogo/base.png'
+                canvas.drawImage(image2, 350, 700, width=200,
+                                 height=90, mask='auto')
 
-    # Titulo del recibo
-        canvas.setFont("Times-Bold", 11)
-        canvas.drawString(75, 625, 'Título del recibo:')
-        canvas.setFont("Calibri", 11)
-        canvas.drawString(158, 625, recibo.title)
+        # Fecha
+            canvas.setFont('Times-Bold', 11)
+            canvas.drawString(75, 750, 'Fecha: ')
+            canvas.setFont("Calibri", 11)
+            canvas.drawString(110, 750, datetime.today().strftime('%d/%m/%Y'))
 
-    # Empresa
+        # Nombre
 
-        canvas.setFont("Times-Bold", 11)
-        canvas.drawString(75, 600, 'Empresa:')
-        canvas.setFont("Calibri", 11)
-        canvas.drawString(123, 600, recibo.empresa)
+            # canvas.setFont('Times-Bold', 11)
+            # canvas.drawString(75, 725, 'Cliente: ')
+            # canvas.setFont("Calibri", 11)
+            # canvas.drawString(
+            #     115, 725, recibo.user.first_name + " " + recibo.user.last_name)
 
-    # Dirección
+        # Titulo del recibo
+            canvas.setFont("Times-Bold", 11)
+            canvas.drawString(75, 625, 'Título del recibo:')
+            canvas.setFont("Calibri", 11)
+            canvas.drawString(158, 625, recibo.title)
 
-        canvas.setFont("Times-Bold", 11)
-        canvas.drawString(75, 575, 'Dirección:')
-        canvas.setFont("Calibri", 11)
-        canvas.drawString(125, 575, recibo.address)
+        # Empresa
 
-    # Importe
+            canvas.setFont("Times-Bold", 11)
+            canvas.drawString(75, 600, 'Empresa:')
+            canvas.setFont("Calibri", 11)
+            canvas.drawString(123, 600, recibo.empresa)
 
-        ipt = importeTotal(recibo)
-        canvas.setFont("Times-Bold", 11)
-        canvas.drawString(75, 550, 'Importe total:')
-        canvas.setFont("Calibri", 11)
-        canvas.drawString(144, 550, str(ipt)+' €')
+        # Dirección
 
-    # Método de pago
-        metodoDePago = ''
+            canvas.setFont("Times-Bold", 11)
+            canvas.drawString(75, 575, 'Dirección:')
+            canvas.setFont("Calibri", 11)
+            canvas.drawString(125, 575, recibo.address)
 
-        if(recibo.payment == 'TD'):
-            metodoDePago = 'Tarjeta de débito'
-        elif(recibo.payment == 'TC'):
-            metodoDePago = 'Tarjeta de crédito'
+        # Importe
+
+            ipt = importeTotal(recibo)
+            canvas.setFont("Times-Bold", 11)
+            canvas.drawString(75, 550, 'Importe total:')
+            canvas.setFont("Calibri", 11)
+            canvas.drawString(144, 550, str(ipt)+' €')
+
+        # Método de pago
+            metodoDePago = ''
+
+            if(recibo.payment == 'TD'):
+                metodoDePago = 'Tarjeta de débito'
+            elif(recibo.payment == 'TC'):
+                metodoDePago = 'Tarjeta de crédito'
+            else:
+                metodoDePago = 'Efectivo'
+
+            canvas.setFont("Times-Bold", 11)
+            canvas.drawString(75, 525, 'Método de pago: ')
+            canvas.setFont("Calibri", 11)
+            canvas.drawString(156, 525, metodoDePago)
+
+        # Identificador único
+
+            canvas.setFont("Times-Bold", 11)
+            canvas.drawString(75, 500, 'Identificador(ID): ')
+            canvas.setFont("Calibri", 11)
+            canvas.drawString(162, 500, recibo.identifier)
+
+        # -----------------------------------------------------------------------
+        # Formato para las páginas despues de la primera
+        def pageSetup2(canvas, doc):
+
+            canvas.saveState()
+            # Marca de agua
+            image2 = MEDIA_URL + \
+                '/watermark.png'
+            canvas.saveState()
+            canvas.rotate(10)
+            canvas.drawImage(image2, 200, 280, width=320,
+                             height=110, mask='auto')
+
+            canvas.restoreState()
+            # Fuente
+            registerFont(TTFont('Calibri', 'Calibri.ttf'))
+
+        # ---------------------- Tabla de productos -------------------------------------------
+        headings = ('Nombre', 'Cantidad', 'precio sin IVA', 'precio con IVA',
+                    'Precio total(IVA incluido)')
+
+        empty = ('')
+
+        # Recorremos el listado de productos y los guardamos para cargarlos en la tabla
+        if (data):
+
+            productos = [(textwrap.fill(p["name"], 40), p["quantity"], p["price"]+' €', p["priceIVA"]+' €', str((float(p["priceIVA"])*int(p["quantity"])))+' €')
+                         for p in jsonData]
+
+        if (data):
+            t = Table([headings] + productos, spaceAfter=200, spaceBefore=800)
         else:
-            metodoDePago = 'Efectivo'
+            t = Table([headings], spaceAfter=200,  spaceBefore=800)
 
-        canvas.setFont("Times-Bold", 11)
-        canvas.drawString(75, 525, 'Método de pago: ')
-        canvas.setFont("Calibri", 11)
-        canvas.drawString(156, 525, metodoDePago)
-
-    # Identificador único
-
-        canvas.setFont("Times-Bold", 11)
-        canvas.drawString(75, 500, 'Identificador(ID): ')
-        canvas.setFont("Calibri", 11)
-        canvas.drawString(162, 500, recibo.identifier)
-
-    # -----------------------------------------------------------------------
-    # Formato para las páginas despues de la primera
-    def pageSetup2(canvas, doc):
-
-        canvas.saveState()
-        # Marca de agua
-        image2 = MEDIA_URL + \
-            '/watermark.png'
-        canvas.saveState()
-        canvas.rotate(10)
-        canvas.drawImage(image2, 200, 280, width=320, height=110, mask='auto')
-
-        canvas.restoreState()
-        # Fuente
-        registerFont(TTFont('Calibri', 'Calibri.ttf'))
-
-    # ---------------------- Tabla de productos -------------------------------------------
-    headings = ('Nombre', 'Cantidad', 'precio sin IVA', 'precio con IVA',
-                'Precio total(IVA incluido)')
-
-    empty = ('')
-
-    # Recorremos el listado de productos y los guardamos para cargarlos en la tabla
-    if (data):
-
-        productos = [(textwrap.fill(p["name"], 40), p["quantity"], p["price"]+' €', p["priceIVA"]+' €', str((float(p["priceIVA"])*int(p["quantity"])))+' €')
-                     for p in jsonData]
-
-    if (data):
-        t = Table([headings] + productos, spaceAfter=200, spaceBefore=800)
-    else:
-        t = Table([headings], spaceAfter=200,  spaceBefore=800)
-
-    # Estilo
-    t.setStyle(TableStyle([('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-                           ('TEXTCOLOR', (0, 0), (3, 0), colors.black),
-                           ('BACKGROUND', (0, 0), (-1, 0), colors.lightgrey),
-                           ('FONTNAME', (4, 0), (4, -1), 'Helvetica-Bold'),
-                           ('INNERGRID', (0, 0), (-1, -1), 0.25, colors.black),
-                           ('BOX', (0, 0), (-1, -1), 0.25, colors.black),
-                           ('ROWHEIGHT', (0, 0), (-1, -1), 20),
-                           ('TOPPADDING', (0, 0), (-1, -1), 6),
-                           ('BOTTOMPADDING', (0, 0), (-1, -1), 6),
+        # Estilo
+        t.setStyle(TableStyle([('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+                               ('TEXTCOLOR', (0, 0), (3, 0), colors.black),
+                               ('BACKGROUND', (0, 0), (-1, 0), colors.lightgrey),
+                               ('FONTNAME', (4, 0), (4, -1), 'Helvetica-Bold'),
+                               ('INNERGRID', (0, 0), (-1, -1), 0.25, colors.black),
+                               ('BOX', (0, 0), (-1, -1), 0.25, colors.black),
+                               ('ROWHEIGHT', (0, 0), (-1, -1), 20),
+                               ('TOPPADDING', (0, 0), (-1, -1), 6),
+                               ('BOTTOMPADDING', (0, 0), (-1, -1), 6),
 
 
-                           ]))
+                               ]))
 
-    t2 = Table([empty],  spaceAfter=300)
-    listC.append(t2)
-    listC.append(t)
+        t2 = Table([empty],  spaceAfter=300)
+        listC.append(t2)
+        listC.append(t)
 
-    # -----------------------------------------------------------------------------------
-    t.spaceBefore = 20
-    # Definimos el formato para cada página
-    doc.build(listC, onFirstPage=pageSetup, onLaterPages=pageSetup2)
-    response.write(buff.getvalue())
-    buff.close()
-    return response
+        # -----------------------------------------------------------------------------------
+        t.spaceBefore = 20
+        # Definimos el formato para cada página
+        doc.build(listC, onFirstPage=pageSetup, onLaterPages=pageSetup2)
+        response.write(buff.getvalue())
+        buff.close()
+        return response
+
+    except Exception as e:
+        trace_back = traceback.format_exc()
+        message = str(e) + " " + str(trace_back)
+        print(message)
+        return render(request, 'error.html')
 
 
 def generate_public_pdf(request, *args, **kwargs):
 
-    if request.method == 'GET':
+    try:
 
-        reciboID = request.GET.get('url')
-        ticketLink = TicketLink.objects.get(url=reciboID)
-        recibo = ticketLink.ticket
+        if request.method == 'GET':
 
-        data = recibo.data
-        if (recibo.data is not None):
-            try:
-                jsonData = json.loads(data)
+            reciboID = request.GET.get('url')
+            ticketLink = TicketLink.objects.get(url=reciboID)
+            recibo = ticketLink.ticket
 
-                if (jsonData is dict):
-                    jsonData = None
+            data = recibo.data
+            if (recibo.data is not None):
+                try:
+                    jsonData = json.loads(data)
 
-            except ValueError as e:
-                if (data):
-                    data = ""
+                    if (jsonData is dict):
+                        jsonData = None
 
-        response = HttpResponse(content_type='application/pdf')
-        response['Content-Disposition'] = 'attachment; filename="%s.pdf"' % (
-            recibo.title)
+                except ValueError as e:
+                    if (data):
+                        data = ""
 
-    buff = BytesIO()
-    doc = SimpleDocTemplate(buff,
-                            pagesize=A4,
-                            rightMargin=20,
-                            leftMargin=20,
-                            topMargin=60,
-                            bottomMargin=50,
-                            )
+            response = HttpResponse(content_type='application/pdf')
+            response['Content-Disposition'] = 'attachment; filename="%s.pdf"' % (
+                recibo.title)
 
-    listC = []
-    # -------------------------Marca de agua ---------------------------------------------
-    def pageSetup(canvas, doc):
+        buff = BytesIO()
+        doc = SimpleDocTemplate(buff,
+                                pagesize=A4,
+                                rightMargin=20,
+                                leftMargin=20,
+                                topMargin=60,
+                                bottomMargin=50,
+                                )
 
-        canvas.saveState()
+        listC = []
+        # -------------------------Marca de agua ---------------------------------------------
+        def pageSetup(canvas, doc):
 
-        image2 = MEDIA_URL + \
-            '/watermark.png'
-        canvas.saveState()
-        canvas.rotate(10)
-        canvas.drawImage(image2, 200, 280, width=320, height=110, mask='auto')
+            canvas.saveState()
 
-        canvas.restoreState()
-        registerFont(TTFont('Calibri', 'Calibri.ttf'))
-
-        # Imagen de la compañia
-        try:
             image2 = MEDIA_URL + \
-                '/companyLogo/%s' % (recibo.companyIdentifier)
-            canvas.drawImage(image2, 350, 700, width=200,
-                             height=90, mask='auto')
+                '/watermark.png'
+            canvas.saveState()
+            canvas.rotate(10)
+            canvas.drawImage(image2, 200, 280, width=320,
+                             height=110, mask='auto')
 
-        except OSError:
-            image2 = MEDIA_URL + '/companyLogo/base.png'
-            canvas.drawImage(image2, 350, 700, width=200,
-                             height=90, mask='auto')
+            canvas.restoreState()
+            registerFont(TTFont('Calibri', 'Calibri.ttf'))
 
-    # Fecha
-        canvas.setFont('Times-Bold', 11)
-        canvas.drawString(75, 750, 'Fecha: ')
-        canvas.setFont("Calibri", 11)
-        canvas.drawString(110, 750, datetime.today().strftime('%d/%m/%Y'))
+            # Imagen de la compañia
+            try:
+                image2 = MEDIA_URL + \
+                    '/companyLogo/%s' % (recibo.companyIdentifier)
+                canvas.drawImage(image2, 350, 700, width=200,
+                                 height=90, mask='auto')
 
-    # Nombre
+            except OSError:
+                image2 = MEDIA_URL + '/companyLogo/base.png'
+                canvas.drawImage(image2, 350, 700, width=200,
+                                 height=90, mask='auto')
 
-        # canvas.setFont('Times-Bold', 11)
-        # canvas.drawString(75, 725, 'Cliente: ')
-        # canvas.setFont("Calibri", 11)
-        # canvas.drawString(
-        #     115, 725, recibo.user.first_name + " " + recibo.user.last_name)
+        # Fecha
+            canvas.setFont('Times-Bold', 11)
+            canvas.drawString(75, 750, 'Fecha: ')
+            canvas.setFont("Calibri", 11)
+            canvas.drawString(110, 750, datetime.today().strftime('%d/%m/%Y'))
 
-    # Titulo del recibo
-        canvas.setFont("Times-Bold", 11)
-        canvas.drawString(75, 625, 'Título del recibo:')
-        canvas.setFont("Calibri", 11)
-        canvas.drawString(158, 625, recibo.title)
+        # Nombre
 
-    # Empresa
+            # canvas.setFont('Times-Bold', 11)
+            # canvas.drawString(75, 725, 'Cliente: ')
+            # canvas.setFont("Calibri", 11)
+            # canvas.drawString(
+            #     115, 725, recibo.user.first_name + " " + recibo.user.last_name)
 
-        canvas.setFont("Times-Bold", 11)
-        canvas.drawString(75, 600, 'Empresa:')
-        canvas.setFont("Calibri", 11)
-        canvas.drawString(123, 600, recibo.empresa)
+        # Titulo del recibo
+            canvas.setFont("Times-Bold", 11)
+            canvas.drawString(75, 625, 'Título del recibo:')
+            canvas.setFont("Calibri", 11)
+            canvas.drawString(158, 625, recibo.title)
 
-    # Dirección
+        # Empresa
 
-        canvas.setFont("Times-Bold", 11)
-        canvas.drawString(75, 575, 'Dirección:')
-        canvas.setFont("Calibri", 11)
-        canvas.drawString(125, 575, recibo.address)
+            canvas.setFont("Times-Bold", 11)
+            canvas.drawString(75, 600, 'Empresa:')
+            canvas.setFont("Calibri", 11)
+            canvas.drawString(123, 600, recibo.empresa)
 
-    # Importe
+        # Dirección
 
-        ipt = importeTotal(recibo)
-        canvas.setFont("Times-Bold", 11)
-        canvas.drawString(75, 550, 'Importe total:')
-        canvas.setFont("Calibri", 11)
-        canvas.drawString(144, 550, str(ipt)+' €')
+            canvas.setFont("Times-Bold", 11)
+            canvas.drawString(75, 575, 'Dirección:')
+            canvas.setFont("Calibri", 11)
+            canvas.drawString(125, 575, recibo.address)
 
-    # Método de pago
-        metodoDePago = ''
+        # Importe
 
-        if(recibo.payment == 'TD'):
-            metodoDePago = 'Tarjeta de débito'
-        elif(recibo.payment == 'TC'):
-            metodoDePago = 'Tarjeta de crédito'
+            ipt = importeTotal(recibo)
+            canvas.setFont("Times-Bold", 11)
+            canvas.drawString(75, 550, 'Importe total:')
+            canvas.setFont("Calibri", 11)
+            canvas.drawString(144, 550, str(ipt)+' €')
+
+        # Método de pago
+            metodoDePago = ''
+
+            if(recibo.payment == 'TD'):
+                metodoDePago = 'Tarjeta de débito'
+            elif(recibo.payment == 'TC'):
+                metodoDePago = 'Tarjeta de crédito'
+            else:
+                metodoDePago = 'Efectivo'
+
+            canvas.setFont("Times-Bold", 11)
+            canvas.drawString(75, 525, 'Método de pago: ')
+            canvas.setFont("Calibri", 11)
+            canvas.drawString(156, 525, metodoDePago)
+
+        # Identificador único
+
+            canvas.setFont("Times-Bold", 11)
+            canvas.drawString(75, 500, 'Identificador(ID): ')
+            canvas.setFont("Calibri", 11)
+            canvas.drawString(162, 500, recibo.identifier)
+
+        #         p.restoreState()
+
+        # -----------------------------------------------------------------------
+        def pageSetup2(canvas, doc):
+
+            canvas.saveState()
+
+            image2 = MEDIA_URL + \
+                '/watermark.png'
+            canvas.saveState()
+            canvas.rotate(10)
+            canvas.drawImage(image2, 200, 280, width=320,
+                             height=110, mask='auto')
+
+            canvas.restoreState()
+            registerFont(TTFont('Calibri', 'Calibri.ttf'))
+
+            # ---------------------- Tabla de productos -------------------------------------------
+        headings = ('Nombre', 'Cantidad', 'precio sin IVA', 'precio con IVA',
+                    'Precio total(IVA incluido)')
+
+        empty = ('')
+
+        if (data):
+
+            productos = [(textwrap.fill(p["name"], 40), p["quantity"], p["price"]+' €', p["priceIVA"]+' €', str((float(p["priceIVA"])*int(p["quantity"])))+' €')
+                         for p in jsonData]
+
+        if (data):
+            t = Table([headings] + productos, spaceAfter=200, spaceBefore=800)
         else:
-            metodoDePago = 'Efectivo'
+            t = Table([headings], spaceAfter=200,  spaceBefore=800)
 
-        canvas.setFont("Times-Bold", 11)
-        canvas.drawString(75, 525, 'Método de pago: ')
-        canvas.setFont("Calibri", 11)
-        canvas.drawString(156, 525, metodoDePago)
-
-    # Identificador único
-
-        canvas.setFont("Times-Bold", 11)
-        canvas.drawString(75, 500, 'Identificador(ID): ')
-        canvas.setFont("Calibri", 11)
-        canvas.drawString(162, 500, recibo.identifier)
-
-    #         p.restoreState()
-
-    # -----------------------------------------------------------------------
-    def pageSetup2(canvas, doc):
-
-        canvas.saveState()
-
-        image2 = MEDIA_URL + \
-            '/watermark.png'
-        canvas.saveState()
-        canvas.rotate(10)
-        canvas.drawImage(image2, 200, 280, width=320, height=110, mask='auto')
-
-        canvas.restoreState()
-        registerFont(TTFont('Calibri', 'Calibri.ttf'))
-
-        # ---------------------- Tabla de productos -------------------------------------------
-    headings = ('Nombre', 'Cantidad', 'precio sin IVA', 'precio con IVA',
-                'Precio total(IVA incluido)')
-
-    empty = ('')
-
-    if (data):
-
-        productos = [(textwrap.fill(p["name"], 40), p["quantity"], p["price"]+' €', p["priceIVA"]+' €', str((float(p["priceIVA"])*int(p["quantity"])))+' €')
-                     for p in jsonData]
-
-    if (data):
-        t = Table([headings] + productos, spaceAfter=200, spaceBefore=800)
-    else:
-        t = Table([headings], spaceAfter=200,  spaceBefore=800)
-
-    t.setStyle(TableStyle([('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-                           ('TEXTCOLOR', (0, 0), (3, 0), colors.black),
-                           ('BACKGROUND', (0, 0), (-1, 0), colors.lightgrey),
-                           ('FONTNAME', (4, 0), (4, -1), 'Helvetica-Bold'),
-                           ('INNERGRID', (0, 0), (-1, -1), 0.25, colors.black),
-                           ('BOX', (0, 0), (-1, -1), 0.25, colors.black),
-                           ('ROWHEIGHT', (0, 0), (-1, -1), 20),
-                           ('TOPPADDING', (0, 0), (-1, -1), 6),
-                           ('BOTTOMPADDING', (0, 0), (-1, -1), 6),
+        t.setStyle(TableStyle([('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+                               ('TEXTCOLOR', (0, 0), (3, 0), colors.black),
+                               ('BACKGROUND', (0, 0), (-1, 0), colors.lightgrey),
+                               ('FONTNAME', (4, 0), (4, -1), 'Helvetica-Bold'),
+                               ('INNERGRID', (0, 0), (-1, -1), 0.25, colors.black),
+                               ('BOX', (0, 0), (-1, -1), 0.25, colors.black),
+                               ('ROWHEIGHT', (0, 0), (-1, -1), 20),
+                               ('TOPPADDING', (0, 0), (-1, -1), 6),
+                               ('BOTTOMPADDING', (0, 0), (-1, -1), 6),
 
 
-                           ]))
+                               ]))
 
-    t2 = Table([empty],  spaceAfter=300)
-    # cmds = t.se.getCommands()
-    # print(cmds)
-    listC.append(t2)
-    listC.append(t)
-    # -----------------------------------------------------------------------------------
-    t.spaceBefore = 20
-    doc.build(listC, onFirstPage=pageSetup, onLaterPages=pageSetup2)
-    response.write(buff.getvalue())
-    buff.close()
-    return response
+        t2 = Table([empty],  spaceAfter=300)
+        # cmds = t.se.getCommands()
+        # print(cmds)
+        listC.append(t2)
+        listC.append(t)
+        # -----------------------------------------------------------------------------------
+        t.spaceBefore = 20
+        doc.build(listC, onFirstPage=pageSetup, onLaterPages=pageSetup2)
+        response.write(buff.getvalue())
+        buff.close()
+
+        return response
+
+    except Exception as e:
+        trace_back = traceback.format_exc()
+        message = str(e) + " " + str(trace_back)
+        print(message)
+        return render(request, 'error.html')

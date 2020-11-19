@@ -49,55 +49,31 @@ def recibo(request):
 
         ticket = Ticket.objects.get(id=idRecibo)
 
+        print(request.user)
+        print(ticket.user)
+
+        if (request.user != ticket.user):
+            return redirect("/inicio")
+
         price = importeTotal(ticket)
 
         # context = {}
         tLink = TicketLink.objects.get(ticket=ticket)
 
         #  recibo
-
         form = UserTicketForm(request.POST or None)
 
         if(form.is_valid()):
             form.save()
             form = UserTicketForm
 
-        # context = {
-        #     'form': form
-
-        # }
-
-        # if (code == 0):
-        #     message = None
         tupleN = (None, 'Recibo añadido correctamente al cliente',
                   'Ese recibo ya existe', 'Error interno, inténtelo de nuevo más tarde', 'No se ha detectado ningún lector')
 
         codeString = tupleN[int(code)]
 
-        # print('EL code es------>', code)
-        # if (code == 1):
-        #     apex = 'Recibo añadido correctamente al cliente'
-        # elif (code == 2):
-        #     apex = 'Ese recibo ya existe'
-        # elif (code == 3):
-        #     apex = 'Error interno, inténtelo de nuevo más tarde'
-        # elif (code == 0):
-        #     apex = None
-        # print('El apex es ------>', apex)
-        # else:
-        #     message = ''
-
-        # -----------------
-
-        # print('---------------------c', codeString)
-        # print('---------------------l', code)
-        # print('---------------------', )
-
         shareUrl = "http://"+request.META['HTTP_HOST'] + \
             "/generate-public-pdf?url="+tLink.url
-        # print(shareUrl)
-        # print(tLnk)
-        # context['urlLink'] = tLink.url
 
         return render(request, "recibo.html", {"recibo": ticket, "tLink": tLink, "code": code, 'codeString': codeString, "shareUrl": shareUrl, "price": price})
 
@@ -107,23 +83,6 @@ def recibo(request):
         message = str(e) + " " + str(trace_back)
         print(message)
         return render(request, 'error.html')
-
-
-# def reciboUser(request, recibo):
-
-#     try:
-#         ticket = Ticket.objects.get(id=recibo)
-#         ticketLink = TicketLink.objects.get(ticket=ticket)
-#         # ticketLink.is_shared
-
-#         return render(request, "recibo.html", {"recibo": ticket})
-
-#     except Exception as e:
-#         print('Has pasado por la exception, buena suerte')
-#         trace_back = traceback.format_exc()
-#         message = str(e) + " " + str(trace_back)
-#         print(message)
-#         return render(request, 'error.html')
 
 
 @login_required

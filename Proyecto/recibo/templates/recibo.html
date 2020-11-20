@@ -15,7 +15,7 @@ View
 <head>
 
     {% block mycss %}
-    <link rel="stylesheet" type="text/css" href="{%  static 'css/recibo.css' %}">
+    <!-- <link rel="stylesheet" type="text/css" href="{%  static 'css/recibo.css' %}"> -->
 
     <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
         integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous"> -->
@@ -77,50 +77,44 @@ View
 
     {% endif %}
 
-    <div style="margin-top: 2em; margin-left: 25%; display: inline">
-        <div id="elementFirst" style="margin-top: 2em;">
-            <!-- <p><b> Titulo del recibo:</b> {{ recibo.title }}</p>
-            <p><b>Empresa: </b>{{recibo.empresa}}</p>
-            <p><b>Direción: </b>{{recibo.address}}</p>
-            <p><b>Identificador: </b>{{recibo.identifier}}</p>
-            <p><b>Precio total: </b>{{price}}€</p>
-            <p><b>Método de pago: </b>{{recibo.payment}}</p> -->
+    <div style="margin-left: 35%; margin-top: 5%;">
+        <!-- <div id="elementFirst" style="margin-top: 2em;"> -->
 
-            <div class="card">
-                <img class="rounded-sm" style="max-width: 400px; max-height: 400px;"
-                    src="{% static 'images/companyLogo/'%}{{ recibo.companyIdentifier }}" alt=""
-                    onerror="imgError(this);" />
+        <div class="card" style="max-width: 500px; display:inline-block">
+            <img class="rounded-sm" style="max-width: 400px; max-height: 400px;"
+                src="{% static 'images/companyLogo/'%}{{ recibo.companyIdentifier }}" alt=""
+                onerror="imgError(this);" />
 
-                <div class="card-body">
-                    <h5 class="card-title">{{ recibo.title }}</h5>
-                    <p class="card-text">
+            <div class="card-body">
+                <h5 class="card-title">{{ recibo.title }}</h5>
+                <p class="card-text">
 
-                    <p><b>Empresa: </b>{{recibo.empresa}}</p>
-                    <p><b>Direción: </b>{{recibo.address}}</p>
-                    <p><b>Identificador: </b>{{recibo.identifier}}</p>
-                    <p><b>Precio total: </b>{{price}}€</p>
-                    <p><b>Método de pago: </b>{{recibo.payment}}</p>
-                </div>
-                <div class="card-footer">
-                    <small class="text-muted">{{recibo.momentOfCreation}}</small>
-                </div>
+                <p><b>Empresa: </b>{{recibo.empresa}}</p>
+                <p><b>Direción: </b>{{recibo.address}}</p>
+                <p><b>Identificador: </b>{{recibo.identifier}}</p>
+                <p><b>Precio total: </b>{{price}}€</p>
+                <p><b>Método de pago: </b>{{recibo.payment}}</p>
             </div>
-
-
+            <div class="card-footer">
+                <small class="text-muted">{{recibo.momentOfCreation}}</small>
+            </div>
         </div>
+
+
+        <!-- </div> -->
 
 
 
         {% if user.is_customer is False %}
 
         {% if recibo.isCopy is False  %}
-        <div id="elementSecond">
+        <div id="elementSecond" style="display:inline-block; vertical-align: top;">
 
             <span id=cajaPDF>
                 <a href="{% url 'cvopen' %}?recibo={{ recibo.id }}" target="_blank">
 
                     <img id="imgRecibo" class="rounded-sm" src="{% static 'images/'%}add.png" alt=""
-                        style="max-width: 150;" />
+                        style="max-width: 175;" />
 
                     <span class="caption">{{td.title}}</span>
 
@@ -130,7 +124,7 @@ View
                 <a href="{% url 'generate-pdf' %}?recibo={{ recibo.id }}" target="_blank">
                     <figure>
                         <img id="imgRecibo" class="rounded-sm" src="{% static 'images/'%}PDFIcon.png" alt=""
-                            style="max-width: 150;" />
+                            style="max-width: 175;" />
 
                         <span class="caption">{{td.title}}</span>
                 </a>
@@ -140,7 +134,7 @@ View
                 <span id=cajaPDF data-toggle="modal" data-target="#exampleModal">
                     <figure>
                         <img id="imgRecibo" class="rounded-sm" src="{% static 'images/'%}QR.png" alt=""
-                            style="max-width: 150;" />
+                            style="max-width: 175;" />
 
                         <span class="caption">{{td.title}}</span>
 
@@ -171,7 +165,7 @@ View
 
         {% if recibo.isCopy is True  %}
 
-        <div id="element2">
+        <div id="element2" style="display:inline-block; vertical-align: top; margin-top: 5em;">
             <span id=cajaPDF>
                 <a href="{% url 'generate-pdf' %}?recibo={{ recibo.id }}" target="_blank">
                     <figure>
@@ -181,6 +175,8 @@ View
                         <span class="caption">{{td.title}}</span>
                 </a>
             </span>
+
+
 
 
 

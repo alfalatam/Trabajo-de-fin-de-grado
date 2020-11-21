@@ -35,12 +35,6 @@ View
 
 <body>
 
-    <!-- <div>
-        <img id="imgRec" class="rounded-sm" src="{% static 'images/companyLogo/'%}{{ recibo.companyIdentifier }}.png"
-            alt="" onerror="imgError(this);" />
-    </div> -->
-
-
 
     {% if codeString is not None %}
     <div>
@@ -114,7 +108,7 @@ View
                 <a href="{% url 'cvopen' %}?recibo={{ recibo.id }}" target="_blank">
 
                     <img id="imgRecibo" class="rounded-sm" src="{% static 'images/'%}add.png" alt=""
-                        style="max-width: 175;" />
+                        style="max-width: 150;" />
 
                     <span class="caption">{{td.title}}</span>
 
@@ -124,7 +118,7 @@ View
                 <a href="{% url 'generate-pdf' %}?recibo={{ recibo.id }}" target="_blank">
                     <figure>
                         <img id="imgRecibo" class="rounded-sm" src="{% static 'images/'%}PDFIcon.png" alt=""
-                            style="max-width: 175;" />
+                            style="max-width: 150;" />
 
                         <span class="caption">{{td.title}}</span>
                 </a>
@@ -134,7 +128,7 @@ View
                 <span id=cajaPDF data-toggle="modal" data-target="#exampleModal">
                     <figure>
                         <img id="imgRecibo" class="rounded-sm" src="{% static 'images/'%}QR.png" alt=""
-                            style="max-width: 175;" />
+                            style="max-width: 150;" />
 
                         <span class="caption">{{td.title}}</span>
 
@@ -147,18 +141,6 @@ View
         </div>
 
 
-        <!-- <div id="element2">
-            <span id=cajaPDF data-toggle="modal" data-target="#exampleModal">
-                <figure>
-                    <img id="imgRecibo" class="rounded-sm" src="{% static 'images/'%}QR.png" alt=""
-                        style="max-width: 150;" />
-
-                    <span class="caption">{{td.title}}</span>
-
-
-            </span>
-
-        </div> -->
         {% endif %}
         {% endif %}
 

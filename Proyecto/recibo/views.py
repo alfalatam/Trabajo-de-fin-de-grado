@@ -4,20 +4,13 @@ import json
 import traceback
 import uuid
 from datetime import datetime, timezone
-
-# import producto
-# Create your views here.
-# Decorators
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
-# from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.views.generic import CreateView, UpdateView
-# from producto.models import Producto
 from Proyecto import settings
 from register.models import Store, User
-
 from .forms import TicketForm, UserTicketForm, TicketModelForm
 from .models import Ticket, TicketLink
 from .resources import TicketResource
@@ -506,12 +499,11 @@ class ReciboUpdateView(UpdateView):
 
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
-        print('================')
         print(self.object.user)
 
         if (request.user != self.object.user):
             return redirect('/inicio')
-        print('==============')
+
         return super(ReciboUpdateView, self).get(request, *args, **kwargs)
 
     def get_object(self):

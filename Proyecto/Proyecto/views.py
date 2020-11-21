@@ -21,14 +21,15 @@ def profile(request):
 # IMPORTANT
 # In pre production deactivate this to open the system the first time
 # SCHEDULING CODE
-scheduler = BackgroundScheduler()
-scheduler.add_jobstore(DjangoJobStore(), "default")
+# Comentar desde aqui para las migrations
+# scheduler = BackgroundScheduler()
+# scheduler.add_jobstore(DjangoJobStore(), "default")
 
 
-@register_job(scheduler, "interval", hours=24, replace_existing=True)
-def send_mail_task():
-    productsToNotify()
+# @register_job(scheduler, "interval", hours=24, replace_existing=True)
+# def send_mail_task():
+#     productsToNotify()
 
 
-register_events(scheduler)
-scheduler.start()
+# register_events(scheduler)
+# scheduler.start()
